@@ -23,6 +23,7 @@ import Avatar from '@material-ui/core/Avatar';
 
 // api
 import api from 'Api';
+import apiLaravel from '../../../Axios-laravel';
 
 // delete confirmation dialog
 import DeleteConfirmationDialog from 'Components/DeleteConfirmationDialog/DeleteConfirmationDialog';
@@ -73,7 +74,16 @@ export default class UserProfile extends Component {
 	}
 
 	componentDidMount() {
-		api.get('userManagement.js')
+		console.log('ce da zove api');
+		// api.get('userManagement.js')
+		// 	.then((response) => {
+		// 		this.setState({ users: response.data });
+		// 	})
+		// 	.catch(error => {
+		// 		// error hanlding
+		// 	})
+
+		apiLaravel.get('/register-test')
 			.then((response) => {
 				this.setState({ users: response.data });
 			})
@@ -256,6 +266,8 @@ export default class UserProfile extends Component {
 
 	render() {
 		const { users, loading, selectedUser, editUser, allSelected, selectedUsers } = this.state;
+
+		console.log(users);
 		return (
 			<div className="user-management">
 				<Helmet>
