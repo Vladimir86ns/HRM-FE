@@ -2,8 +2,8 @@
 export default {
 	category1: [
 		{
-			"menu_title": "sidebar.calendar",
-			"menu_icon": "zmdi zmdi-calendar-note",
+			"menu_title": "Home",
+			"menu_icon": "zmdi zmdi-home",
 			"child_routes": [
 				{
 					"path": "/app/calendar/basic",
@@ -28,72 +28,65 @@ export default {
 			]
 		},
 		{
-			"menu_title": "sidebar.maps",
-			"menu_icon": "zmdi zmdi-map",
-			"child_routes": [
-				{
-					"path": "/app/maps/google-maps",
-					"menu_title": "sidebar.googleMaps"
-				},
-				{
-					"path": "/app/maps/leaflet-maps",
-					"menu_title": "sidebar.leafletMaps"
-				}
-			]
-		},
-		{
-			"menu_title": "sidebar.users",
+			"menu_title": "Employees",
 			"menu_icon": "zmdi zmdi-accounts",
+			"path": "/horizontal/mail",
+			"child_routes": null
+		},
+		{
+			"menu_title": "Department",
+			"menu_icon": "zmdi zmdi-card-travel",
+			"path": "/horizontal/mail",
+			"child_routes": null
+		},
+		{
+			"menu_title": "Award",
+			"menu_icon": "zmdi zmdi-card-giftcard",
+			"path": "/horizontal/mail",
+			"child_routes": null
+		},
+		{
+			"menu_title": "Expense",
+			"menu_icon": "zmdi zmdi-money-box",
+			"path": "/horizontal/mail",
+			"child_routes": null
+		},
+		{
+			"menu_title": "Holidays",
+			"menu_icon": "zmdi zmdi-flight-takeoff",
+			"path": "/horizontal/mail",
+			"child_routes": null
+		},
+		{
+			"menu_title": "Attendance",
+			"menu_icon": "zmdi zmdi-account",
 			"child_routes": [
 				{
-					"path": "/app/users/user-profile-1",
-					"menu_title": "sidebar.userProfile1"
-				},
-				{
-					"path": "/app/users/user-profile",
-					"menu_title": "sidebar.userProfile2"
-				},
-				{
-					"path": "/app/users/user-management",
-					"menu_title": "sidebar.userManagement"
-				},
-				{
-					"path": "/app/users/user-list",
-					"menu_title": "sidebar.userList"
+					"menu_title": "sidebar.level1",
+					"child_routes": [
+						{
+							"path": "/app/level2",
+							"menu_title": "sidebar.level2"
+						}
+					]
 				}
 			]
 		},
 		{
-			"menu_title": "sidebar.editor",
-			"menu_icon": "zmdi zmdi-edit",
-			"child_routes": [
-				{
-					"path": "/app/editor/wysiwyg-editor",
-					"menu_title": "sidebar.wysiwygEditor"
-				},
-				{
-					"path": "/app/editor/quill-editor",
-					"menu_title": "sidebar.quillEditor"
-				}
-			]
+			"menu_title": "Leave Company",
+			"menu_icon": "zmdi zmdi-walk",
+			"path": "/horizontal/mail",
+			"child_routes": null
 		},
 		{
-			"menu_title": "sidebar.dragAndDrop",
-			"menu_icon": "zmdi zmdi-mouse",
-			"child_routes": [
-				{
-					"path": "/app/drag-andDrop/react-dragula",
-					"menu_title": "sidebar.reactDragula"
-				},
-				{
-					"path": "/app/drag-andDrop/react-dnd",
-					"menu_title": "sidebar.reactDnd"
-				}
-			]
+			"menu_title": "Notice Board",
+			"menu_icon": "zmdi zmdi-collection-text",
+			"path": "/horizontal/mail",
+			"child_routes": null
 		},
 		{
-			"menu_title": "sidebar.multiLevel",
-			"menu_icon": "zmdi zmdi-view-web",
+			"menu_title": "Settings",
+			"menu_icon": "zmdi zmdi-settings",
 			"child_routes": [
 				{
 					"menu_title": "sidebar.level1",
