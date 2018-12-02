@@ -16,7 +16,7 @@ export default {
 		{
 			"menu_title": "Department",
 			"menu_icon": "zmdi zmdi-card-travel",
-			"path": "/app/tables/basic",
+			"path": "/app/tables/department",
 			"child_routes": null
 		},
 		{

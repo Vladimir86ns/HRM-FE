@@ -52,6 +52,7 @@ class BasicTable extends Component {
 	getEmployeePayrolls() {
 		api.get('employeePayrols.js')
 			.then((response) => {
+				console.log(response.data);
 				this.setState({ employeePayroll: response.data });
 			})
 			.catch(error => {
@@ -98,6 +99,7 @@ class BasicTable extends Component {
 											<TableCell>
 												<IconButton className="text-success" aria-label="Delete"><i className="zmdi zmdi-check-all"></i></IconButton>
 												<IconButton className="text-danger" aria-label="Add an alarm"><i className="zmdi zmdi-close"></i></IconButton>
+												<a href="javascript:void(0)" onClick={() => alert('usao')}><i className="ti-eye"></i></a>
 											</TableCell>
 										</TableRow>
 									))}

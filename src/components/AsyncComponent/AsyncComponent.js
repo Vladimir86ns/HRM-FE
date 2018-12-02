@@ -136,19 +136,19 @@ const AsyncShopGridComponent = Loadable({
 	loading: () => <RctPageLoader />,
 });
 
-// shop 
+// shop
 const AsyncShopComponent = Loadable({
 	loader: () => import("Routes/ecommerce/shop"),
 	loading: () => <RctPageLoader />,
 });
 
-// cart 
+// cart
 const AsyncCartComponent = Loadable({
 	loader: () => import("Routes/ecommerce/cart"),
 	loading: () => <RctPageLoader />,
 });
 
-// checkout 
+// checkout
 const AsyncCheckoutComponent = Loadable({
 	loader: () => import("Routes/ecommerce/checkout"),
 	loading: () => <RctPageLoader />,
@@ -205,6 +205,12 @@ const AsyncDataTableComponent = Loadable({
 // Responsive Table
 const AsyncResponsiveTableComponent = Loadable({
 	loader: () => import("Routes/tables/responsive"),
+	loading: () => <RctPageLoader />,
+});
+
+//  Table Department
+const AsyncDepartmentTableComponent = Loadable({
+	loader: () => import("Routes/tables/department"),
 	loading: () => <RctPageLoader />,
 });
 
@@ -599,5 +605,6 @@ export {
 	AsyncEcommerceDashboardComponent,
 	AsyncSaasDashboardComponent,
 	AsyncAgencyDashboardComponent,
-	AsyncNewsDashboardComponent
+	AsyncNewsDashboardComponent,
+	AsyncDepartmentTableComponent
 };
