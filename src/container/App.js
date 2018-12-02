@@ -71,11 +71,12 @@ const InitialPath = ({ component: Component, ...rest, authUser }) =>
 class App extends Component {
 	render() {
 		const { location, match, user } = this.props;
+		console.log(this.user);
 		if (location.pathname === '/') {
 			if (user === null) {
 				return (<Redirect to={'/signin'} />);
 			} else {
-				return (<Redirect to={'/app/dashboard/ecommerce'} />);
+				return (<Redirect to={'/app/calendar/basic'} />);
 			}
 		}
 		return (
