@@ -65,36 +65,6 @@ class BasicTable extends Component {
 		return (
 			<div className="table-wrapper">
 				<PageTitleBar title={<IntlMessages id="sidebar.basic" />} match={match} />
-				<RctCollapsibleCard heading="Basic Table" fullBlock>
-					<div className="table-responsive">
-						<Table>
-							<TableHead>
-								<TableRow hover>
-									<TableCell>Dessert (100g serving)</TableCell>
-									<TableCell numeric>Calories</TableCell>
-									<TableCell numeric>Fat (g)</TableCell>
-									<TableCell numeric>Carbs (g)</TableCell>
-									<TableCell numeric>Protein (g)</TableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								<Fragment>
-									{data.map(n => {
-										return (
-											<TableRow hover key={n.id}>
-												<TableCell>{n.name}</TableCell>
-												<TableCell numeric>{n.calories}</TableCell>
-												<TableCell numeric>{n.fat}</TableCell>
-												<TableCell numeric>{n.carbs}</TableCell>
-												<TableCell numeric>{n.protein}</TableCell>
-											</TableRow>
-										);
-									})}
-								</Fragment>
-							</TableBody>
-						</Table>
-					</div>
-				</RctCollapsibleCard>
 				<RctCollapsibleCard heading="Employee Payroll" fullBlock>
 					<div className="table-responsive">
 						<Table>
@@ -132,65 +102,6 @@ class BasicTable extends Component {
 										</TableRow>
 									))}
 								</Fragment>
-							</TableBody>
-						</Table>
-					</div>
-				</RctCollapsibleCard>
-				<RctCollapsibleCard heading="Contextual colored Table" fullBlock>
-					<div className="table-responsive">
-						<Table>
-							<TableHead>
-								<TableRow>
-									<TableCell>Order ID</TableCell>
-									<TableCell>Invoice</TableCell>
-									<TableCell>Customer Name</TableCell>
-									<TableCell>Profitment</TableCell>
-									<TableCell>Status</TableCell>
-								</TableRow>
-							</TableHead>
-							<TableBody>
-								<TableRow className="table-primary">
-									<TableCell>#10001</TableCell>
-									<TableCell>INV-001001</TableCell>
-									<TableCell>Juan Rodriquez</TableCell>
-									<TableCell>$120.40</TableCell>
-									<TableCell><Badge color="info" className="badge-pill">Pending</Badge></TableCell>
-								</TableRow>
-								<TableRow className="table-secondary">
-									<TableCell>#10002</TableCell>
-									<TableCell>INV-001002</TableCell>
-									<TableCell>Grace Maldonado</TableCell>
-									<TableCell>$45.40</TableCell>
-									<TableCell><Badge color="success" className="badge-pill">Paid</Badge></TableCell>
-								</TableRow>
-								<TableRow className="table-success">
-									<TableCell>#10003</TableCell>
-									<TableCell>INV-001003</TableCell>
-									<TableCell>Johnny Gonzales</TableCell>
-									<TableCell>$45.40</TableCell>
-									<TableCell><Badge color="danger" className="badge-pill">Canceled</Badge></TableCell>
-								</TableRow>
-								<TableRow className="table-danger">
-									<TableCell>#10004</TableCell>
-									<TableCell>INV-001004</TableCell>
-									<TableCell>Juan Rodriquez</TableCell>
-									<TableCell>$155.40</TableCell>
-									<TableCell><Badge color="success" className="badge-pill">Paid</Badge></TableCell>
-								</TableRow>
-								<TableRow className="table-info">
-									<TableCell>#10002</TableCell>
-									<TableCell>INV-001002</TableCell>
-									<TableCell>Grace Maldonado</TableCell>
-									<TableCell>$45.40</TableCell>
-									<TableCell><Badge color="danger" className="badge-pill">Canceled</Badge></TableCell>
-								</TableRow>
-								<TableRow className="table-secondary">
-									<TableCell>#10003</TableCell>
-									<TableCell>INV-001003</TableCell>
-									<TableCell>Johnny Gonzales</TableCell>
-									<TableCell>$45.40</TableCell>
-									<TableCell><Badge color="info" className="badge-pill">Pending</Badge></TableCell>
-								</TableRow>
 							</TableBody>
 						</Table>
 					</div>

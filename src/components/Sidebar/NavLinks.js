@@ -4,39 +4,19 @@ export default {
 		{
 			"menu_title": "Home",
 			"menu_icon": "zmdi zmdi-home",
-			"child_routes": [
-				{
-					"path": "/app/calendar/basic",
-					"menu_title": "components.basic"
-				},
-				{
-					"path": "/app/calendar/cultures",
-					"menu_title": "sidebar.cultures"
-				},
-				{
-					"path": "/app/calendar/dnd",
-					"menu_title": "sidebar.dnd"
-				},
-				{
-					"path": "/app/calendar/selectable",
-					"menu_title": "sidebar.selectable"
-				},
-				{
-					"path": "/app/calendar/custom-rendering",
-					"menu_title": "sidebar.customRendering"
-				}
-			]
+			"path": "/app/calendar/basic",
+			"child_routes": null
 		},
 		{
 			"menu_title": "Employees",
 			"menu_icon": "zmdi zmdi-accounts",
-			"path": "/horizontal/mail",
+			"path": "/app/users/user-management",
 			"child_routes": null
 		},
 		{
 			"menu_title": "Department",
 			"menu_icon": "zmdi zmdi-card-travel",
-			"path": "/horizontal/mail",
+			"path": "/app/tables/basic",
 			"child_routes": null
 		},
 		{
