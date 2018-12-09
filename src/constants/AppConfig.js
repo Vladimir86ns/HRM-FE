@@ -3,7 +3,7 @@
  */
 const AppConfig = {
     appLogo: require('Assets/img/site-logo.png'),          // App Logo
-    brandName: 'Reactify',                                    // Brand Name
+    brandName: 'Monthly Flows',                                    // Brand Name
     navCollapsed: false,                                      // Sidebar collapse
     darkMode: false,                                          // Dark Mode
     boxLayout: false,                                         // Box Layout

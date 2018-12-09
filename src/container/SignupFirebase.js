@@ -29,23 +29,20 @@ import {
 class SignupFirebase extends Component {
 
 	state = {
-		first_name: '',
-		middle_name: '',
-		last_name: '',
+		name: '',
 		email: '',
-		password: '',
-		confirm_password: ''
+		password: ''
 	}
 
 	/**
 	 * On User Signup
 	 */
 	onUserSignUp() {
-		const { first_name, middle_name, last_name, email, password, confirm_password} = this.state;
+		const { name, email, password} = this.state;
 	}
 
 	render() {
-		const { first_name, middle_name, last_name, email, password, confirm_password} = this.state;
+		const { name, email, password } = this.state;
 		const { loading } = this.props;
 		return (
 			<QueueAnim type="bottom" duration={2000}>
@@ -89,32 +86,10 @@ class SignupFirebase extends Component {
 											<FormGroup className="has-wrapper">
 												<Input
 													type="text"
-													value={first_name}
-													name="first_name"
+													value={name}
+													name="name"
 													className="has-input input-lg"
-													placeholder="Enter Your First Name"
-													onChange={(e) => this.setState({ first_name: e.target.value })}
-												/>
-												<span className="has-icon"><i className="ti-user"></i></span>
-											</FormGroup>
-											<FormGroup className="has-wrapper">
-												<Input
-													type="text"
-													value={middle_name}
-													name="middle_name"
-													className="has-input input-lg"
-													placeholder="Enter Your Middle Name"
-													onChange={(e) => this.setState({ middle_name: e.target.value })}
-												/>
-												<span className="has-icon"><i className="ti-user"></i></span>
-											</FormGroup>
-											<FormGroup className="has-wrapper">
-												<Input
-													type="text"
-													value={last_name}
-													name="last_name"
-													className="has-input input-lg"
-													placeholder="Enter Your Last Name"
+													placeholder="Enter Name Of Account"
 													onChange={(e) => this.setState({ name: e.target.value })}
 												/>
 												<span className="has-icon"><i className="ti-user"></i></span>
@@ -141,29 +116,21 @@ class SignupFirebase extends Component {
 												/>
 												<span className="has-icon"><i className="ti-lock"></i></span>
 											</FormGroup>
-											<FormGroup className="has-wrapper">
-												<Input
-													value={confirm_password}
-													type="Password"
-													name="confirm_password"
-													className="has-input input-lg"
-													placeholder="Confirm Password"
-													onChange={(e) => this.setState({ confirm_password: e.target.value })}
-												/>
-												<span className="has-icon"><i className="ti-lock"></i></span>
-											</FormGroup>
 											<FormGroup className="mb-15">
 												<Button
 													className="btn-info text-white btn-block w-100"
 													variant="raised"
 													size="large"
 													onClick={() => this.onUserSignUp()}>Sign Up
-                       	</Button>
+                       							</Button>
 											</FormGroup>
 										</Form>
 										<p className="text-muted">By signing up you agree to {AppConfig.brandName}</p>
 										<p><Link to="/terms-condition" className="text-muted">Terms of Service</Link></p>
 									</div>
+								</div>
+								<div className="col-sm-5 col-md-5 col-lg-4">
+									<SessionSlider />
 								</div>
 							</div>
 						</div>
