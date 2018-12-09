@@ -23,8 +23,10 @@ import {
 	signinUserWithFacebook,
 	signinUserWithGoogle,
 	signinUserWithGithub,
-	signinUserWithTwitter
-} from 'Actions';
+	signinUserWithTwitter,
+
+	createAccount
+} from '../actions/index';
 
 class SignupFirebase extends Component {
 
@@ -39,6 +41,7 @@ class SignupFirebase extends Component {
 	 */
 	onUserSignUp() {
 		const { name, email, password} = this.state;
+		this.props.createAccount(this.state, this.props.history);
 	}
 
 	render() {
@@ -152,5 +155,8 @@ export default connect(mapStateToProps, {
 	signinUserWithFacebook,
 	signinUserWithGoogle,
 	signinUserWithGithub,
-	signinUserWithTwitter
+	signinUserWithTwitter,
+
+
+	createAccount
 })(SignupFirebase);
