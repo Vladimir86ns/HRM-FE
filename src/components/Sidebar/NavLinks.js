@@ -69,15 +69,10 @@ export default {
 			"menu_icon": "zmdi zmdi-settings",
 			"child_routes": [
 				{
-					"menu_title": "sidebar.level1",
-					"child_routes": [
-						{
-							"path": "/app/level2",
-							"menu_title": "sidebar.level2"
-						}
-					]
+					"path": "/app/forms/company-settings",
+					"menu_title": "Company Settings"
 				}
 			]
-		},
+		}
 	]
 }

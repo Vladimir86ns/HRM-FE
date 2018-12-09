@@ -8,7 +8,9 @@ import { Helmet } from "react-helmet";
 import {
 	AsyncFormElementsComponent,
 	AsyncTextFieldComponent,
-	AsyncSelectListComponent
+	AsyncSelectListComponent,
+
+	AsyncCompanySettingsComponent
 } from 'Components/AsyncComponent/AsyncComponent';
 
 const Forms = ({ match }) => (
@@ -22,6 +24,8 @@ const Forms = ({ match }) => (
 			<Route path={`${match.url}/form-elements`} component={AsyncFormElementsComponent} />
 			<Route path={`${match.url}/text-field`} component={AsyncTextFieldComponent} />
 			<Route path={`${match.url}/select-list`} component={AsyncSelectListComponent} />
+
+			<Route path={`${match.url}/company-settings`} component={AsyncCompanySettingsComponent} />
 		</Switch>
 	</div>
 );
