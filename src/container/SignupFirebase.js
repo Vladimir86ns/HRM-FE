@@ -13,6 +13,7 @@ import QueueAnim from 'rc-queue-anim';
 
 // components
 import { SessionSlider } from 'Components/Widgets';
+import FormErrorMessage from '../components/Form/FormErrorMessage';
 
 // app config
 import AppConfig from 'Constants/AppConfig';
@@ -46,7 +47,7 @@ class SignupFirebase extends Component {
 
 	render() {
 		const { name, email, password } = this.state;
-		const { loading } = this.props;
+		const { loading, account, errorMessage } = this.props;
 		return (
 			<QueueAnim type="bottom" duration={2000}>
 				<div className="rct-session-wrapper">
@@ -96,6 +97,9 @@ class SignupFirebase extends Component {
 													onChange={(e) => this.setState({ name: e.target.value })}
 												/>
 												<span className="has-icon"><i className="ti-user"></i></span>
+												<FormErrorMessage
+													 message={errorMessage.name}
+												/>
 											</FormGroup>
 											<FormGroup className="has-wrapper">
 												<Input
@@ -107,6 +111,9 @@ class SignupFirebase extends Component {
 													onChange={(e) => this.setState({ email: e.target.value })}
 												/>
 												<span className="has-icon"><i className="ti-email"></i></span>
+												<FormErrorMessage
+													 message={errorMessage.email}
+												/>
 											</FormGroup>
 											<FormGroup className="has-wrapper">
 												<Input
@@ -118,6 +125,9 @@ class SignupFirebase extends Component {
 													onChange={(e) => this.setState({ password: e.target.value })}
 												/>
 												<span className="has-icon"><i className="ti-lock"></i></span>
+												<FormErrorMessage
+													 message={errorMessage.password}
+												/>
 											</FormGroup>
 											<FormGroup className="mb-15">
 												<Button
@@ -145,9 +155,11 @@ class SignupFirebase extends Component {
 }
 
 // map state to props
-const mapStateToProps = ({ authUser }) => {
+const mapStateToProps = ({ authUser, accountReducer }) => {
 	const { loading } = authUser;
-	return { loading };
+	const { account, errorMessage } = accountReducer;
+
+	return { loading, account, errorMessage };
 };
 
 export default connect(mapStateToProps, {

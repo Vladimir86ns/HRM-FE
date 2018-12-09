@@ -11,6 +11,8 @@ import authUserReducer from './AuthUserReducer';
 import feedbacksReducer from './FeedbacksReducer';
 import ecommerceReducer from './EcommerceReducer';
 
+import accountReducer from './AccountReducer';
+
 const reducers = combineReducers({
   settings,
   chatAppReducer,
@@ -19,7 +21,8 @@ const reducers = combineReducers({
   todoApp: todoAppReducer,
   authUser: authUserReducer,
   feedback: feedbacksReducer,
-  ecommerce: ecommerceReducer
+  ecommerce: ecommerceReducer,
+  accountReducer: accountReducer
 });
 
 export default reducers;

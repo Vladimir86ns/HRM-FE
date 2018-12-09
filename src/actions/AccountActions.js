@@ -1,7 +1,8 @@
 import {
     CREATE_ACCOUNT,
-    CREATE_ACCOUNT_FAILURE,
-    CREATE_ACCOUNT_SUCCESS
+    CREATE_ACCOUNT_NOT_ACCEPTABLE,
+    CREATE_ACCOUNT_SUCCESS,
+    CREATE_ACCOUNT_FAILURE
 } from './types';
 
 /**
@@ -21,9 +22,21 @@ export const createAccountSuccess = (account) => ({
 });
 
 /**
+ * Redux Action To Create Account Not Acceptable
+ */
+export const createAccountNotAcceptable = (error) => {
+    return {
+        type: CREATE_ACCOUNT_NOT_ACCEPTABLE,
+        payload: error
+    }
+};
+
+/**
  * Redux Action To Create Account Failure
  */
-export const createAccountFailure = (error) => ({
-    type: CREATE_ACCOUNT_FAILURE,
-    payload: error
-});
+export const createAccountFailure = (error) => {
+    return {
+        type: CREATE_ACCOUNT_FAILURE,
+        payload: error
+    }
+};
