@@ -28,11 +28,16 @@ export default class TextFields extends React.Component {
     mobile_phone: '',
     telephone_number: '',
     fax_number: '',
-    country_id: 191,
     account_id: '',
 
+    country_id: 191,
     region: '',
-    city: ''
+    city: '',
+    zip_code: '',
+    first_address_line: '',
+    second_address_line: '',
+
+
   };
 
   handleChange = name => event => {
@@ -185,6 +190,71 @@ export default class TextFields extends React.Component {
                       value={this.state.city} 
                       helperText=""
                       onChange={this.handleChange('city')} />
+                  </div>
+                </div>
+                <div className="col-sm-6 col-md-3 col-xl-4">
+                  <div className="form-group">
+                    <TextField
+                      id="zip_code"
+                      error={false}
+                      fullWidth 
+                      label="Zip Code" 
+                      value={this.state.zip_code} 
+                      helperText=""
+                      onChange={this.handleChange('zip_code')} />
+                  </div>
+                </div>
+                <div className="col-sm-6 col-md-3 col-xl-4">
+                  <div className="form-group">
+                    <TextField
+                      id="first_address_line"
+                      error={false}
+                      fullWidth 
+                      label="First Address Line" 
+                      value={this.state.first_address_line} 
+                      helperText=""
+                      onChange={this.handleChange('first_address_line')} />
+                  </div>
+                </div>
+                <div className="col-sm-6 col-md-3 col-xl-4">
+                  <div className="form-group">
+                    <TextField
+                      id="second_address_line"
+                      error={false}
+                      fullWidth 
+                      label="Second Address Line" 
+                      value={this.state.second_address_line} 
+                      helperText=""
+                      onChange={this.handleChange('second_address_line')} />
+                  </div>
+                </div>
+              </div>
+            </RctCollapsibleCard>
+            <RctCollapsibleCard heading="Department Info">
+              <div className="row">
+                <div className="col-sm-6 col-md-3 col-xl-4">
+                  <div className="form-group">
+                    <TextField
+                      id="department_name"
+                      error={false}
+                      fullWidth
+                      label="Name"
+                      value={this.state.department_name}
+                      helperText=""
+                      onChange={this.handleChange('department_name')} />
+                  </div>
+                </div>
+                <div className="col-sm-6 col-md-3 col-xl-8">
+                  <div className="form-group">
+                    <TextField
+                      id="department_description"
+                      error={false}
+                      fullWidth
+                      multiline
+                      label="Description"
+                      value={this.state.department_description}
+                      helperText=""
+                      onChange={this.handleChange('department_description')} />
                   </div>
                 </div>
               </div>
