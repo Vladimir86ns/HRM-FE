@@ -22,29 +22,45 @@ import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard
 export default class TextFields extends React.Component {
 
   state = {
-    name: '',
-    email: '',
-    website: '',
-    mobile_phone: '',
-    telephone_number: '',
-    fax_number: '',
-    account_id: '',
-
-    country_id: 191,
-    region: '',
-    city: '',
-    zip_code: '',
-    first_address_line: '',
-    second_address_line: '',
-
-
+    accountInfo: {
+      name: 'Agencija dunav',
+      email: 'account@account.com'
+    },
+    companyInfo: {
+      name: '',
+      email: '',
+      website: '',
+      mobile_phone: '',
+      telephone_number: '',
+      fax_number: '',
+      account_id: ''
+    },
+    locationInfo: {
+      country_id: 191,
+      region: '',
+      city: '',
+      zip_code: '',
+      first_address_line: '',
+      second_address_line: ''
+    },
+    departmentInfo: {
+      name: '',
+      description: ''
+    }
   };
 
-  handleChange = name => event => {
-    this.setState({
-      [name]: event.target.value,
-    });
-  };
+  /**
+   * Update state for given field on text change event.
+   * 
+   * @param {string} key field key name which value need to be updated
+   * @param {string} name field name which value need to be updated
+   * @param {mix} event value for given field name
+   */
+  handleChangeByKeyAndName = (key, name, event) => {
+    var someProperty = {...this.state}
+    someProperty[key][name] = event.target.value;
+    this.setState({someProperty})    
+  }
 
   render() {
     return (
@@ -60,7 +76,8 @@ export default class TextFields extends React.Component {
                       error={false}
                       fullWidth 
                       label="Name of account" 
-                      value="Agencija dunav"
+                      value={this.state.accountInfo.name}
+                      onChange={(e) => this.handleChangeByKeyAndName('accountInfo', 'name', e)}
                       helperText=""/>
                   </div>
                 </div>
@@ -71,7 +88,8 @@ export default class TextFields extends React.Component {
                       error={false}
                       fullWidth 
                       label="Email" 
-                      value="account@account.com"
+                      value={this.state.accountInfo.email}
+                      onChange={(e) => this.handleChangeByKeyAndName('accountInfo', 'email', e)}
                       helperText=""/>
                   </div>
                 </div>
@@ -86,9 +104,9 @@ export default class TextFields extends React.Component {
                       error={false}
                       fullWidth
                       label="Name"
-                      value={this.state.name}
+                      value={this.state.companyInfo.name}
                       helperText=""
-                      onChange={this.handleChange('name')} />
+                      onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'name', e)} />
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
@@ -98,9 +116,9 @@ export default class TextFields extends React.Component {
                       error={false}
                       fullWidth
                       label="Email"
-                      value={this.state.email}
+                      value={this.state.companyInfo.email}
                       helperText=""
-                      onChange={this.handleChange('email')} />                  
+                      onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'email', e)} />                  
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
@@ -110,9 +128,9 @@ export default class TextFields extends React.Component {
                       error={false}
                       fullWidth
                       label="Website"
-                      value={this.state.website}
+                      value={this.state.companyInfo.website}
                       helperText=""
-                      onChange={this.handleChange('website')} />
+                      onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'website', e)} />  
                   </div>
                 </div>
               </div>
@@ -124,9 +142,9 @@ export default class TextFields extends React.Component {
                       error={false}
                       fullWidth 
                       label="Mobile Phone" 
-                      value={this.state.mobile_phone} 
+                      value={this.state.companyInfo.mobile_phone} 
                       helperText=""
-                      onChange={this.handleChange('mobile_phone')} />
+                      onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'mobile_phone', e)} />  
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
@@ -136,9 +154,9 @@ export default class TextFields extends React.Component {
                       error={false}
                       fullWidth 
                       label="Telephone Number" 
-                      value={this.state.telephone_number} 
+                      value={this.state.companyInfo.telephone_number} 
                       helperText=""
-                      onChange={this.handleChange('telephone_number')} />
+                      onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'telephone_number', e)} />  
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
@@ -148,9 +166,9 @@ export default class TextFields extends React.Component {
                       error={false}
                       fullWidth
                       label="Fax Number"
-                      value={this.state.fax_number}
+                      value={this.state.companyInfo.fax_number}
                       helperText=""
-                      onChange={this.handleChange('fax_number')} />
+                      onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'fax_number', e)} />  
                   </div>
                 </div>
               </div>
@@ -175,9 +193,9 @@ export default class TextFields extends React.Component {
                       error={false}
                       fullWidth 
                       label="Region" 
-                      value={this.state.region} 
+                      value={this.state.locationInfo.region} 
                       helperText=""
-                      onChange={this.handleChange('region')} />
+                      onChange={(e) => this.handleChangeByKeyAndName('locationInfo', 'region', e)} /> 
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
@@ -187,9 +205,9 @@ export default class TextFields extends React.Component {
                       error={false}
                       fullWidth 
                       label="City" 
-                      value={this.state.city} 
+                      value={this.state.locationInfo.city} 
                       helperText=""
-                      onChange={this.handleChange('city')} />
+                      onChange={(e) => this.handleChangeByKeyAndName('locationInfo', 'city', e)} /> 
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
@@ -199,9 +217,9 @@ export default class TextFields extends React.Component {
                       error={false}
                       fullWidth 
                       label="Zip Code" 
-                      value={this.state.zip_code} 
+                      value={this.state.locationInfo.zip_code} 
                       helperText=""
-                      onChange={this.handleChange('zip_code')} />
+                      onChange={(e) => this.handleChangeByKeyAndName('locationInfo', 'zip_code', e)} /> 
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
@@ -211,9 +229,9 @@ export default class TextFields extends React.Component {
                       error={false}
                       fullWidth 
                       label="First Address Line" 
-                      value={this.state.first_address_line} 
+                      value={this.state.locationInfo.first_address_line} 
                       helperText=""
-                      onChange={this.handleChange('first_address_line')} />
+                      onChange={(e) => this.handleChangeByKeyAndName('locationInfo', 'first_address_line', e)} /> 
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
@@ -223,9 +241,9 @@ export default class TextFields extends React.Component {
                       error={false}
                       fullWidth 
                       label="Second Address Line" 
-                      value={this.state.second_address_line} 
+                      value={this.state.locationInfo.second_address_line} 
                       helperText=""
-                      onChange={this.handleChange('second_address_line')} />
+                      onChange={(e) => this.handleChangeByKeyAndName('locationInfo', 'second_address_line', e)} /> 
                   </div>
                 </div>
               </div>
@@ -239,9 +257,9 @@ export default class TextFields extends React.Component {
                       error={false}
                       fullWidth
                       label="Name"
-                      value={this.state.department_name}
+                      value={this.state.departmentInfo.name}
                       helperText=""
-                      onChange={this.handleChange('department_name')} />
+                      onChange={(e) => this.handleChangeByKeyAndName('departmentInfo', 'name', e)} /> 
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-8">
@@ -252,9 +270,9 @@ export default class TextFields extends React.Component {
                       fullWidth
                       multiline
                       label="Description"
-                      value={this.state.department_description}
+                      value={this.state.departmentInfo.description}
                       helperText=""
-                      onChange={this.handleChange('department_description')} />
+                      onChange={(e) => this.handleChangeByKeyAndName('departmentInfo', 'description', e)} /> 
                   </div>
                 </div>
               </div>
