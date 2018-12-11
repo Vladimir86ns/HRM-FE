@@ -2,12 +2,21 @@
  * Material Text Field
  */
 import React from 'react';
+import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
+
+import Button from '@material-ui/core/Button';
+import { FormGroup } from 'reactstrap';
 
 // rct card box
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
 
-export default class TextFields extends React.Component {
+// redux action
+import {
+	createCompanySettins
+} from '../../../actions/index';
+
+class TextFields extends React.Component {
 
   state = {
     accountInfo: {
@@ -20,11 +29,10 @@ export default class TextFields extends React.Component {
       website: '',
       mobile_phone: '',
       telephone_number: '',
-      fax_number: '',
-      account_id: ''
+      fax_number: ''
     },
     locationInfo: {
-      country_id: 191,
+      country: 'Serbia',
       region: '',
       city: '',
       zip_code: '',
@@ -50,6 +58,13 @@ export default class TextFields extends React.Component {
     this.setState({someProperty})    
   }
 
+	/**
+	 * On User Signup
+	 */
+	onUserSignUp() {
+		this.props.createCompanySettins(this.state, this.props.history);
+	}
+
   render() {
     return (
       <div className="textfields-wrapper">
@@ -60,7 +75,7 @@ export default class TextFields extends React.Component {
                 <div className="col-sm-6 col-md-3 col-xl-4">
                   <div className="form-group">
                     <TextField
-                      id="account_id"
+                      id="name"
                       error={false}
                       fullWidth 
                       label="Name of account" 
@@ -170,7 +185,7 @@ export default class TextFields extends React.Component {
                       error={false}
                       fullWidth 
                       label="country" 
-                      value="Serbia" 
+                      value={this.state.locationInfo.country} 
                       helperText=""/>
                   </div>
                 </div>
@@ -265,9 +280,27 @@ export default class TextFields extends React.Component {
                 </div>
               </div>
             </RctCollapsibleCard>
+            <FormGroup className="mb-5">
+              <Button
+                className="btn-info text-white btn-block w-40"
+                style={{marginBottom: 20}}
+                variant="raised"
+                size="medium"
+                onClick={() => this.onUserSignUp()}>Save Company Info
+              </Button>
+            </FormGroup>
           </form>
         </div>
       </div>
     );
   }
 }
+
+// map state to props
+const mapStateToProps = () => {
+  //
+};
+
+export default connect(mapStateToProps, {
+	createCompanySettins
+})(TextFields);

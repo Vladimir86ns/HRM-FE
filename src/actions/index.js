@@ -10,3 +10,4 @@ export * from './FeedbacksActions';
 export * from './EcommerceActions';
 
 export * from './AccountActions';
+export * from './CreateCompanySettings';

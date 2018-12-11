@@ -12,6 +12,7 @@ import feedbacksReducer from './FeedbacksReducer';
 import ecommerceReducer from './EcommerceReducer';
 
 import accountReducer from './AccountReducer';
+import companySettingsReducer from './CompanySettingsReducer';
 
 const reducers = combineReducers({
   settings,
@@ -22,7 +23,8 @@ const reducers = combineReducers({
   authUser: authUserReducer,
   feedback: feedbacksReducer,
   ecommerce: ecommerceReducer,
-  accountReducer: accountReducer
+  accountReducer: accountReducer,
+  companySettingsReducer: companySettingsReducer
 });
 
 export default reducers;

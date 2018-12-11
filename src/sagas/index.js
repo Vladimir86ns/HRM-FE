@@ -8,7 +8,9 @@ import authSagas from './Auth';
 import emailSagas from './Email';
 import todoSagas from './Todo';
 import feedbacksSagas from './Feedbacks';
+
 import accountSagas from './Account';
+import companySettingsSagas from './CompanySettings';
 
 export default function* rootSaga(getState) {
     yield all([
@@ -16,6 +18,7 @@ export default function* rootSaga(getState) {
         emailSagas(),
         todoSagas(),
         feedbacksSagas(),
-        accountSagas()
+        accountSagas(),
+        companySettingsSagas()
     ]);
 }
