@@ -20,28 +20,28 @@ class TextFields extends React.Component {
 
   state = {
     accountInfo: {
-      name: 'Agencija dunav',
-      email: 'account@account.com'
+      name: 'Milosev Account',
+      email: 'jndricMilos@gmail.com'
     },
     companyInfo: {
-      name: '',
-      email: '',
-      website: '',
-      mobile_phone: '',
-      telephone_number: '',
+      name: 'Agencij Dunav',
+      email: 'agencijaDunav@gmail.com',
+      website: 'www.agencijadubav.com',
+      mobile_phone: '+381637229964',
+      telephone_number: '021892835',
       fax_number: ''
     },
     locationInfo: {
       country: 'Serbia',
-      region: '',
-      city: '',
-      zip_code: '',
-      first_address_line: '',
+      region: 'Vojvodina',
+      city: 'Novi Sad',
+      zip_code: '21000',
+      first_address_line: 'Avgusta Cesarca 7',
       second_address_line: ''
     },
     departmentInfo: {
-      name: '',
-      description: ''
+      name: 'Knjigovodje',
+      description: 'Radnici koje vode knjige'
     }
   };
 
