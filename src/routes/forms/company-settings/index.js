@@ -8,6 +8,11 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { FormGroup } from 'reactstrap';
 
+// utils functions
+import {
+  prepareStateForCreateCompanySettingsRequest
+} from '../../../util/prepareStateForRequest';
+
 // rct card box
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
 
@@ -59,10 +64,13 @@ class TextFields extends React.Component {
   }
 
 	/**
-	 * On User Signup
+	 * Save company settings.
 	 */
-	onUserSignUp() {
-		this.props.createCompanySettins(this.state, this.props.history);
+	saveCompanySettings() {
+		this.props.createCompanySettins(
+      prepareStateForCreateCompanySettingsRequest(this.state),
+      this.props.history
+    );
 	}
 
   render() {
@@ -286,7 +294,7 @@ class TextFields extends React.Component {
                 style={{marginBottom: 20}}
                 variant="raised"
                 size="medium"
-                onClick={() => this.onUserSignUp()}>Save Company Info
+                onClick={() => this.saveCompanySettings()}>Save Company Info
               </Button>
             </FormGroup>
           </form>
