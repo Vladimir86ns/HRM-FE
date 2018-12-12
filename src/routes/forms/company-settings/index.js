@@ -25,28 +25,28 @@ class TextFields extends React.Component {
 
   state = {
     accountInfo: {
-      name: 'Milosev Account',
-      email: 'jndricMilos@gmail.com'
+      name: '',
+      email: ''
     },
     companyInfo: {
-      name: 'Agencij Dunav',
-      email: 'agencijaDunav@gmail.com',
-      website: 'www.agencijadubav.com',
-      mobile_phone: '+381637229964',
-      telephone_number: '021892835',
+      name: '',
+      email: '',
+      website: '',
+      mobile_phone: '',
+      telephone_number: '',
       fax_number: ''
     },
     locationInfo: {
-      country: 'Serbia',
-      region: 'Vojvodina',
-      city: 'Novi Sad',
-      zip_code: '21000',
-      first_address_line: 'Avgusta Cesarca 7',
+      country: '',
+      region: '',
+      city: '',
+      zip_code: '',
+      first_address_line: '',
       second_address_line: ''
     },
     departmentInfo: {
-      name: 'Knjigovodje',
-      description: 'Radnici koje vode knjige'
+      name: '',
+      description: ''
     }
   };
 
@@ -71,9 +71,22 @@ class TextFields extends React.Component {
       prepareStateForCreateCompanySettingsRequest(this.state),
       this.props.history
     );
-	}
+  }
+
+  checkAccountinfo = () => {
+    if (this.state.accountInfo.name.length > 0) {
+      return;
+    } else if (Object.keys(this.props.account).length > 0) {
+      const { email, name } = this.props.account;
+      var someProperty = {...this.state}
+      someProperty.accountInfo.email = email;
+      someProperty.accountInfo.name = name;
+      this.setState({someProperty})   
+    }
+  }
 
   render() {
+    this.checkAccountinfo()
     return (
       <div className="textfields-wrapper">
         <div>
@@ -83,6 +96,7 @@ class TextFields extends React.Component {
                 <div className="col-sm-6 col-md-3 col-xl-4">
                   <div className="form-group">
                     <TextField
+                      disabled
                       id="name"
                       error={false}
                       fullWidth 
@@ -95,6 +109,7 @@ class TextFields extends React.Component {
                 <div className="col-sm-6 col-md-3 col-xl-4">
                   <div className="form-group">
                     <TextField
+                      disabled
                       id="email"
                       error={false}
                       fullWidth 
@@ -305,8 +320,10 @@ class TextFields extends React.Component {
 }
 
 // map state to props
-const mapStateToProps = () => {
-  //
+const mapStateToProps = ({ accountReducer }) => {
+	const { loading, account, errorMessage } = accountReducer;
+
+	return { loading, account, errorMessage };
 };
 
 export default connect(mapStateToProps, {

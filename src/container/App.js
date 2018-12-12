@@ -60,23 +60,21 @@ const InitialPath = ({ component: Component, ...rest, authUser }) =>
 		render={props =>
 			authUser
 				? <Component {...props} />
-				: <Redirect
-					to={{
-						pathname: '/signin',
-						state: { from: props.location }
-					}}
-				/>}
+				: <Component {...props} />}
 	/>;
 
 class App extends Component {
 	render() {
-		const { location, match, user } = this.props;
-		console.log(this.user);
+		const { location, match } = this.props;
+
+		let accoiunt = localStorage.getItem('account_id');
+
+		// TODO make logic for logged in user
 		if (location.pathname === '/') {
-			if (user === null) {
+			if (!accoiunt) {
 				return (<Redirect to={'/signin'} />);
 			} else {
-				return (<Redirect to={'/app/calendar/basic'} />);
+				return (<Redirect to={'/app/forms/company-settings'} />);
 			}
 		}
 		return (
@@ -84,7 +82,7 @@ class App extends Component {
 				<NotificationContainer />
 				<InitialPath
 					path={`${match.url}app`}
-					authUser={user}
+					authUser={accoiunt}
 					component={RctDefaultLayout}
 				/>
 				<Route path="/horizontal" component={HorizontalLayout} />

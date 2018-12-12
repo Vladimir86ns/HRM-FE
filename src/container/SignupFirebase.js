@@ -32,9 +32,9 @@ import {
 class SignupFirebase extends Component {
 
 	state = {
-		name: '',
-		email: '',
-		password: ''
+		name: 'Milos Jandric',
+		email: 'milos@gmail.com',
+		password: 'test123'
 	}
 
 	/**
