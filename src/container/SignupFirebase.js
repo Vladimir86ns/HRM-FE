@@ -47,7 +47,7 @@ class SignupFirebase extends Component {
 
 	render() {
 		const { name, email, password } = this.state;
-		const { loading, account, errorMessage } = this.props;
+		const { loading, errorMessage } = this.props;
 		return (
 			<QueueAnim type="bottom" duration={2000}>
 				<div className="rct-session-wrapper">

@@ -8,6 +8,8 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { FormGroup } from 'reactstrap';
 
+import FormArrayErrorMessage from '../../../components/form/FormArrayErrorMessage';
+
 // utils functions
 import {
   prepareStateForCreateCompanySettingsRequest
@@ -37,7 +39,7 @@ class TextFields extends React.Component {
       fax_number: ''
     },
     locationInfo: {
-      country: '',
+      country: 'Serbia',
       region: '',
       city: '',
       zip_code: '',
@@ -47,8 +49,10 @@ class TextFields extends React.Component {
     departmentInfo: {
       name: '',
       description: ''
-    }
+    },
+    form_companies : [1]
   };
+
 
   /**
    * Update state for given field on text change event.
@@ -86,7 +90,9 @@ class TextFields extends React.Component {
   }
 
   render() {
-    this.checkAccountinfo()
+    this.checkAccountinfo();
+    const { errorMessage } = this.props;
+
     return (
       <div className="textfields-wrapper">
         <div>
@@ -121,30 +127,43 @@ class TextFields extends React.Component {
                 </div>
               </div>
           </RctCollapsibleCard>
-            <RctCollapsibleCard heading="Company Info">
+          {
+            this.state.form_companies.map((value, key) => {
+              return (
+                <div key={key}>
+                  <RctCollapsibleCard heading="Company Info">
               <div className="row">
                 <div className="col-sm-6 col-md-3 col-xl-4">
                   <div className="form-group">
                     <TextField
                       id="name"
-                      error={false}
+                      error={errorMessage['company_info.' + key + '.company.name'] ? true : false}
                       fullWidth
                       label="Name"
+                      helperText={
+                        <FormArrayErrorMessage
+                          message={errorMessage['company_info.' + key + '.company.name']}
+                          required={true}/> 
+                        }
                       value={this.state.companyInfo.name}
-                      helperText=""
-                      onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'name', e)} />
+                      onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'name', e)} />  
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
                   <div className="form-group">
                     <TextField
                       id="email"
-                      error={false}
+                      error={errorMessage['company_info.' + key + '.company.email'] ? true : false}
                       fullWidth
                       label="Email"
                       value={this.state.companyInfo.email}
-                      helperText=""
-                      onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'email', e)} />                  
+                      helperText={
+                        <FormArrayErrorMessage
+                          message={errorMessage['company_info.' + key + '.company.email']}
+                          required={true}/> 
+                        }
+                      onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'email', e)} />
+                           
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
@@ -207,7 +226,7 @@ class TextFields extends React.Component {
                       id="country"
                       error={false}
                       fullWidth 
-                      label="country" 
+                      label="Country" 
                       value={this.state.locationInfo.country} 
                       helperText=""/>
                   </div>
@@ -228,11 +247,15 @@ class TextFields extends React.Component {
                   <div className="form-group">
                     <TextField
                       id="city"
-                      error={false}
+                      error={errorMessage['company_info.' + key + '.location.city'] ? true : false}
                       fullWidth 
                       label="City" 
                       value={this.state.locationInfo.city} 
-                      helperText=""
+                      helperText={
+                        <FormArrayErrorMessage
+                          message={errorMessage['company_info.' + key + '.location.city']}
+                          required={true}/> 
+                        }
                       onChange={(e) => this.handleChangeByKeyAndName('locationInfo', 'city', e)} /> 
                   </div>
                 </div>
@@ -240,11 +263,15 @@ class TextFields extends React.Component {
                   <div className="form-group">
                     <TextField
                       id="zip_code"
-                      error={false}
+                      error={errorMessage['company_info.' + key + '.location.zip_code'] ? true : false}
                       fullWidth 
                       label="Zip Code" 
                       value={this.state.locationInfo.zip_code} 
-                      helperText=""
+                      helperText={
+                        <FormArrayErrorMessage
+                          message={errorMessage['company_info.' + key + '.location.zip_code']}
+                          required={true}/> 
+                        }
                       onChange={(e) => this.handleChangeByKeyAndName('locationInfo', 'zip_code', e)} /> 
                   </div>
                 </div>
@@ -252,11 +279,15 @@ class TextFields extends React.Component {
                   <div className="form-group">
                     <TextField
                       id="first_address_line"
-                      error={false}
+                      error={errorMessage['company_info.' + key + '.location.first_address_line'] ? true : false}
                       fullWidth 
                       label="First Address Line" 
                       value={this.state.locationInfo.first_address_line} 
-                      helperText=""
+                      helperText={
+                        <FormArrayErrorMessage
+                          message={errorMessage['company_info.' + key + '.location.first_address_line']}
+                          required={true}/> 
+                        }
                       onChange={(e) => this.handleChangeByKeyAndName('locationInfo', 'first_address_line', e)} /> 
                   </div>
                 </div>
@@ -274,6 +305,12 @@ class TextFields extends React.Component {
                 </div>
               </div>
             </RctCollapsibleCard>
+                </div>
+              )
+            })
+          }
+
+            
             <RctCollapsibleCard heading="Department Info">
               <div className="row">
                 <div className="col-sm-6 col-md-3 col-xl-4">
@@ -320,9 +357,10 @@ class TextFields extends React.Component {
 }
 
 // map state to props
-const mapStateToProps = ({ accountReducer }) => {
-	const { loading, account, errorMessage } = accountReducer;
-
+const mapStateToProps = ({ accountReducer, companySettingsReducer }) => {
+	const { loading, account } = accountReducer;
+  const { errorMessage } = companySettingsReducer;
+  
 	return { loading, account, errorMessage };
 };
 

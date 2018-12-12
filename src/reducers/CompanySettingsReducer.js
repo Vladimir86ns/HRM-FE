@@ -33,7 +33,7 @@ export default (state = INIT_STATE, action) => {
 
         case CREATE_COMPANY_SETTINGS_FAILURE:
             NotificationManager.error(action.payload);
-            return { ...state, loading: false, errorMessage: {} };
+            return { ...state, loading: false, errorMessage: action.payload };
 
         case CREATE_COMPANY_SETTINGS_NOT_ACCEPTABLE:
             // NotificationManager.error(action.payload);
