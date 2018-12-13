@@ -8,7 +8,7 @@ import {
 /**
  * Redux Action To Create Company Settings
  */
-export const createCompanySettins = (company, history) => ({
+export const createCompanySettings = (company, history) => ({
     type: CREATE_COMPANY_SETTINGS,
     payload: { company, history }
 })
@@ -16,7 +16,7 @@ export const createCompanySettins = (company, history) => ({
 /**
  * Redux Action To Create Company Settings Success
  */
-export const createCompanySettinsSuccess = (company) => ({
+export const createCompanySettingsSuccess = (company) => ({
     type: CREATE_COMPANY_SETTINGS_SUCCESS,
     payload: company
 });
@@ -24,7 +24,7 @@ export const createCompanySettinsSuccess = (company) => ({
 /**
  * Redux Action To Create Company Settings Failure
  */
-export const createCompanySettinsFailure = (error) => {
+export const createCompanySettingsFailure = (error) => {
     return {
         type: CREATE_COMPANY_SETTINGS_FAILURE,
         payload: error
@@ -34,7 +34,7 @@ export const createCompanySettinsFailure = (error) => {
 /**
  * Redux Action To Create Company Settings Not Acceptable
  */
-export const createCompanySettinsNotAcceptable = (error) => {
+export const createCompanySettingsNotAcceptable = (error) => {
     return {
         type: CREATE_COMPANY_SETTINGS_NOT_ACCEPTABLE,
         payload: error

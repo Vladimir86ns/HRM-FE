@@ -25,7 +25,7 @@ import {
 
 // redux action
 import {
-  createCompanySettins,
+  createCompanySettings,
   getAccount
 } from '../../../actions/index';
 
@@ -84,7 +84,7 @@ class TextFields extends React.Component {
 	 * Prepare state for creating company settings, and save company settings.
 	 */
 	saveCompanySettings() {
-		this.props.createCompanySettins(
+		this.props.createCompanySettings(
       prepareStateForCreateCompanySettingsRequest(this.state),
       this.props.history
     );
@@ -393,6 +393,6 @@ const mapStateToProps = ({ accountReducer, companySettingsReducer }) => {
 };
 
 export default connect(mapStateToProps, {
-  createCompanySettins,
+  createCompanySettings,
   getAccount
 })(TextFields);
