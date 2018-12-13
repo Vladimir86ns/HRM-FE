@@ -20,8 +20,8 @@ import {
  * Account acctions
  */
 import {
-    createCompanySettinsFailure,
-    createCompanySettinsNotAcceptable
+    createCompanySettingsFailure,
+    createCompanySettingsNotAcceptable
 } from '../actions/index';
 
 /**
@@ -43,14 +43,14 @@ function* createCompanySettingsInDB({ payload }) {
             // yield put(createAccountNotAcceptable(newAccount.data));
         } else if (newCompany.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
             console.log('2');
-            yield put(createCompanySettinsNotAcceptable(newCompany.data));
+            yield put(createCompanySettingsNotAcceptable(newCompany.data));
         } else {
             console.log('3');
-            yield put(createCompanySettinsFailure('Something went wrong!'));
+            yield put(createCompanySettingsFailure('Something went wrong!'));
         }
     } catch (error) {
         console.log('4');
-        yield put(createCompanySettinsFailure('Something went wrong!'));
+        yield put(createCompanySettingsFailure('Something went wrong!'));
     }
 }
 
