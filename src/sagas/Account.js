@@ -13,7 +13,8 @@ import { responseCodes } from '../constants/ResonseCode';
  * Account types
  */
 import {
-    CREATE_ACCOUNT
+    CREATE_ACCOUNT,
+    GET_ACCOUNT
 } from '../actions/types';
 
 /**
@@ -22,7 +23,13 @@ import {
 import {
     createAccountSuccess,
     createAccountNotAcceptable,
-    createAccountFailure
+    createAccountFailure,
+
+    getAccountSuccess,
+    getAccountNotFound,
+    getAccountNotAcceptable,
+
+    responseAccountFailure
 } from '../actions/index';
 
 /**
@@ -51,6 +58,27 @@ function* createAccountWithNameEmailPassword({ payload }) {
 }
 
 /**
+ * Create Account
+ */
+function* getUserAccount({ payload }) {
+    const accountId = payload.accountId;
+    try {
+        const account = yield call(getAccountFromDB, accountId);
+        if (account.status === responseCodes.HTTP_OK) {
+             yield put(getAccountSuccess(account.data));
+        } else if (account.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
+            yield put(getAccountNotAcceptable(newAccount.data));
+        } else if (account.status === responseCodes.HTTP_NOT_FOUND) {
+            yield put(responseAccountFailure(newAccount.data));
+        } else {
+            yield put(responseAccountFailure('Something went wrong!'));
+        }
+    } catch (error) {
+        yield put(responseAccountFailure('Something went wrong!'));
+    }
+}
+
+/**
  * Create User
  */
 const createAccountWithNameEmailPasswordRequest = async (name, email, password) => {
@@ -59,8 +87,17 @@ const createAccountWithNameEmailPasswordRequest = async (name, email, password) 
         email,
         password
     })
-    .then(success => success)
-    .catch(error => error.response);
+        .then(success => success)
+        .catch(error => error.response);
+}
+
+/**
+ * Get User Account
+ */
+const getAccountFromDB = async (accountId) => {
+    return await axios.get(`/account/${accountId}`)
+        .then(success => success)
+        .catch(error => error.response);
 }
 
 /**
@@ -71,10 +108,18 @@ export function* createNewAccount() {
 }
 
 /**
+ * Get Account
+ */
+export function* getAccount() {
+    yield takeEvery(GET_ACCOUNT, getUserAccount);
+}
+
+/**
  * Auth Root Saga
  */
 export default function* rootSaga() {
     yield all([
-        fork(createNewAccount)
+        fork(createNewAccount),
+        fork(getAccount)
     ]);
 }

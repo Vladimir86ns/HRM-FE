@@ -10,7 +10,14 @@ import {
     CREATE_ACCOUNT,
     CREATE_ACCOUNT_FAILURE,
     CREATE_ACCOUNT_NOT_ACCEPTABLE,
-    CREATE_ACCOUNT_SUCCESS
+    CREATE_ACCOUNT_SUCCESS,
+
+    GET_ACCOUNT,
+    GET_ACCOUNT_NOT_ACCEPTABLE,
+    GET_ACCOUNT_NOT_FOUND,
+    GET_ACCOUNT_SUCCESS,
+
+    RESPONSE_ACCOUNT_FAILURE
 } from '../actions/types';
 
 /**
@@ -24,6 +31,8 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
+
+        // ------ CREATE ------- //
         case CREATE_ACCOUNT:
             return { ...state, loading: true, errorMessage: {} };
 
@@ -32,10 +41,32 @@ export default (state = INIT_STATE, action) => {
             return { ...state, loading: false, account: action.payload };
 
         case CREATE_ACCOUNT_NOT_ACCEPTABLE:
-            // NotificationManager.error(action.payload);
+            NotificationManager.error('Check Validation Messages!');
             return { ...state, loading: false, errorMessage: action.payload };
 
         case CREATE_ACCOUNT_FAILURE:
+            NotificationManager.error(action.payload);
+            return { ...state, loading: false, errorMessage: {} };
+
+        // ------ GET ------- //
+        case GET_ACCOUNT:
+            console.log('GET_ACCOUNT');
+            return { ...state, loading: true, errorMessage: {} };
+
+        case GET_ACCOUNT_SUCCESS:
+            console.log('GET_ACCOUNT_SUCCESS');
+            return { ...state, loading: false, account: action.payload };
+
+        case GET_ACCOUNT_NOT_ACCEPTABLE:
+            NotificationManager.error(action.payload);
+            return { ...state, loading: false, errorMessage: {} };
+
+        case GET_ACCOUNT_NOT_FOUND:
+            NotificationManager.error(action.payload);
+            return { ...state, loading: false, errorMessage: {} };
+
+        // ------ RESPONSE FAILURE ------- //
+        case RESPONSE_ACCOUNT_FAILURE:
             NotificationManager.error(action.payload);
             return { ...state, loading: false, errorMessage: {} };
 
