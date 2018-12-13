@@ -21,15 +21,10 @@ import {
  * Account acctions
  */
 import {
-    createAccountSuccess,
-    createAccountNotAcceptable,
-    createAccountFailure,
-
-    getAccountSuccess,
-    getAccountNotFound,
-    getAccountNotAcceptable,
-
-    responseAccountFailure
+    responseAccountSuccess,
+    responseAccountNotAcceptable,
+    responseAccountFailure,
+    responseAccountNotFound
 } from '../actions/index';
 
 /**
@@ -41,19 +36,16 @@ function* createAccountWithNameEmailPassword({ payload }) {
     try {
         const newAccount = yield call(createAccountWithNameEmailPasswordRequest, name, email, password);
         if (newAccount.status === responseCodes.HTTP_OK) {
-            // TODO set local storage
-            // TODO set successfuly account
-
             localStorage.setItem('account_id', newAccount.data.id);
             history.push('/')
-            yield put(createAccountSuccess(newAccount.data));
+            yield put(responseAccountSuccess(newAccount.data, 'Account created successfully!'));
         } else if (newAccount.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
-            yield put(createAccountNotAcceptable(newAccount.data));
+            yield put(responseAccountNotAcceptable(newAccount.data));
         } else {
-            yield put(createAccountFailure('Something went wrong!'));
+            yield put(responseAccountFailure('Something went wrong!'));
         }
     } catch (error) {
-        yield put(createAccountFailure('Something went wrong!'));
+        yield put(responseAccountFailure('Something went wrong!'));
     }
 }
 
@@ -65,16 +57,16 @@ function* getUserAccount({ payload }) {
     try {
         const account = yield call(getAccountFromDB, accountId);
         if (account.status === responseCodes.HTTP_OK) {
-             yield put(getAccountSuccess(account.data));
+             yield put(responseAccountSuccess(account.data));
         } else if (account.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
-            yield put(getAccountNotAcceptable(newAccount.data));
+            yield put(responseAccountNotAcceptable(newAccount.data));
         } else if (account.status === responseCodes.HTTP_NOT_FOUND) {
-            yield put(responseAccountFailure(newAccount.data));
+            yield put(responseAccountNotFound(newAccount.data));
         } else {
-            yield put(responseAccountFailure('Something went wrong!'));
+            yield put(responseAccountNotFound('Something went wrong!'));
         }
     } catch (error) {
-        yield put(responseAccountFailure('Something went wrong!'));
+        yield put(responseAccountNotFound('Something went wrong!'));
     }
 }
 
@@ -83,10 +75,10 @@ function* getUserAccount({ payload }) {
  */
 const createAccountWithNameEmailPasswordRequest = async (name, email, password) => {
     return await axios.post('/account/create', {
-        name,
-        email,
-        password
-    })
+            name,
+            email,
+            password
+        })
         .then(success => success)
         .catch(error => error.response);
 }

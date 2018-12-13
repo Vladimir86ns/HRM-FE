@@ -1,14 +1,11 @@
 import {
     CREATE_ACCOUNT,
-    CREATE_ACCOUNT_NOT_ACCEPTABLE,
-    CREATE_ACCOUNT_SUCCESS,
-    CREATE_ACCOUNT_FAILURE,
-
     GET_ACCOUNT,
-    GET_ACCOUNT_NOT_ACCEPTABLE,
-    GET_ACCOUNT_SUCCESS,
 
-    RESPONSE_ACCOUNT_FAILURE
+    RESPONSE_ACCOUNT_SUCCESS,
+    RESPONSE_ACCOUNT_FAILURE,
+    RESPONSE_ACCOUNT_NOT_ACCEPTABLE,
+    RESPONSE_ACCOUNT_NOT_FOUND
 } from './types';
 
 //  ----------  GET ACCOUNT ------------  //
@@ -21,30 +18,6 @@ export const getAccount = (accountId) => ({
     payload: { accountId }
 })
 
-/**
- * Redux Action To Get Account Success
- */
-export const getAccountSuccess = (account) => ({
-    type: GET_ACCOUNT_SUCCESS,
-    payload: account 
-});
-
-/**
- * Redux Action To Get Account Not Found
- */
-export const getAccountNotFound = (account) => ({
-    type: GET_ACCOUNT_NOT_FOUND,
-    payload: account
-})
-
-/**
- * Redux Action To Get Account Not Acceptable
- */
-export const getAccountNotAcceptable = (account) => ({
-    type: GET_ACCOUNT_NOT_ACCEPTABLE,
-    payload: { account }
-})
-
 //  ----------  CREATE ACCOUNT ------------  //
 
 /**
@@ -55,35 +28,23 @@ export const createAccount = (account, history) => ({
     payload: { account, history }
 })
 
+//  ----------  RESPONSE ACCOUNT ------------  //
+
 /**
- * Redux Action To Create Account Success
+ * Redux Action Account Not Acceptable
  */
-export const createAccountSuccess = (account) => ({
-    type: CREATE_ACCOUNT_SUCCESS,
+export const responseAccountNotAcceptable = (account) => ({
+    type: RESPONSE_ACCOUNT_NOT_ACCEPTABLE,
+    payload: { account }
+})
+
+/**
+ * Redux Action To Account Not Found
+ */
+export const responseAccountNotFound = (account) => ({
+    type: RESPONSE_ACCOUNT_NOT_FOUND,
     payload: account
-});
-
-/**
- * Redux Action To Create Account Not Acceptable
- */
-export const createAccountNotAcceptable = (error) => {
-    return {
-        type: CREATE_ACCOUNT_NOT_ACCEPTABLE,
-        payload: error
-    }
-};
-
-/**
- * Redux Action To Create Account Failure
- */
-export const createAccountFailure = (error) => {
-    return {
-        type: CREATE_ACCOUNT_FAILURE,
-        payload: error
-    }
-};
-
-//  ----------  RESPONSE ACCOUNT FAILURE ------------  //
+})
 
 /**
  * Redux Action To Get Account Not Acceptable
@@ -92,3 +53,11 @@ export const responseAccountFailure = (account) => ({
     type: RESPONSE_ACCOUNT_FAILURE,
     payload: { account }
 })
+
+/**
+ * Redux Action Account Success
+ */
+export const responseAccountSuccess = (account, message) => ({
+    type: RESPONSE_ACCOUNT_SUCCESS,
+    payload: { account, message} 
+});
