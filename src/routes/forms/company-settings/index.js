@@ -18,9 +18,15 @@ import {
 // rct card box
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
 
+// actions
+import {
+	//
+} from '../../../actions/types';
+
 // redux action
 import {
-	createCompanySettins
+  createCompanySettins,
+  getAccount
 } from '../../../actions/index';
 
 class TextFields extends React.Component {
@@ -50,9 +56,16 @@ class TextFields extends React.Component {
       name: '',
       description: ''
     },
-    form_companies : [1]
+    form_companies : [1],
+    form_departments : [1]
   };
 
+  componentWillMount() {
+    let accountId = localStorage.getItem('account_id')
+    if (accountId) {
+      this.props.getAccount(accountId)
+    }
+  }
 
   /**
    * Update state for given field on text change event.
@@ -68,7 +81,7 @@ class TextFields extends React.Component {
   }
 
 	/**
-	 * Save company settings.
+	 * Prepare state for creating company settings, and save company settings.
 	 */
 	saveCompanySettings() {
 		this.props.createCompanySettins(
@@ -77,11 +90,14 @@ class TextFields extends React.Component {
     );
   }
 
-  checkAccountinfo = () => {
+  /**
+   * Check account info, if has account info, and state is empty, display account info.
+   */
+  checkAccountInfo = (account) => {
     if (this.state.accountInfo.name.length > 0) {
       return;
-    } else if (Object.keys(this.props.account).length > 0) {
-      const { email, name } = this.props.account;
+    } else if (Object.keys(account).length > 0) {
+      const { email, name } = account;
       var someProperty = {...this.state}
       someProperty.accountInfo.email = email;
       someProperty.accountInfo.name = name;
@@ -90,8 +106,8 @@ class TextFields extends React.Component {
   }
 
   render() {
-    this.checkAccountinfo();
-    const { errorMessage } = this.props;
+    const { errorMessage, account } = this.props;
+    this.checkAccountInfo(account);
 
     return (
       <div className="textfields-wrapper">
@@ -142,7 +158,7 @@ class TextFields extends React.Component {
                       label="Name"
                       helperText={
                         <FormArrayErrorMessage
-                          message={errorMessage['company_info.' + key + '.company.name']}
+                          hasError={errorMessage['company_info.' + key + '.company.name']}
                           required={true}/> 
                         }
                       value={this.state.companyInfo.name}
@@ -159,7 +175,7 @@ class TextFields extends React.Component {
                       value={this.state.companyInfo.email}
                       helperText={
                         <FormArrayErrorMessage
-                          message={errorMessage['company_info.' + key + '.company.email']}
+                          hasError={errorMessage['company_info.' + key + '.company.email']}
                           required={true}/> 
                         }
                       onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'email', e)} />
@@ -253,7 +269,7 @@ class TextFields extends React.Component {
                       value={this.state.locationInfo.city} 
                       helperText={
                         <FormArrayErrorMessage
-                          message={errorMessage['company_info.' + key + '.location.city']}
+                          hasError={errorMessage['company_info.' + key + '.location.city']}
                           required={true}/> 
                         }
                       onChange={(e) => this.handleChangeByKeyAndName('locationInfo', 'city', e)} /> 
@@ -269,7 +285,7 @@ class TextFields extends React.Component {
                       value={this.state.locationInfo.zip_code} 
                       helperText={
                         <FormArrayErrorMessage
-                          message={errorMessage['company_info.' + key + '.location.zip_code']}
+                          hasError={errorMessage['company_info.' + key + '.location.zip_code']}
                           required={true}/> 
                         }
                       onChange={(e) => this.handleChangeByKeyAndName('locationInfo', 'zip_code', e)} /> 
@@ -285,7 +301,7 @@ class TextFields extends React.Component {
                       value={this.state.locationInfo.first_address_line} 
                       helperText={
                         <FormArrayErrorMessage
-                          message={errorMessage['company_info.' + key + '.location.first_address_line']}
+                          hasError={errorMessage['company_info.' + key + '.location.first_address_line']}
                           required={true}/> 
                         }
                       onChange={(e) => this.handleChangeByKeyAndName('locationInfo', 'first_address_line', e)} /> 
@@ -309,37 +325,49 @@ class TextFields extends React.Component {
               )
             })
           }
-
-            
-            <RctCollapsibleCard heading="Department Info">
-              <div className="row">
-                <div className="col-sm-6 col-md-3 col-xl-4">
-                  <div className="form-group">
-                    <TextField
-                      id="department_name"
-                      error={false}
-                      fullWidth
-                      label="Name"
-                      value={this.state.departmentInfo.name}
-                      helperText=""
-                      onChange={(e) => this.handleChangeByKeyAndName('departmentInfo', 'name', e)} /> 
-                  </div>
+          {
+            this.state.form_companies.map((value, key) => {
+              return (
+                <div key={key}>
+                  <RctCollapsibleCard heading="Department Info">
+                    <div className="row">
+                      <div className="col-sm-6 col-md-3 col-xl-4">
+                        <div className="form-group">
+                          <TextField
+                            id="department_name"
+                            error={errorMessage['company_info.' + key + '.department_info.' + key + '.name'] ? true : false}
+                            fullWidth
+                            label="Name"
+                            value={this.state.departmentInfo.name}
+                            helperText={
+                              <FormArrayErrorMessage
+                                hasError={errorMessage['company_info' + key + 'department_info.' + key + '.name']}/>
+                            }
+                            onChange={(e) => this.handleChangeByKeyAndName('departmentInfo', 'name', e)} /> 
+                        </div>
+                      </div>
+                      <div className="col-sm-6 col-md-3 col-xl-8">
+                        <div className="form-group">
+                          <TextField
+                            id="department_description"
+                            error={errorMessage['company_info' + key + 'department_info.' + key + '.description'] ? true : false}
+                            fullWidth
+                            multiline
+                            label="Description"
+                            value={this.state.departmentInfo.description}
+                            helperText={
+                              <FormArrayErrorMessage
+                                hasError={errorMessage['company_info' + key + 'department_info.' + key + '.description']}/>
+                            }
+                            onChange={(e) => this.handleChangeByKeyAndName('departmentInfo', 'description', e)} /> 
+                        </div>
+                      </div>
+                    </div>
+                  </RctCollapsibleCard>
                 </div>
-                <div className="col-sm-6 col-md-3 col-xl-8">
-                  <div className="form-group">
-                    <TextField
-                      id="department_description"
-                      error={false}
-                      fullWidth
-                      multiline
-                      label="Description"
-                      value={this.state.departmentInfo.description}
-                      helperText=""
-                      onChange={(e) => this.handleChangeByKeyAndName('departmentInfo', 'description', e)} /> 
-                  </div>
-                </div>
-              </div>
-            </RctCollapsibleCard>
+              )
+            })
+          }
             <FormGroup className="mb-5">
               <Button
                 className="btn-info text-white btn-block w-40"
@@ -365,5 +393,6 @@ const mapStateToProps = ({ accountReducer, companySettingsReducer }) => {
 };
 
 export default connect(mapStateToProps, {
-	createCompanySettins
+  createCompanySettins,
+  getAccount
 })(TextFields);

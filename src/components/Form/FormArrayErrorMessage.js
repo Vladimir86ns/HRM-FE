@@ -1,13 +1,16 @@
 
 import React from 'react';
 
-const FormArrayErrorMessage = ({message, required}) => {
-  if (message) {
-    let array = message[0].split(" ");
+const FormArrayErrorMessage = ({hasError, required, errorMessage}) => {
+  if (hasError) {
+    if (errorMessage) {
+      return errorMessage;
+    }
+    let array = hasError[0].split(" ");
 
-    let result = array.map((world) => {
-      if (world.includes('.')) {
-        let array = world.split(".");
+    let result = array.map((word) => {
+      if (word.includes('.')) {
+        let array = word.split(".");
         
         if (array.length == 2) {
           return array[0] + '.';
@@ -15,7 +18,7 @@ const FormArrayErrorMessage = ({message, required}) => {
         return array[array.length -1];
       }
 
-      return world;
+      return word;
     })
     return (<p style={{color: 'red'}}>{result.toString().split(',').join(' ').split('_').join(' ')}</p>) 
   }
