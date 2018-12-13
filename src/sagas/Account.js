@@ -20,6 +20,7 @@ import {
  * Account acctions
  */
 import {
+    createAccountSuccess,
     createAccountNotAcceptable,
     createAccountFailure
 } from '../actions/index';
@@ -36,9 +37,9 @@ function* createAccountWithNameEmailPassword({ payload }) {
             // TODO set local storage
             // TODO set successfuly account
 
-            // yield put(createAccountSuccess(newAccount.data));
+            localStorage.setItem('account_id', newAccount.data.id);
             history.push('/')
-            yield put(createAccountNotAcceptable(newAccount.data));
+            yield put(createAccountSuccess(newAccount.data));
         } else if (newAccount.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
             yield put(createAccountNotAcceptable(newAccount.data));
         } else {
@@ -58,7 +59,7 @@ const createAccountWithNameEmailPasswordRequest = async (name, email, password) 
         email,
         password
     })
-    .then(success => success.data)
+    .then(success => success)
     .catch(error => error.response);
 }
 

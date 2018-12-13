@@ -22,7 +22,6 @@ BigCalendar.setLocalizer(BigCalendar.momentLocalizer(moment))
 
 class BasicCalendar extends Component {
   render() {
-    console.log(events);
     return (
       <div className="calendar-wrapper">
         <PageTitleBar title={<IntlMessages id="sidebar.basic" />} match={this.props.match} />

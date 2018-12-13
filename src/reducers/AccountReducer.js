@@ -28,8 +28,8 @@ export default (state = INIT_STATE, action) => {
             return { ...state, loading: true, errorMessage: {} };
 
         case CREATE_ACCOUNT_SUCCESS:
-            // NotificationManager.success('Account Created');
-            // return { ...state, loading: false, user: action.payload.uid };
+            NotificationManager.success('Account Created');
+            return { ...state, loading: false, account: action.payload };
 
         case CREATE_ACCOUNT_NOT_ACCEPTABLE:
             // NotificationManager.error(action.payload);
