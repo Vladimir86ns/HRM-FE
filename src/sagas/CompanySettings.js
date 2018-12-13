@@ -7,7 +7,7 @@ import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
  * Imports
 */
 import axios from '../Axios-laravel';
-import { responseCodes } from '../constants/ResonseCode';
+import { responseCodes } from '../constants/ResponseCode';
 
 /**
  * Account types
