@@ -33,9 +33,9 @@ export const createAccount = (account, history) => ({
 /**
  * Redux Action Account Not Acceptable
  */
-export const responseAccountNotAcceptable = (account) => ({
+export const responseAccountNotAcceptable = (validationMessages) => ({
     type: RESPONSE_ACCOUNT_NOT_ACCEPTABLE,
-    payload: { account }
+    payload: validationMessages
 })
 
 /**
@@ -49,9 +49,9 @@ export const responseAccountNotFound = (account) => ({
 /**
  * Redux Action To Get Account Not Acceptable
  */
-export const responseAccountFailure = (account) => ({
+export const responseAccountFailure = (validationMessages) => ({
     type: RESPONSE_ACCOUNT_FAILURE,
-    payload: { account }
+    payload: validationMessages
 })
 
 /**

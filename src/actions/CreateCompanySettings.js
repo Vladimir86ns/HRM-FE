@@ -24,19 +24,19 @@ export const createCompanySettingsSuccess = (company) => ({
 /**
  * Redux Action To Create Company Settings Failure
  */
-export const createCompanySettingsFailure = (error) => {
+export const createCompanySettingsFailure = (validationMessage) => {
     return {
         type: CREATE_COMPANY_SETTINGS_FAILURE,
-        payload: error
+        payload: validationMessage
     }
 };
 
 /**
  * Redux Action To Create Company Settings Not Acceptable
  */
-export const createCompanySettingsNotAcceptable = (error) => {
+export const createCompanySettingsNotAcceptable = (validationMessages) => {
     return {
         type: CREATE_COMPANY_SETTINGS_NOT_ACCEPTABLE,
-        payload: error
+        payload: validationMessages
     }
 };
