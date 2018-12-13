@@ -32,11 +32,11 @@ export default (state = INIT_STATE, action) => {
             // return { ...state, loading: false, user: action.payload.uid };
 
         case CREATE_COMPANY_SETTINGS_FAILURE:
-            NotificationManager.error(action.payload);
+            // NotificationManager.error('Check validation messages!');
             return { ...state, loading: false, errorMessage: action.payload };
 
         case CREATE_COMPANY_SETTINGS_NOT_ACCEPTABLE:
-            // NotificationManager.error(action.payload);
+            NotificationManager.error('Check validation messages!');
             return { ...state, loading: false, errorMessage: action.payload };
 
         default: return { ...state };
