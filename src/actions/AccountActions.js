@@ -41,9 +41,9 @@ export const responseAccountNotAcceptable = (validationMessages) => ({
 /**
  * Redux Action To Account Not Found
  */
-export const responseAccountNotFound = (account) => ({
+export const responseAccountNotFound = (message) => ({
     type: RESPONSE_ACCOUNT_NOT_FOUND,
-    payload: account
+    payload: message
 })
 
 /**
