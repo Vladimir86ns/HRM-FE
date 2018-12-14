@@ -59,9 +59,9 @@ function* getUserAccount({ payload }) {
         if (account.status === responseCodes.HTTP_OK) {
              yield put(responseAccountSuccess(account.data));
         } else if (account.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
-            yield put(responseAccountNotAcceptable(newAccount.data));
+            yield put(responseAccountNotAcceptable(account.data));
         } else if (account.status === responseCodes.HTTP_NOT_FOUND) {
-            yield put(responseAccountNotFound(newAccount.data));
+            yield put(responseAccountNotFound(account.data.message));
         } else {
             yield put(responseAccountNotFound('Something went wrong!'));
         }
