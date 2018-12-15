@@ -1,29 +1,15 @@
+import React from 'react';
 
-const FormArrayErrorMessage = ({hasError, required}) => {
-  if (hasError) {
-    let array = hasError[0].split(" ");
+// helper function
+import {
+  formArrayErrorMessage
+} from '../../../src/util/helper';
 
-    let result = array.map((word) => {
-      if (word.includes('.')) {
-        let array = word.split(".");
-        
-        if (array.length == 2) {
-          return array[0] + '.';
-        }
-        return array[array.length -1];
-      }
-
-      return word;
-    })
-    
-    return result.toString().split(',').join(' ').split('_').join(' ');
+const FormArrayErrorMessage = ({message, required = false}) => {
+  if (message) {
+    return (<p style={{color: 'red'}}>{formArrayErrorMessage(message, required)}</p>) 
   }
-
-  if (required) {
-    return 'required';
-  }
-  
-  return '';
+  return (<p>{formArrayErrorMessage(message, required)}</p>) 
 }
 
 export default FormArrayErrorMessage;
