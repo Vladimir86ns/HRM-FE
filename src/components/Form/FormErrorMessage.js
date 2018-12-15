@@ -1,12 +1,14 @@
 
-import React from 'react';
-
-const FormErrorMessage = ({message}) => {
-    if (message) {
-        return  (<p style={{color: 'red'}}>{message}</p>) 
-    }
+const FormErrorMessage = ({message, required}) => {
+  if (message) {
+    return  message;
+  }
     
-    return (<p></p>)
+  if (required) {
+    return 'required';
+  }
+      
+  return '';
 }
 
 export default FormErrorMessage;

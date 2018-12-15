@@ -1,6 +1,4 @@
 
-import React from 'react';
-
 const FormArrayErrorMessage = ({hasError, required}) => {
   if (hasError) {
     let array = hasError[0].split(" ");
@@ -24,7 +22,8 @@ const FormArrayErrorMessage = ({hasError, required}) => {
   if (required) {
     return 'required';
   }
-    return '';
+  
+  return '';
 }
 
 export default FormArrayErrorMessage;

@@ -8,7 +8,11 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import { FormGroup } from 'reactstrap';
 
-import FormArrayErrorMessage from '../../../components/form/FormArrayErrorMessage';
+// helper function
+import {
+  formErrorMessage,
+  formArrayErrorMessage
+} from '../../../../src/util/helper';
 
 // utils functions
 import {
@@ -119,24 +123,24 @@ class TextFields extends React.Component {
                   <div className="form-group">
                     <TextField
                       id="name"
-                      error={false}
+                      error={errorMessage['account_info.name'] ? true : false}
                       fullWidth 
                       label="Name of account" 
                       value={this.state.accountInfo.name}
-                      onChange={(e) => this.handleChangeByKeyAndName('accountInfo', 'name', e)}
-                      helperText=""/>
+                      helperText={formErrorMessage(errorMessage['account_info.name'], true)}
+                      onChange={(e) => this.handleChangeByKeyAndName('accountInfo', 'name', e)}/>
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
                   <div className="form-group">
                     <TextField
                       id="email"
-                      error={false}
+                      error={errorMessage['account_info.email'] ? true : false}
                       fullWidth 
                       label="Email" 
                       value={this.state.accountInfo.email}
-                      onChange={(e) => this.handleChangeByKeyAndName('accountInfo', 'email', e)}
-                      helperText=""/>
+                      helperText={formErrorMessage(errorMessage['account_info.email'], true)}
+                      onChange={(e) => this.handleChangeByKeyAndName('accountInfo', 'email', e)} />
                   </div>
                 </div>
               </div>
@@ -155,11 +159,7 @@ class TextFields extends React.Component {
                       fullWidth
                       label="Name"
                       value={this.state.companyInfo.name}
-                      helperText={
-                        <FormArrayErrorMessage
-                          hasError={errorMessage['company_info.' + key + '.company.name']}
-                          required={true}/> 
-                        }
+                      helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.company.name'], true)}
                       onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'name', e)} />
                   </div>
                 </div>
@@ -171,11 +171,7 @@ class TextFields extends React.Component {
                       fullWidth
                       label="Email"
                       value={this.state.companyInfo.email}
-                      helperText={
-                        <FormArrayErrorMessage
-                          hasError={errorMessage['company_info.' + key + '.company.email']}
-                          required={true}/> 
-                        }
+                      helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.company.email'], true)}
                       onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'email', e)} />
                            
                   </div>
@@ -184,11 +180,11 @@ class TextFields extends React.Component {
                   <div className="form-group">
                     <TextField 
                       id="website"
-                      error={false}
+                      error={errorMessage['company_info.' + key + '.company.website'] ? true : false}
                       fullWidth
                       label="Website"
                       value={this.state.companyInfo.website}
-                      helperText=""
+                      helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.company.website'])}
                       onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'website', e)} />  
                   </div>
                 </div>
@@ -198,11 +194,11 @@ class TextFields extends React.Component {
                   <div className="form-group">
                     <TextField
                       id="mobile_phone"
-                      error={false}
+                      error={errorMessage['company_info.' + key + '.company.mobile_phone'] ? true : false}
                       fullWidth 
                       label="Mobile Phone" 
                       value={this.state.companyInfo.mobile_phone} 
-                      helperText=""
+                      helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.company.mobile_phone'])}
                       onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'mobile_phone', e)} />  
                   </div>
                 </div>
@@ -210,11 +206,11 @@ class TextFields extends React.Component {
                   <div className="form-group">
                     <TextField 
                       id="telephone_number"
-                      error={false}
+                      error={errorMessage['company_info.' + key + '.company.telephone_number'] ? true : false}
                       fullWidth 
                       label="Telephone Number" 
                       value={this.state.companyInfo.telephone_number} 
-                      helperText=""
+                      helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.company.telephone_number'])}
                       onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'telephone_number', e)} />  
                   </div>
                 </div>
@@ -222,11 +218,11 @@ class TextFields extends React.Component {
                   <div className="form-group">
                     <TextField 
                       id="fax_number"
-                      error={false}
+                      error={errorMessage['company_info.' + key + '.company.fax_number'] ? true : false}
                       fullWidth
                       label="Fax Number"
                       value={this.state.companyInfo.fax_number}
-                      helperText=""
+                      helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.company.fax_number'])}
                       onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'fax_number', e)} />  
                   </div>
                 </div>
@@ -249,11 +245,11 @@ class TextFields extends React.Component {
                   <div className="form-group">
                     <TextField
                       id="region"
-                      error={false}
+                      error={errorMessage['company_info.' + key + '.location.region'] ? true : false}
                       fullWidth 
                       label="Region" 
                       value={this.state.locationInfo.region} 
-                      helperText=""
+                      helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.location.region'])}
                       onChange={(e) => this.handleChangeByKeyAndName('locationInfo', 'region', e)} /> 
                   </div>
                 </div>
@@ -265,11 +261,7 @@ class TextFields extends React.Component {
                       fullWidth 
                       label="City" 
                       value={this.state.locationInfo.city} 
-                      helperText={
-                        <FormArrayErrorMessage
-                          hasError={errorMessage['company_info.' + key + '.location.city']}
-                          required={true}/> 
-                        }
+                      helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.location.city'], true)}
                       onChange={(e) => this.handleChangeByKeyAndName('locationInfo', 'city', e)} /> 
                   </div>
                 </div>
@@ -281,11 +273,7 @@ class TextFields extends React.Component {
                       fullWidth 
                       label="Zip Code" 
                       value={this.state.locationInfo.zip_code} 
-                      helperText={
-                        <FormArrayErrorMessage
-                          hasError={errorMessage['company_info.' + key + '.location.zip_code']}
-                          required={true}/> 
-                        }
+                      helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.location.zip_code'], true)}
                       onChange={(e) => this.handleChangeByKeyAndName('locationInfo', 'zip_code', e)} /> 
                   </div>
                 </div>
@@ -297,11 +285,7 @@ class TextFields extends React.Component {
                       fullWidth 
                       label="First Address Line" 
                       value={this.state.locationInfo.first_address_line} 
-                      helperText={
-                        <FormArrayErrorMessage
-                          hasError={errorMessage['company_info.' + key + '.location.first_address_line']}
-                          required={true}/> 
-                        }
+                      helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.location.first_address_line'], true)}
                       onChange={(e) => this.handleChangeByKeyAndName('locationInfo', 'first_address_line', e)} /> 
                   </div>
                 </div>
@@ -309,11 +293,11 @@ class TextFields extends React.Component {
                   <div className="form-group">
                     <TextField
                       id="second_address_line"
-                      error={false}
+                      error={errorMessage['company_info.' + key + '.location.second_address_line'] ? true : false}
                       fullWidth 
                       label="Second Address Line" 
                       value={this.state.locationInfo.second_address_line} 
-                      helperText=""
+                      helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.location.second_address_line'])}
                       onChange={(e) => this.handleChangeByKeyAndName('locationInfo', 'second_address_line', e)} /> 
                   </div>
                 </div>
@@ -337,10 +321,7 @@ class TextFields extends React.Component {
                             fullWidth
                             label="Name"
                             value={this.state.departmentInfo.name}
-                            helperText={
-                              <FormArrayErrorMessage
-                                hasError={errorMessage['company_info.' + key + '.department_info.' + key + '.name']}/>
-                            }
+                            helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.department_info.' + key + '.name'], true)}
                             onChange={(e) => this.handleChangeByKeyAndName('departmentInfo', 'name', e)} /> 
                         </div>
                       </div>
@@ -353,10 +334,7 @@ class TextFields extends React.Component {
                             multiline
                             label="Description"
                             value={this.state.departmentInfo.description}
-                            helperText={
-                              <FormArrayErrorMessage
-                                hasError={errorMessage['company_info.' + key + '.department_info.' + key + '.description']}/>
-                            }
+                            helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.department_info. ' + key + '.description'])}
                             onChange={(e) => this.handleChangeByKeyAndName('departmentInfo', 'description', e)} /> 
                         </div>
                       </div>
