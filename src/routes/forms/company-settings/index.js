@@ -118,7 +118,6 @@ class TextFields extends React.Component {
                 <div className="col-sm-6 col-md-3 col-xl-4">
                   <div className="form-group">
                     <TextField
-                      disabled
                       id="name"
                       error={false}
                       fullWidth 
@@ -131,7 +130,6 @@ class TextFields extends React.Component {
                 <div className="col-sm-6 col-md-3 col-xl-4">
                   <div className="form-group">
                     <TextField
-                      disabled
                       id="email"
                       error={false}
                       fullWidth 
@@ -156,13 +154,13 @@ class TextFields extends React.Component {
                       error={errorMessage['company_info.' + key + '.company.name'] ? true : false}
                       fullWidth
                       label="Name"
+                      value={this.state.companyInfo.name}
                       helperText={
                         <FormArrayErrorMessage
                           hasError={errorMessage['company_info.' + key + '.company.name']}
                           required={true}/> 
                         }
-                      value={this.state.companyInfo.name}
-                      onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'name', e)} />  
+                      onChange={(e) => this.handleChangeByKeyAndName('companyInfo', 'name', e)} />
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
@@ -326,7 +324,7 @@ class TextFields extends React.Component {
             })
           }
           {
-            this.state.form_companies.map((value, key) => {
+            this.state.form_departments.map((value, key) => {
               return (
                 <div key={key}>
                   <RctCollapsibleCard heading="Department Info">
@@ -341,7 +339,7 @@ class TextFields extends React.Component {
                             value={this.state.departmentInfo.name}
                             helperText={
                               <FormArrayErrorMessage
-                                hasError={errorMessage['company_info' + key + 'department_info.' + key + '.name']}/>
+                                hasError={errorMessage['company_info.' + key + '.department_info.' + key + '.name']}/>
                             }
                             onChange={(e) => this.handleChangeByKeyAndName('departmentInfo', 'name', e)} /> 
                         </div>
@@ -357,7 +355,7 @@ class TextFields extends React.Component {
                             value={this.state.departmentInfo.description}
                             helperText={
                               <FormArrayErrorMessage
-                                hasError={errorMessage['company_info' + key + 'department_info.' + key + '.description']}/>
+                                hasError={errorMessage['company_info.' + key + '.department_info.' + key + '.description']}/>
                             }
                             onChange={(e) => this.handleChangeByKeyAndName('departmentInfo', 'description', e)} /> 
                         </div>

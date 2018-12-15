@@ -1,11 +1,8 @@
 
 import React from 'react';
 
-const FormArrayErrorMessage = ({hasError, required, errorMessage}) => {
+const FormArrayErrorMessage = ({hasError, required}) => {
   if (hasError) {
-    if (errorMessage) {
-      return errorMessage;
-    }
     let array = hasError[0].split(" ");
 
     let result = array.map((word) => {
@@ -20,7 +17,8 @@ const FormArrayErrorMessage = ({hasError, required, errorMessage}) => {
 
       return word;
     })
-    return (<p style={{color: 'red'}}>{result.toString().split(',').join(' ').split('_').join(' ')}</p>) 
+    
+    return result.toString().split(',').join(' ').split('_').join(' ');
   }
 
   if (required) {
