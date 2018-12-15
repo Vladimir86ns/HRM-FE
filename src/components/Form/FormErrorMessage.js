@@ -1,12 +1,15 @@
-
 import React from 'react';
 
-const FormErrorMessage = ({message}) => {
-    if (message) {
-        return  (<p style={{color: 'red'}}>{message}</p>) 
-    }
-    
-    return (<p></p>)
+// helper function
+import {
+  formErrorMessage
+} from '../../../src/util/index';
+
+const FormErrorMessage = ({message, required = false}) => {
+  if (message) {
+    return (<p style={{color: 'red'}}>{formErrorMessage(message, required)}</p>);
+  }
+  return  (<p>{formErrorMessage(message, required)}</p>) 
 }
 
 export default FormErrorMessage;

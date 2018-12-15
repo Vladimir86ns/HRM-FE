@@ -70,7 +70,7 @@ export default {
 			"child_routes": [
 				{
 					"path": "/app/forms/company-settings",
-					"menu_title": "Company Settings"
+					"menu_title": "Company Info"
 				}
 			]
 		}
