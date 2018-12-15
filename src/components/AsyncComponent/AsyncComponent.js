@@ -526,8 +526,8 @@ const AsyncAdvanceUIAutoCompleteComponent = Loadable({
 /*---------------- COMPANY SETTING`S -------------*/
 
 // forms TextField
-const AsyncCompanySettingsComponent = Loadable({
-	loader: () => import("Routes/forms/company-settings"),
+const AsyncCompanyInfoComponent = Loadable({
+	loader: () => import("Routes/forms/company-info"),
 	loading: () => <RctPageLoader />,
 });
 
@@ -617,5 +617,5 @@ export {
 	AsyncNewsDashboardComponent,
 	AsyncDepartmentTableComponent,
 
-	AsyncCompanySettingsComponent
+	AsyncCompanyInfoComponent
 };

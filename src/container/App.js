@@ -74,7 +74,7 @@ class App extends Component {
 			if (!accoiunt) {
 				return (<Redirect to={'/signin'} />);
 			} else {
-				return (<Redirect to={'/app/forms/company-settings'} />);
+				return (<Redirect to={'/app/forms/company-info'} />);
 			}
 		}
 		return (
