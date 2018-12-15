@@ -69,7 +69,7 @@ export default {
 			"menu_icon": "zmdi zmdi-settings",
 			"child_routes": [
 				{
-					"path": "/app/forms/company-settings",
+					"path": "/app/forms/company-info",
 					"menu_title": "Company Info"
 				}
 			]

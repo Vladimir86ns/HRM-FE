@@ -10,7 +10,7 @@ import {
 	AsyncTextFieldComponent,
 	AsyncSelectListComponent,
 
-	AsyncCompanySettingsComponent
+	AsyncCompanyInfoComponent
 } from 'Components/AsyncComponent/AsyncComponent';
 
 const Forms = ({ match }) => (
@@ -25,7 +25,7 @@ const Forms = ({ match }) => (
 			<Route path={`${match.url}/text-field`} component={AsyncTextFieldComponent} />
 			<Route path={`${match.url}/select-list`} component={AsyncSelectListComponent} />
 
-			<Route path={`${match.url}/company-settings`} component={AsyncCompanySettingsComponent} />
+			<Route path={`${match.url}/company-info`} component={AsyncCompanyInfoComponent} />
 		</Switch>
 	</div>
 );
