@@ -3,7 +3,7 @@ import React from 'react';
 // helper function
 import {
   formErrorMessage
-} from '../../../src/util/helper';
+} from '../../../src/util/index';
 
 const FormErrorMessage = ({message, required = false}) => {
   if (message) {

@@ -3,7 +3,7 @@ import React from 'react';
 // helper function
 import {
   formArrayErrorMessage
-} from '../../../src/util/helper';
+} from '../../../src/util/index';
 
 const FormArrayErrorMessage = ({message, required = false}) => {
   if (message) {
