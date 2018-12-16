@@ -11,8 +11,7 @@ import { FormGroup } from 'reactstrap';
 
 // utility functions
 import {
-  formErrorMessage,
-  prepareStateForCreateCompanySettingsRequest
+  formErrorMessage
 } from '../../../util/index';
 
 // rct card box
@@ -26,9 +25,9 @@ import {
 
 // redux action
 import {
-  createCompanySettings,
   getAccount
 } from '../../../actions/index';
+
 class TextFields extends React.Component {
 
   state = {
@@ -209,6 +208,5 @@ const mapStateToProps = ({ accountReducer }) => {
 };
 
 export default connect(mapStateToProps, {
-  createCompanySettings,
   getAccount
 })(TextFields);
