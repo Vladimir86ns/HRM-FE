@@ -4,6 +4,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
 
 import Button from '@material-ui/core/Button';
 import { FormGroup } from 'reactstrap';
@@ -17,18 +18,28 @@ import {
 // rct card box
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
 
+// redux constants
+import {
+  genderType,
+  userStatus
+} from '../../../constants/constants';
+
 // redux action
 import {
   createCompanySettings,
   getAccount
 } from '../../../actions/index';
-
 class TextFields extends React.Component {
 
   state = {
     user_info: {
-      name: '',
-      email: ''
+      first_name: '',
+      middle_name: '',
+      last_name: '',
+      email: '',
+      gender: '',
+      user_type: '',
+      status: 'active',
     }
   };
 
@@ -62,43 +73,74 @@ class TextFields extends React.Component {
     );
   }
 
-  /**
-   * Check account info, if has account info, and state is empty, display account info.
-   */
-  checkAccountInfo = (account) => {
-    // if (this.state.account_info.name.length > 0) {
-    //   return;
-    // } else if (Object.keys(account).length > 0) {
-    //   const { email, name } = account;
-    //   var someProperty = {...this.state}
-    //   someProperty.account_info.email = email;
-    //   someProperty.account_info.name = name;
-    //   this.setState({someProperty})   
-    // }
-  }
-
   render() {
-    const { errorMessage, account } = this.props;
-    // this.checkAccountInfo(account);
+    const { errorMessage } = this.props;
 
     return (
       <div className="textfields-wrapper">
         <div>
           <form noValidate autoComplete="off">
-            <RctCollapsibleCard heading="Account Info">
+            <RctCollapsibleCard heading="User Info">
+                <div className="row">
+                  <div className="col-sm-6 col-md-3 col-xl-4">
+                    <div className="form-group">
+                    <TextField id="user_type" select label="Select User Type"
+                        value={this.state.user_info.user_type}
+                        onChange={(e) => this.handleChangeByKeyAndName('user_info', 'user_type', e)}
+                        SelectProps={{
+                          MenuProps: {
+                          },
+                        }}
+                        helperText={formErrorMessage(errorMessage['user_info.user_type'])}
+                        fullWidth>
+                        {userStatus.map(option => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </div>
+                  </div>
+                </div>
                 <div className="row">
                   <div className="col-sm-6 col-md-3 col-xl-4">
                     <div className="form-group">
                       <TextField
-                        id="name"
-                        error={errorMessage['user_info.name'] ? true : false}
+                        id="first_name"
+                        error={errorMessage['user_info.first_name'] ? true : false}
                         fullWidth 
-                        label="Name of account" 
-                        value={this.state.user_info.name}
-                        helperText={formErrorMessage(errorMessage['user_info.name'], true)}
-                        onChange={(e) => this.handleChangeByKeyAndName('user_info', 'name', e)}/>
+                        label="First Name" 
+                        value={this.state.user_info.first_name}
+                        helperText={formErrorMessage(errorMessage['user_info.first_name'], true)}
+                        onChange={(e) => this.handleChangeByKeyAndName('user_info', 'first_name', e)}/>
                     </div>
                   </div>
+                  <div className="col-sm-6 col-md-3 col-xl-4">
+                    <div className="form-group">
+                      <TextField
+                        id="middle_name"
+                        error={errorMessage['user_info.middle_name'] ? true : false}
+                        fullWidth 
+                        label="Middle Name" 
+                        value={this.state.user_info.middle_name}
+                        helperText={formErrorMessage(errorMessage['user_info.middle_name'])}
+                        onChange={(e) => this.handleChangeByKeyAndName('user_info', 'middle_name', e)} />
+                    </div>
+                  </div>
+                  <div className="col-sm-6 col-md-3 col-xl-4">
+                    <div className="form-group">
+                      <TextField
+                        id="last_name"
+                        error={errorMessage['user_info.last_name'] ? true : false}
+                        fullWidth 
+                        label="Last Name" 
+                        value={this.state.user_info.last_name}
+                        helperText={formErrorMessage(errorMessage['user_info.last_name'], true)}
+                        onChange={(e) => this.handleChangeByKeyAndName('user_info', 'last_name', e)}/>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
                   <div className="col-sm-6 col-md-3 col-xl-4">
                     <div className="form-group">
                       <TextField
@@ -108,7 +150,40 @@ class TextFields extends React.Component {
                         label="Email" 
                         value={this.state.user_info.email}
                         helperText={formErrorMessage(errorMessage['user_info.email'], true)}
-                        onChange={(e) => this.handleChangeByKeyAndName('user_info', 'email', e)} />
+                        onChange={(e) => this.handleChangeByKeyAndName('user_info', 'email', e)}/>
+                    </div>
+                  </div>
+                  <div className="col-sm-6 col-md-3 col-xl-4">
+                    <div className="form-group">
+                      <TextField id="gender" select label="Select Gender"
+                        error={errorMessage['user_info.gender'] ? true : false}
+                        value={this.state.user_info.gender}
+                        onChange={(e) => this.handleChangeByKeyAndName('user_info', 'gender', e)}
+                        SelectProps={{
+                          MenuProps: {
+                          },
+                        }}
+                        helperText={formErrorMessage(errorMessage['user_info.gender'])}
+                        fullWidth>
+                        {genderType.map(option => (
+                          <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </div>
+                  </div>
+                  <div className="col-sm-6 col-md-3 col-xl-4">
+                    <div className="form-group">
+                      <TextField
+                        id="status"
+                        disabled
+                        error={errorMessage['user_info.status'] ? true : false}
+                        fullWidth 
+                        label="Status" 
+                        value={this.state.user_info.status}
+                        helperText={formErrorMessage(errorMessage['user_info.status'])}
+                        onChange={(e) => this.handleChangeByKeyAndName('user_info', 'status', e)}/>
                     </div>
                   </div>
                 </div>
@@ -119,7 +194,7 @@ class TextFields extends React.Component {
                 style={{marginBottom: 20}}
                 variant="raised"
                 size="medium"
-                onClick={() => this.saveCompanySettings()}>Save Company Info
+                onClick={() => this.saveCompanySettings()}>Save User Info
               </Button>
             </FormGroup>
           </form>
