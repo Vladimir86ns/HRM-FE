@@ -531,6 +531,11 @@ const AsyncCompanyInfoComponent = Loadable({
 	loading: () => <RctPageLoader />,
 });
 
+const AsyncUserInfoComponent = Loadable({
+	loader: () => import("Routes/forms/user-info"),
+	loading: () => <RctPageLoader />,
+});
+
 export {
 	AsyncUserWidgetComponent,
 	AsyncUserChartsComponent,
@@ -617,5 +622,6 @@ export {
 	AsyncNewsDashboardComponent,
 	AsyncDepartmentTableComponent,
 
-	AsyncCompanyInfoComponent
+	AsyncCompanyInfoComponent,
+	AsyncUserInfoComponent
 };
