@@ -66,15 +66,12 @@ class TextFields extends React.Component {
 	/**
 	 * Prepare state for creating company settings, and save company settings.
 	 */
-	saveCompanySettings() {
-		this.props.createCompanySettings(
-      prepareStateForCreateCompanySettingsRequest(this.state),
-      this.props.history
-    );
+	saveUserInfo() {
+    //
   }
 
   render() {
-    const { errorMessage } = this.props;
+    const  errorMessage  = {};
 
     return (
       <div className="textfields-wrapper">
@@ -205,11 +202,10 @@ class TextFields extends React.Component {
 }
 
 // map state to props
-const mapStateToProps = ({ accountReducer, companySettingsReducer }) => {
+const mapStateToProps = ({ accountReducer }) => {
 	const { loading, account } = accountReducer;
-  const { errorMessage } = companySettingsReducer;
   
-	return { loading, account, errorMessage };
+	return { loading, account };
 };
 
 export default connect(mapStateToProps, {

@@ -1,21 +1,33 @@
 export const genderType = [
-    {
-      value: 'Male',
-      label: 'male',
-    },
-    {
-      value: 'Female',
-      label: 'female',
-    },
-    {
-      value: 'Other',
-      label: 'other',
-    }
-  ];
+  {
+    value: 'male',
+    label: 'Male',
+  },
+  {
+    value: 'female',
+    label: 'Female',
+  },
+  {
+    value: 'other',
+    label: 'Other',
+  }
+];
   
 export const userStatus = [
-    {
-      value: 'Owner',
-      label: 'owner',
-    }
-  ];
+  {
+    value: 'owner',
+    label: 'Owner',
+  },
+  {
+    value: 'super_admin',
+    label: 'Super Admin',
+  },
+  {
+    value: 'admin',
+    label: 'Admin',
+  },
+  {
+    value: 'employee',
+    label: 'Employee',
+  }
+];
