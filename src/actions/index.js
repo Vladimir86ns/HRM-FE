@@ -11,3 +11,4 @@ export * from './EcommerceActions';
 
 export * from './AccountActions';
 export * from './CreateCompanySettings';
+export * from './UserActions';

@@ -25,7 +25,7 @@ import {
 
 // redux action
 import {
-  getAccount
+  getUser
 } from '../../../actions/index';
 
 class TextFields extends React.Component {
@@ -43,9 +43,21 @@ class TextFields extends React.Component {
   };
 
   componentWillMount() {
-    let accountId = localStorage.getItem('account_id')
-    if (accountId) {
-      this.props.getAccount(accountId)
+    let userId = localStorage.getItem('user_id');
+    if (userId) {
+      this.props.getUser(userId)
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.user !== nextProps.user) {
+      var someProperty = {...this.state};
+
+      Object.keys(nextProps.user).forEach((key) => {
+        someProperty.user_info[key] = nextProps.user[key];
+      })
+
+      this.setState({someProperty});
     }
   }
 
@@ -60,13 +72,6 @@ class TextFields extends React.Component {
     var someProperty = {...this.state}
     someProperty[key][name] = event.target.value;
     this.setState({someProperty})    
-  }
-
-	/**
-	 * Prepare state for creating company settings, and save company settings.
-	 */
-	saveUserInfo() {
-    //
   }
 
   render() {
@@ -201,12 +206,13 @@ class TextFields extends React.Component {
 }
 
 // map state to props
-const mapStateToProps = ({ accountReducer }) => {
-	const { loading, account } = accountReducer;
-  
-	return { loading, account };
+const mapStateToProps = (state) => {
+  let { account } = state.accountReducer;
+  let { user } =  state.userReducer;
+
+  return { account, user };
 };
 
 export default connect(mapStateToProps, {
-  getAccount
+  getUser
 })(TextFields);
