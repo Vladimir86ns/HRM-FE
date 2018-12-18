@@ -18,7 +18,7 @@ import {
 } from '../actions/types';
 
 /**
- * Account acctions
+ * Account actions
  */
 import {
     responseAccountSuccess,
