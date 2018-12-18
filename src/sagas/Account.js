@@ -18,7 +18,7 @@ import {
 } from '../actions/types';
 
 /**
- * Account acctions
+ * Account actions
  */
 import {
     responseAccountSuccess,
@@ -37,6 +37,7 @@ function* createAccountWithNameEmailPassword({ payload }) {
         const newAccount = yield call(createAccountWithNameEmailPasswordRequest, name, email, password);
         if (newAccount.status === responseCodes.HTTP_OK) {
             localStorage.setItem('account_id', newAccount.data.id);
+            localStorage.setItem('user_id', newAccount.data.user_id);
             history.push('/')
             yield put(responseAccountSuccess(newAccount.data, 'Account created successfully!'));
         } else if (newAccount.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
