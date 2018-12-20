@@ -7,6 +7,7 @@ const APP_MESSAGES = {
     company: {
         createSuccess: 'Company created successfully!',
         checkValidation: 'Check validation messages!',
+        updateSuccess: 'Company updated successfully!'
     },
     account: {
         createSuccess: 'Account created successfully!',

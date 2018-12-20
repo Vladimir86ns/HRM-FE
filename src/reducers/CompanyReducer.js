@@ -9,6 +9,7 @@ import { NotificationManager } from 'react-notifications';
 import {
     GET_COMPANY_INFO,
     CREATE_COMPANY_INFO,
+    UPDATE_COMPANY_INFO,
     RESPONSE_COMPANY_SUCCESS,
     RESPONSE_COMPANY_NOT_FOUND,
     RESPONSE_COMPANY_NOT_ACCEPTABLE,
@@ -30,6 +31,9 @@ export default (state = INIT_STATE, action) => {
             return { ...state, loading: true, errorMessage: {} };
 
         case CREATE_COMPANY_INFO:
+            return { ...state, loading: true, errorMessage: {} };
+
+        case UPDATE_COMPANY_INFO:
             return { ...state, loading: true, errorMessage: {} };
 
         case RESPONSE_COMPANY_SUCCESS:
