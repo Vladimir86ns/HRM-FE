@@ -13,15 +13,15 @@ import { responseCodes } from '../constants/ResponseCode';
  * Account types
  */
 import {
-    CREATE_COMPANY_SETTINGS
+    CREATE_COMPANY_INFO
 } from '../actions/types';
 
 /**
  * Account acctions
  */
 import {
-    createCompanySettingsFailure,
-    createCompanySettingsNotAcceptable
+    responseCompanyFailure,
+    responseCompanyNotAcceptable
 } from '../actions/index';
 
 /**
@@ -43,14 +43,14 @@ function* createCompanySettingsInDB({ payload }) {
             // yield put(createAccountNotAcceptable(newAccount.data));
         } else if (newCompany.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
             console.log('2');
-            yield put(createCompanySettingsNotAcceptable(newCompany.data));
+            yield put(responseCompanyNotAcceptable(newCompany.data));
         } else {
             console.log('3');
-            yield put(createCompanySettingsFailure('Something went wrong!'));
+            yield put(responseCompanyFailure('Something went wrong!'));
         }
     } catch (error) {
         console.log('4');
-        yield put(createCompanySettingsFailure('Something went wrong!'));
+        yield put(responseCompanyFailure('Something went wrong!'));
     }
 }
 
@@ -67,7 +67,7 @@ const saveCompanySettingsInDB = async (data) => {
  * Create Account
  */
 export function* createCompanySettings() {
-    yield takeEvery(CREATE_COMPANY_SETTINGS, createCompanySettingsInDB);
+    yield takeEvery(CREATE_COMPANY_INFO, createCompanySettingsInDB);
 }
 
 /**

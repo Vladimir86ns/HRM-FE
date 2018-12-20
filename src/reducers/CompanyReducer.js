@@ -7,10 +7,10 @@ import { NotificationManager } from 'react-notifications';
  * Types
  */
 import {
-    CREATE_COMPANY_SETTINGS,
-    CREATE_COMPANY_SETTINGS_SUCCESS,
-    CREATE_COMPANY_SETTINGS_FAILURE,
-    CREATE_COMPANY_SETTINGS_NOT_ACCEPTABLE
+    CREATE_COMPANY_INFO,
+    RESPONSE_COMPANY_SUCCESS,
+    RESPONSE_COMPANY_FAILURE,
+    RESPONSE_COMPANY_NOT_ACCEPTABLE
 } from '../actions/types';
 
 /**
@@ -24,18 +24,18 @@ const INIT_STATE = {
 
 export default (state = INIT_STATE, action) => {
     switch (action.type) {
-        case CREATE_COMPANY_SETTINGS:
+        case CREATE_COMPANY_INFO:
             return { ...state, loading: true, errorMessage: {} };
 
-        case CREATE_COMPANY_SETTINGS_SUCCESS:
+        case RESPONSE_COMPANY_SUCCESS:
             // NotificationManager.success('Account Created');
             // return { ...state, loading: false, user: action.payload.uid };
 
-        case CREATE_COMPANY_SETTINGS_FAILURE:
+        case RESPONSE_COMPANY_FAILURE:
             // NotificationManager.error('Check validation messages!');
             return { ...state, loading: false, errorMessage: action.payload };
 
-        case CREATE_COMPANY_SETTINGS_NOT_ACCEPTABLE:
+        case RESPONSE_COMPANY_NOT_ACCEPTABLE:
             NotificationManager.error('Check validation messages!');
             return { ...state, loading: false, errorMessage: action.payload };
 

@@ -20,8 +20,9 @@ import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard
 
 // redux action
 import {
-  createCompanySettings,
-  getAccount
+  companyActions,
+  getAccount,
+  getCompany
 } from '../../../actions/index';
 
 class TextFields extends React.Component {
@@ -64,7 +65,7 @@ class TextFields extends React.Component {
 
   /**
    * Update state for given field on text change event.
-   * 
+   *
    * @param {string} key field key name which value need to be updated
    * @param {string} name field name which value need to be updated
    * @param {mix} event value for given field name
@@ -72,7 +73,7 @@ class TextFields extends React.Component {
   handleChangeByKeyAndName = (key, name, event) => {
     var someProperty = {...this.state}
     someProperty[key][name] = event.target.value;
-    this.setState({someProperty})    
+    this.setState({someProperty})
   }
 
 	/**
@@ -96,7 +97,7 @@ class TextFields extends React.Component {
       var someProperty = {...this.state}
       someProperty.account_info.email = email;
       someProperty.account_info.name = name;
-      this.setState({someProperty})   
+      this.setState({someProperty})
     }
   }
 
@@ -115,8 +116,8 @@ class TextFields extends React.Component {
                     <TextField
                       id="name"
                       error={errorMessage['account_info.name'] ? true : false}
-                      fullWidth 
-                      label="Name of account" 
+                      fullWidth
+                      label="Name of account"
                       value={this.state.account_info.name}
                       helperText={formErrorMessage(errorMessage['account_info.name'], true)}
                       onChange={(e) => this.handleChangeByKeyAndName('account_info', 'name', e)}/>
@@ -127,8 +128,8 @@ class TextFields extends React.Component {
                     <TextField
                       id="email"
                       error={errorMessage['account_info.email'] ? true : false}
-                      fullWidth 
-                      label="Email" 
+                      fullWidth
+                      label="Email"
                       value={this.state.account_info.email}
                       helperText={formErrorMessage(errorMessage['account_info.email'], true)}
                       onChange={(e) => this.handleChangeByKeyAndName('account_info', 'email', e)} />
@@ -164,19 +165,19 @@ class TextFields extends React.Component {
                       value={this.state.company_info.email}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.company.email'], true)}
                       onChange={(e) => this.handleChangeByKeyAndName('company_info', 'email', e)} />
-                           
+
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
                   <div className="form-group">
-                    <TextField 
+                    <TextField
                       id="website"
                       error={errorMessage['company_info.' + key + '.company.website'] ? true : false}
                       fullWidth
                       label="Website"
                       value={this.state.company_info.website}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.company.website'])}
-                      onChange={(e) => this.handleChangeByKeyAndName('company_info', 'website', e)} />  
+                      onChange={(e) => this.handleChangeByKeyAndName('company_info', 'website', e)} />
                   </div>
                 </div>
               </div>
@@ -186,35 +187,35 @@ class TextFields extends React.Component {
                     <TextField
                       id="mobile_phone"
                       error={errorMessage['company_info.' + key + '.company.mobile_phone'] ? true : false}
-                      fullWidth 
-                      label="Mobile Phone" 
-                      value={this.state.company_info.mobile_phone} 
+                      fullWidth
+                      label="Mobile Phone"
+                      value={this.state.company_info.mobile_phone}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.company.mobile_phone'])}
-                      onChange={(e) => this.handleChangeByKeyAndName('company_info', 'mobile_phone', e)} />  
+                      onChange={(e) => this.handleChangeByKeyAndName('company_info', 'mobile_phone', e)} />
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
                   <div className="form-group">
-                    <TextField 
+                    <TextField
                       id="telephone_number"
                       error={errorMessage['company_info.' + key + '.company.telephone_number'] ? true : false}
-                      fullWidth 
-                      label="Telephone Number" 
-                      value={this.state.company_info.telephone_number} 
+                      fullWidth
+                      label="Telephone Number"
+                      value={this.state.company_info.telephone_number}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.company.telephone_number'])}
-                      onChange={(e) => this.handleChangeByKeyAndName('company_info', 'telephone_number', e)} />  
+                      onChange={(e) => this.handleChangeByKeyAndName('company_info', 'telephone_number', e)} />
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
                   <div className="form-group">
-                    <TextField 
+                    <TextField
                       id="fax_number"
                       error={errorMessage['company_info.' + key + '.company.fax_number'] ? true : false}
                       fullWidth
                       label="Fax Number"
                       value={this.state.company_info.fax_number}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.company.fax_number'])}
-                      onChange={(e) => this.handleChangeByKeyAndName('company_info', 'fax_number', e)} />  
+                      onChange={(e) => this.handleChangeByKeyAndName('company_info', 'fax_number', e)} />
                   </div>
                 </div>
               </div>
@@ -226,9 +227,9 @@ class TextFields extends React.Component {
                       disabled
                       id="country"
                       error={false}
-                      fullWidth 
-                      label="Country" 
-                      value={this.state.location_info.country} 
+                      fullWidth
+                      label="Country"
+                      value={this.state.location_info.country}
                       helperText=""/>
                   </div>
                 </div>
@@ -237,11 +238,11 @@ class TextFields extends React.Component {
                     <TextField
                       id="region"
                       error={errorMessage['company_info.' + key + '.location.region'] ? true : false}
-                      fullWidth 
-                      label="Region" 
-                      value={this.state.location_info.region} 
+                      fullWidth
+                      label="Region"
+                      value={this.state.location_info.region}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.location.region'])}
-                      onChange={(e) => this.handleChangeByKeyAndName('location_info', 'region', e)} /> 
+                      onChange={(e) => this.handleChangeByKeyAndName('location_info', 'region', e)} />
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
@@ -249,11 +250,11 @@ class TextFields extends React.Component {
                     <TextField
                       id="city"
                       error={errorMessage['company_info.' + key + '.location.city'] ? true : false}
-                      fullWidth 
-                      label="City" 
-                      value={this.state.location_info.city} 
+                      fullWidth
+                      label="City"
+                      value={this.state.location_info.city}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.location.city'], true)}
-                      onChange={(e) => this.handleChangeByKeyAndName('location_info', 'city', e)} /> 
+                      onChange={(e) => this.handleChangeByKeyAndName('location_info', 'city', e)} />
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
@@ -261,11 +262,11 @@ class TextFields extends React.Component {
                     <TextField
                       id="zip_code"
                       error={errorMessage['company_info.' + key + '.location.zip_code'] ? true : false}
-                      fullWidth 
-                      label="Zip Code" 
-                      value={this.state.location_info.zip_code} 
+                      fullWidth
+                      label="Zip Code"
+                      value={this.state.location_info.zip_code}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.location.zip_code'], true)}
-                      onChange={(e) => this.handleChangeByKeyAndName('location_info', 'zip_code', e)} /> 
+                      onChange={(e) => this.handleChangeByKeyAndName('location_info', 'zip_code', e)} />
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
@@ -273,11 +274,11 @@ class TextFields extends React.Component {
                     <TextField
                       id="first_address_line"
                       error={errorMessage['company_info.' + key + '.location.first_address_line'] ? true : false}
-                      fullWidth 
-                      label="First Address Line" 
-                      value={this.state.location_info.first_address_line} 
+                      fullWidth
+                      label="First Address Line"
+                      value={this.state.location_info.first_address_line}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.location.first_address_line'], true)}
-                      onChange={(e) => this.handleChangeByKeyAndName('location_info', 'first_address_line', e)} /> 
+                      onChange={(e) => this.handleChangeByKeyAndName('location_info', 'first_address_line', e)} />
                   </div>
                 </div>
                 <div className="col-sm-6 col-md-3 col-xl-4">
@@ -285,11 +286,11 @@ class TextFields extends React.Component {
                     <TextField
                       id="second_address_line"
                       error={errorMessage['company_info.' + key + '.location.second_address_line'] ? true : false}
-                      fullWidth 
-                      label="Second Address Line" 
-                      value={this.state.location_info.second_address_line} 
+                      fullWidth
+                      label="Second Address Line"
+                      value={this.state.location_info.second_address_line}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.location.second_address_line'])}
-                      onChange={(e) => this.handleChangeByKeyAndName('location_info', 'second_address_line', e)} /> 
+                      onChange={(e) => this.handleChangeByKeyAndName('location_info', 'second_address_line', e)} />
                   </div>
                 </div>
               </div>
@@ -313,7 +314,7 @@ class TextFields extends React.Component {
                             label="Name"
                             value={this.state.department_info.name}
                             helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.department_info.' + key + '.name'], true)}
-                            onChange={(e) => this.handleChangeByKeyAndName('department_info', 'name', e)} /> 
+                            onChange={(e) => this.handleChangeByKeyAndName('department_info', 'name', e)} />
                         </div>
                       </div>
                       <div className="col-sm-6 col-md-3 col-xl-8">
@@ -326,7 +327,7 @@ class TextFields extends React.Component {
                             label="Description"
                             value={this.state.department_info.description}
                             helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.department_info. ' + key + '.description'])}
-                            onChange={(e) => this.handleChangeByKeyAndName('department_info', 'description', e)} /> 
+                            onChange={(e) => this.handleChangeByKeyAndName('department_info', 'description', e)} />
                         </div>
                       </div>
                     </div>
@@ -355,11 +356,11 @@ class TextFields extends React.Component {
 const mapStateToProps = ({ accountReducer, companySettingsReducer }) => {
 	const { loading, account } = accountReducer;
   const { errorMessage } = companySettingsReducer;
-  
+
 	return { loading, account, errorMessage };
 };
 
 export default connect(mapStateToProps, {
-  createCompanySettings,
+  createCompanySettings: companyActions,
   getAccount
 })(TextFields);
