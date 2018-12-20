@@ -12,7 +12,7 @@ import { FormGroup } from 'reactstrap';
 import {
   formErrorMessage,
   formArrayErrorMessage,
-  prepareStateForCreateCompanySettingsRequest
+  prepareStateForCreateCompanyInfoRequest
 } from '../../../util/index';
 
 // rct card box
@@ -20,9 +20,9 @@ import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard
 
 // redux action
 import {
-  companyActions,
+  createCompanyInfo,
   getAccount,
-  getCompany
+  getCompanyInfo
 } from '../../../actions/index';
 
 class TextFields extends React.Component {
@@ -61,6 +61,11 @@ class TextFields extends React.Component {
     if (accountId) {
       this.props.getAccount(accountId)
     }
+
+    let companyId = localStorage.getItem('company_id');
+    if (companyId) {
+      this.props.getCompanyInfo(companyId)
+    }
   }
 
   /**
@@ -80,8 +85,8 @@ class TextFields extends React.Component {
 	 * Prepare state for creating company settings, and save company settings.
 	 */
 	saveCompanySettings() {
-		this.props.createCompanySettings(
-      prepareStateForCreateCompanySettingsRequest(this.state),
+		this.props.createCompanyInfo(
+      prepareStateForCreateCompanyInfoRequest(this.state),
       this.props.history
     );
   }
@@ -101,9 +106,24 @@ class TextFields extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.account !== nextProps.account) {
+      var newState = {...this.state};
+
+      Object.keys(nextProps.account).forEach((key) => {
+        newState.account_info[key] = nextProps.account[key];
+      })
+
+      this.setState({newState});
+    }
+
+    if (this.props.company !== nextProps.company) {
+      console.log('company info page', nextProps.company);
+    }
+  }
+
   render() {
-    const { errorMessage, account } = this.props;
-    this.checkAccountInfo(account);
+    const { errorMessage } = this.props;
 
     return (
       <div className="textfields-wrapper">
@@ -353,14 +373,15 @@ class TextFields extends React.Component {
 }
 
 // map state to props
-const mapStateToProps = ({ accountReducer, companySettingsReducer }) => {
-	const { loading, account } = accountReducer;
-  const { errorMessage } = companySettingsReducer;
+const mapStateToProps = (state) => {
+	const { loading, account } = state.accountReducer;
+  const { errorMessage, company } = state.companyReducer;
 
-	return { loading, account, errorMessage };
+	return { loading, account, errorMessage, company };
 };
 
 export default connect(mapStateToProps, {
-  createCompanySettings: companyActions,
-  getAccount
+  createCompanyInfo,
+  getAccount,
+  getCompanyInfo
 })(TextFields);

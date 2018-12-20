@@ -13,8 +13,8 @@ import { responseCodes } from '../constants/ResponseCode';
  * Account types
  */
 import {
-    CREATE_ACCOUNT,
-    GET_ACCOUNT
+    GET_ACCOUNT,
+    CREATE_ACCOUNT
 } from '../actions/types';
 
 /**
@@ -22,10 +22,31 @@ import {
  */
 import {
     responseAccountSuccess,
+    responseAccountNotFound,
     responseAccountNotAcceptable,
-    responseAccountFailure,
-    responseAccountNotFound
+    responseAccountFailure
 } from '../actions/index';
+
+/**
+ * Get Account
+ */
+function* getUserAccount({ payload }) {
+    const accountId = payload.accountId;
+    try {
+        const account = yield call(getAccountFromDB, accountId);
+        if (account.status === responseCodes.HTTP_OK) {
+             yield put(responseAccountSuccess(account.data));
+        } else if (account.status === responseCodes.HTTP_NOT_FOUND)  {
+            yield put(responseAccountNotFound(account.data));
+        } else if (account.status === responseCodes.HTTP_NOT_ACCEPTABLE) {
+            yield put(responseAccountNotAcceptable(account.data.message));
+        } else {
+            yield put(responseAccountFailure('Something went wrong!'));
+        }
+    } catch (error) {
+        yield put(responseAccountFailure('Something went wrong!'));
+    }
+}
 
 /**
  * Create Account
@@ -51,24 +72,12 @@ function* createAccountWithNameEmailPassword({ payload }) {
 }
 
 /**
- * Create Account
+ * Get User Account
  */
-function* getUserAccount({ payload }) {
-    const accountId = payload.accountId;
-    try {
-        const account = yield call(getAccountFromDB, accountId);
-        if (account.status === responseCodes.HTTP_OK) {
-             yield put(responseAccountSuccess(account.data));
-        } else if (account.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
-            yield put(responseAccountNotAcceptable(account.data));
-        } else if (account.status === responseCodes.HTTP_NOT_FOUND) {
-            yield put(responseAccountNotFound(account.data.message));
-        } else {
-            yield put(responseAccountNotFound('Something went wrong!'));
-        }
-    } catch (error) {
-        yield put(responseAccountNotFound('Something went wrong!'));
-    }
+const getAccountFromDB = async (accountId) => {
+    return await axios.get(`/account/${accountId}`)
+        .then(success => success)
+        .catch(error => error.response);
 }
 
 /**
@@ -85,12 +94,10 @@ const createAccountWithNameEmailPasswordRequest = async (name, email, password) 
 }
 
 /**
- * Get User Account
+ * Get Account
  */
-const getAccountFromDB = async (accountId) => {
-    return await axios.get(`/account/${accountId}`)
-        .then(success => success)
-        .catch(error => error.response);
+export function* getAccount() {
+    yield takeEvery(GET_ACCOUNT, getUserAccount);
 }
 
 /**
@@ -101,18 +108,11 @@ export function* createNewAccount() {
 }
 
 /**
- * Get Account
- */
-export function* getAccount() {
-    yield takeEvery(GET_ACCOUNT, getUserAccount);
-}
-
-/**
  * Auth Root Saga
  */
 export default function* rootSaga() {
     yield all([
-        fork(createNewAccount),
-        fork(getAccount)
+        fork(getAccount),
+        fork(createNewAccount)
     ]);
 }

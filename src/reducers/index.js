@@ -12,7 +12,7 @@ import feedbacksReducer from './FeedbacksReducer';
 import ecommerceReducer from './EcommerceReducer';
 
 import accountReducer from './AccountReducer';
-import companySettingsReducer from './CompanyReducer';
+import companyReducer from './CompanyReducer';
 import userReducer from './UserReducer';
 
 const reducers = combineReducers({
@@ -26,7 +26,7 @@ const reducers = combineReducers({
   ecommerce: ecommerceReducer,
 
   accountReducer: accountReducer,
-  companySettingsReducer: companySettingsReducer,
+  companyReducer: companyReducer,
   userReducer: userReducer
 });
 

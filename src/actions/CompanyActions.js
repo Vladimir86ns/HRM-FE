@@ -1,14 +1,14 @@
 import {
     GET_COMPANY_INFO,
     CREATE_COMPANY_INFO,
-    RESPONSE_COMPANY_FAILURE,
     RESPONSE_COMPANY_SUCCESS,
+    RESPONSE_COMPANY_NOT_FOUND,
     RESPONSE_COMPANY_NOT_ACCEPTABLE,
-    RESPONSE_COMPANY_NOT_FOUND
+    RESPONSE_COMPANY_FAILURE
 } from './types';
 
 /**
- * Redux Action To Get Company Settings
+ * Redux Action To Get Company Info
  */
 export const getCompanyInfo = (companyId) => ({
     type: GET_COMPANY_INFO,
@@ -16,32 +16,30 @@ export const getCompanyInfo = (companyId) => ({
 })
 
 /**
- * Redux Action To Create Company Settings
+ * Redux Action To Create Company Info
  */
-export const companyActions = (company, history) => ({
+export const createCompanyInfo = (company, history) => ({
     type: CREATE_COMPANY_INFO,
     payload: { company, history }
-})
+});
 
-//  ----------  RESPONSE ACCOUNT ------------  //
+//  ----------  RESPONSE COMPANY ------------  //
 
 /**
  * Redux Action To Company Success
  */
-export const responseCompanySuccess = (company) => ({
+export const responseCompanySuccess = (company, message) => ({
     type: RESPONSE_COMPANY_SUCCESS,
-    payload: company
+    payload: { company, message }
 });
 
 /**
- * Redux Action To Company Failure
+ * Redux Action To Company Not Found
  */
-export const responseCompanyFailure = (validationMessage) => {
-    return {
-        type: RESPONSE_COMPANY_FAILURE,
-        payload: validationMessage
-    }
-};
+export const responseCompanyNotFound = (message) => ({
+    type: RESPONSE_COMPANY_NOT_FOUND,
+    payload: message
+});
 
 /**
  * Redux Action To Company Not Acceptable
@@ -54,9 +52,12 @@ export const responseCompanyNotAcceptable = (validationMessages) => {
 };
 
 /**
- * Redux Action To Company Not Found
+ * Redux Action To Company Failure
  */
-export const responseCompanyNotFound = (message) => ({
-    type: RESPONSE_COMPANY_NOT_FOUND,
-    payload: message
-})
+export const responseCompanyFailure = (validationMessage) => {
+    return {
+        type: RESPONSE_COMPANY_FAILURE,
+        payload: validationMessage
+    }
+};
+
