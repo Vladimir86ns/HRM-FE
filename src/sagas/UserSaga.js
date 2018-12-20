@@ -8,6 +8,7 @@ import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 */
 import axios from '../Axios-laravel';
 import { responseCodes } from '../constants/ResponseCode';
+import APP_MESSAGES from '../../src/constants/AppMessages';
 
 /**
  * Account types
@@ -40,10 +41,10 @@ function* getUserFromDB({ payload }) {
         } else if (user.status === responseCodes.HTTP_NOT_ACCEPTABLE) {
             yield put(responseUserNotAcceptable(user.data.message));
         } else {
-            yield put(responseUserFailure('Something went wrong!'));
+            yield put(responseUserFailure(APP_MESSAGES.requestFailed));
         }
     } catch (error) {
-        yield put(responseUserFailure('Something went wrong!'));
+        yield put(responseUserFailure(APP_MESSAGES.requestFailed));
     }
 }
 

@@ -8,6 +8,7 @@ import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 */
 import axios from '../Axios-laravel';
 import { responseCodes } from '../constants/ResponseCode';
+import APP_MESSAGES from '../../src/constants/AppMessages';
 
 /**
  * Account types
@@ -41,10 +42,10 @@ function* getUserAccount({ payload }) {
         } else if (account.status === responseCodes.HTTP_NOT_ACCEPTABLE) {
             yield put(responseAccountNotAcceptable(account.data.message));
         } else {
-            yield put(responseAccountFailure('Something went wrong!'));
+            yield put(responseAccountFailure(APP_MESSAGES.requestFailed));
         }
     } catch (error) {
-        yield put(responseAccountFailure('Something went wrong!'));
+        yield put(responseAccountFailure(APP_MESSAGES.requestFailed));
     }
 }
 
@@ -60,14 +61,14 @@ function* createAccountWithNameEmailPassword({ payload }) {
             localStorage.setItem('account_id', newAccount.data.id);
             localStorage.setItem('user_id', newAccount.data.user_id);
             history.push('/')
-            yield put(responseAccountSuccess(newAccount.data, 'Account created successfully!'));
+            yield put(responseAccountSuccess(newAccount.data, APP_MESSAGES.account.createSuccess));
         } else if (newAccount.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
             yield put(responseAccountNotAcceptable(newAccount.data));
         } else {
-            yield put(responseAccountFailure('Something went wrong!'));
+            yield put(responseAccountFailure(APP_MESSAGES.requestFailed));
         }
     } catch (error) {
-        yield put(responseAccountFailure('Something went wrong!'));
+        yield put(responseAccountFailure(APP_MESSAGES.requestFailed));
     }
 }
 

@@ -8,6 +8,7 @@ import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 */
 import axios from '../Axios-laravel';
 import { responseCodes } from '../constants/ResponseCode';
+import APP_MESSAGES from '../../src/constants/AppMessages';
 
 /**
  * Company types
@@ -41,10 +42,10 @@ function* getCompanyFromDB({ payload }) {
         } else if (company.status === responseCodes.HTTP_NOT_ACCEPTABLE) {
             yield put(responseCompanyNotAcceptable(company.data.message));
         } else {
-            yield put(responseCompanyFailure('Something went wrong!'));
+            yield put(responseCompanyFailure(APP_MESSAGES.requestFailed));
         }
     } catch (error) {
-        yield put(responseCompanyFailure('Something went wrong!'));
+        yield put(responseCompanyFailure(APP_MESSAGES.requestFailed));
     }
 }
 
@@ -58,16 +59,16 @@ function* createCompanySettingsInDB({ payload }) {
         const newCompany = yield call(saveCompanySettingsInDB, company);
         if (newCompany.status === responseCodes.HTTP_OK) {
             localStorage.setItem('company_id', newCompany.data.data.id);
-            yield put(responseCompanySuccess(newCompany.data.data, 'Company created successfully!'));
+            yield put(responseCompanySuccess(newCompany.data.data, APP_MESSAGES.company.createSuccess));
         } else if (newCompany.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
             let { message } = newCompany.data;
-            let validationMessage = message ? message : 'Check validation messages!';
+            let validationMessage = message ? message : APP_MESSAGES.validationMessage;
             yield put(responseCompanyNotAcceptable(newCompany.data, validationMessage));
         } else {
-            yield put(responseCompanyFailure('Something went wrong!'));
+            yield put(responseCompanyFailure(APP_MESSAGES.requestFailed));
         }
     } catch (error) {
-        yield put(responseCompanyFailure('Something went wrong!'));
+        yield put(responseCompanyFailure(APP_MESSAGES.requestFailed));
     }
 }
 

@@ -149,8 +149,6 @@ class TextFields extends React.Component {
   render() {
     const { errorMessage } = this.props;
 
-    console.log('errorMessage', errorMessage);
-
     return (
       <div className="textfields-wrapper">
         <div>
