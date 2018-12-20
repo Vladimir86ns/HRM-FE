@@ -12,7 +12,8 @@ import { FormGroup } from 'reactstrap';
 import {
   formErrorMessage,
   formArrayErrorMessage,
-  prepareStateForCreateCompanyInfoRequest
+  prepareStateForCreateCompanyInfoRequest,
+  hasCompanyId
 } from '../../../util/index';
 
 // rct card box
@@ -68,6 +69,60 @@ class TextFields extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.account !== nextProps.account) {
+      this.updateAccountInfo(nextProps.account);
+    }
+
+    if (this.props.company !== nextProps.company) {
+      this.updateCompanyInfo(nextProps.company)
+    }
+  }
+
+  /**
+   * Update account info when state is updated.
+   *
+   * @param {object} account account info from DB
+   */
+  updateAccountInfo = (account) => {
+    this.updateStateByKeys(account, 'account_info');
+  }
+
+  /**
+   * Update company info when state is updated.
+   *
+   * @param {object} account account info from DB
+   */
+  updateCompanyInfo = (companyInfo) => {
+    let { company } = companyInfo;
+    let { location , departments } = company;
+
+    this.updateStateByKeys(company, 'company_info');
+    this.updateStateByKeys(location, 'location_info');
+
+    departments.forEach((department) => {
+      this.updateStateByKeys(department, 'department_info');
+    });
+  }
+
+  /**
+   * Update state.
+   *
+   * @param {object} type state type, company, location or department
+   * @param {string} name field name which value need to be updated
+   */
+  updateStateByKeys = (type, typeKey) => {
+    var newState = {...this.state};
+
+    Object.keys(type).forEach((key) => {
+      if (newState[typeKey].hasOwnProperty(key)) {
+        newState[typeKey][key] = type[key] ? type[key] : '';
+      }
+    });
+
+    this.setState({newState});
+  }
+
   /**
    * Update state for given field on text change event.
    *
@@ -89,37 +144,6 @@ class TextFields extends React.Component {
       prepareStateForCreateCompanyInfoRequest(this.state),
       this.props.history
     );
-  }
-
-  /**
-   * Check account info, if has account info, and state is empty, display account info.
-   */
-  checkAccountInfo = (account) => {
-    if (this.state.account_info.name.length > 0) {
-      return;
-    } else if (Object.keys(account).length > 0) {
-      const { email, name } = account;
-      var someProperty = {...this.state}
-      someProperty.account_info.email = email;
-      someProperty.account_info.name = name;
-      this.setState({someProperty})
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.account !== nextProps.account) {
-      var newState = {...this.state};
-
-      Object.keys(nextProps.account).forEach((key) => {
-        newState.account_info[key] = nextProps.account[key];
-      })
-
-      this.setState({newState});
-    }
-
-    if (this.props.company !== nextProps.company) {
-      console.log('company info page', nextProps.company);
-    }
   }
 
   render() {
@@ -362,7 +386,7 @@ class TextFields extends React.Component {
                 style={{marginBottom: 20}}
                 variant="raised"
                 size="medium"
-                onClick={() => this.saveCompanySettings()}>Save Company Info
+                onClick={() => this.saveCompanySettings()}>{ hasCompanyId() ? 'Update' : 'Save' } Company Info
               </Button>
             </FormGroup>
           </form>
