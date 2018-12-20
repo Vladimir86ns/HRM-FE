@@ -60,7 +60,9 @@ function* createCompanySettingsInDB({ payload }) {
             localStorage.setItem('company_id', newCompany.data.data.id);
             yield put(responseCompanySuccess(newCompany.data.data, 'Company created successfully!'));
         } else if (newCompany.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
-            yield put(responseCompanyNotAcceptable(newCompany.data));
+            let { message } = newCompany.data;
+            let validationMessage = message ? message : 'Check validation messages!';
+            yield put(responseCompanyNotAcceptable(newCompany.data, validationMessage));
         } else {
             yield put(responseCompanyFailure('Something went wrong!'));
         }

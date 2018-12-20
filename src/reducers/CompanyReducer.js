@@ -41,8 +41,8 @@ export default (state = INIT_STATE, action) => {
             return { ...state, loading: false, errorMessage: {} };
 
         case RESPONSE_COMPANY_NOT_ACCEPTABLE:
-            NotificationManager.error('Check validation messages!');
-            return { ...state, loading: false, errorMessage: action.payload };
+            NotificationManager.error(action.payload.validationMessage);
+            return { ...state, loading: false, errorMessage: action.payload.fieldValidationMessages };
 
         case RESPONSE_COMPANY_FAILURE:
             NotificationManager.error(action.payload);

@@ -13,7 +13,7 @@ import {
 export const getCompanyInfo = (companyId) => ({
     type: GET_COMPANY_INFO,
     payload: { companyId }
-})
+});
 
 /**
  * Redux Action To Create Company Info
@@ -44,10 +44,10 @@ export const responseCompanyNotFound = (message) => ({
 /**
  * Redux Action To Company Not Acceptable
  */
-export const responseCompanyNotAcceptable = (validationMessages) => {
+export const responseCompanyNotAcceptable = (fieldValidationMessages, validationMessage) => {
     return {
         type: RESPONSE_COMPANY_NOT_ACCEPTABLE,
-        payload: validationMessages
+        payload: { fieldValidationMessages, validationMessage }
     }
 };
 
