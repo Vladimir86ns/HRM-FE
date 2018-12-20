@@ -1,5 +1,5 @@
 /**
- * Redux Actions 
+ * Redux Actions
  */
 export * from './ChatAppActions';
 export * from './AppSettingsActions';
@@ -10,5 +10,5 @@ export * from './FeedbacksActions';
 export * from './EcommerceActions';
 
 export * from './AccountActions';
-export * from './CreateCompanySettings';
+export * from './CompanyActions';
 export * from './UserActions';

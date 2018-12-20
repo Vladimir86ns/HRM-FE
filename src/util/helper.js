@@ -5,7 +5,7 @@
    * @param {string} message message to display.
    * @param {boolean} required is field required or not.
    * @return {string} message.
-   */
+  */
 export const formErrorMessage = (message, required = false) => {
   if (message) {
     return message;
@@ -24,7 +24,7 @@ export const formErrorMessage = (message, required = false) => {
    * @param {string} message message to display.
    * @param {boolean} required is field required or not.
    * @return {string} message.
-   */
+  */
 export const formArrayErrorMessage = (message, required= false) => {
   if (message) {
     let array = message[0].split(" ");
@@ -51,3 +51,10 @@ export const formArrayErrorMessage = (message, required= false) => {
   
   return '';
 };
+
+/**
+ * Check has company id.
+ */
+export const hasCompanyId = () => {
+  return localStorage.getItem('company_id') ? true : false;
+}

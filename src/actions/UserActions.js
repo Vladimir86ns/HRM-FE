@@ -1,10 +1,9 @@
 import {
     GET_USER,
-
     RESPONSE_USER_SUCCESS,
-    RESPONSE_USER_FAILURE,
+    RESPONSE_USER_NOT_FOUND,
     RESPONSE_USER_NOT_ACCEPTABLE,
-    RESPONSE_USER_NOT_FOUND
+    RESPONSE_USER_FAILURE
 } from './types';
 
 /**
@@ -18,12 +17,12 @@ export const getUser = (userId) => ({
 //  ----------  RESPONSE USER ------------  //
 
 /**
- * Redux Action User Not Acceptable
+ * Redux Action User Success
  */
-export const responseUserNotAcceptable = (validationMessages) => ({
-    type: RESPONSE_USER_NOT_ACCEPTABLE,
-    payload: validationMessages
-})
+export const responseUserSuccess = (user, message) => ({
+    type: RESPONSE_USER_SUCCESS,
+    payload: { user, message} 
+});
 
 /**
  * Redux Action To User Not Found
@@ -31,20 +30,20 @@ export const responseUserNotAcceptable = (validationMessages) => ({
 export const responseUserNotFound = (message) => ({
     type: RESPONSE_USER_NOT_FOUND,
     payload: message
-})
+});
 
 /**
- * Redux Action To Get User Not Acceptable
+ * Redux Action User Not Acceptable
+ */
+export const responseUserNotAcceptable = (validationMessages) => ({
+    type: RESPONSE_USER_NOT_ACCEPTABLE,
+    payload: validationMessages
+});
+
+/**
+ * Redux Action To User Not Acceptable
  */
 export const responseUserFailure = (validationMessages) => ({
     type: RESPONSE_USER_FAILURE,
     payload: validationMessages
-})
-
-/**
- * Redux Action User Success
- */
-export const responseUserSuccess = (user, message) => ({
-    type: RESPONSE_USER_SUCCESS,
-    payload: { user, message} 
 });

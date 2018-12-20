@@ -1,10 +1,10 @@
 
  /**
-   * Format state for create company settings request. 
+   * Format state for create company info request. 
    * 
    * @param {object} state field key name which value need to be updated
    */
-export const prepareStateForCreateCompanySettingsRequest = (state) => {
+export const prepareStateForCreateCompanyInfoRequest = (state) => {
   let {
     account_info,
     company_info,

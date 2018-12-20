@@ -21,9 +21,9 @@ import {
  */
 import {
     responseUserSuccess,
+    responseUserNotFound,
     responseUserNotAcceptable,
-    responseUserFailure,
-    responseUserNotFound
+    responseUserFailure
 } from '../actions/index';
 
 /**
@@ -35,10 +35,10 @@ function* getUserFromDB({ payload }) {
         const user = yield call(fetchUserFromDB, userId);
         if (user.status === responseCodes.HTTP_OK) {
              yield put(responseUserSuccess(user.data));
-        } else if (user.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
-            yield put(responseUserNotAcceptable(user.data));
-        } else if (user.status === responseCodes.HTTP_NOT_FOUND) {
-            yield put(responseUserNotFound(user.data.message));
+        } else if (user.status === responseCodes.HTTP_NOT_FOUND)  {
+            yield put(responseUserNotFound(user.data));
+        } else if (user.status === responseCodes.HTTP_NOT_ACCEPTABLE) {
+            yield put(responseUserNotAcceptable(user.data.message));
         } else {
             yield put(responseUserFailure('Something went wrong!'));
         }
