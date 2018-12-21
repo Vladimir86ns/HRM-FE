@@ -31,3 +31,6 @@ export const userStatus = [
     label: 'Employee',
   }
 ];
+
+export const COMPANY_ID = localStorage.getItem('company_id');
+export const ACCOUNT_ID = localStorage.getItem('account_id');

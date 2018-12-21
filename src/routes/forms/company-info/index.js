@@ -22,9 +22,16 @@ import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard
 // redux action
 import {
   createCompanyInfo,
+  updateCompanyInfo,
   getAccount,
   getCompanyInfo
 } from '../../../actions/index';
+
+// constants
+import {
+  COMPANY_ID,
+  ACCOUNT_ID
+} from '../../../constants/constants';
 
 class TextFields extends React.Component {
 
@@ -58,14 +65,12 @@ class TextFields extends React.Component {
   };
 
   componentWillMount() {
-    let accountId = localStorage.getItem('account_id')
-    if (accountId) {
-      this.props.getAccount(accountId)
+    if (ACCOUNT_ID) {
+      this.props.getAccount(ACCOUNT_ID)
     }
-
-    let companyId = localStorage.getItem('company_id');
-    if (companyId) {
-      this.props.getCompanyInfo(companyId)
+    
+    if (COMPANY_ID) {
+      this.props.getCompanyInfo(COMPANY_ID)
     }
   }
 
@@ -140,9 +145,16 @@ class TextFields extends React.Component {
 	 * Prepare state for creating company settings, and save company settings.
 	 */
 	saveCompanySettings() {
-		this.props.createCompanyInfo(
+    if (!hasCompanyId()) {
+      this.props.createCompanyInfo(
+        prepareStateForCreateCompanyInfoRequest(this.state),
+        this.props.history
+      );
+    }
+
+    this.props.updateCompanyInfo(
       prepareStateForCreateCompanyInfoRequest(this.state),
-      this.props.history
+      COMPANY_ID
     );
   }
 
@@ -406,6 +418,7 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   createCompanyInfo,
+  updateCompanyInfo,
   getAccount,
   getCompanyInfo
 })(TextFields);

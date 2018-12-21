@@ -1,6 +1,7 @@
 import {
     GET_COMPANY_INFO,
     CREATE_COMPANY_INFO,
+    UPDATE_COMPANY_INFO,
     RESPONSE_COMPANY_SUCCESS,
     RESPONSE_COMPANY_NOT_FOUND,
     RESPONSE_COMPANY_NOT_ACCEPTABLE,
@@ -13,7 +14,7 @@ import {
 export const getCompanyInfo = (companyId) => ({
     type: GET_COMPANY_INFO,
     payload: { companyId }
-})
+});
 
 /**
  * Redux Action To Create Company Info
@@ -21,6 +22,14 @@ export const getCompanyInfo = (companyId) => ({
 export const createCompanyInfo = (company, history) => ({
     type: CREATE_COMPANY_INFO,
     payload: { company, history }
+});
+
+/**
+ * Redux Action To Update Company Info
+ */
+export const updateCompanyInfo = (company, companyId) => ({
+    type: UPDATE_COMPANY_INFO,
+    payload: { company, history, companyId }
 });
 
 //  ----------  RESPONSE COMPANY ------------  //
@@ -44,10 +53,10 @@ export const responseCompanyNotFound = (message) => ({
 /**
  * Redux Action To Company Not Acceptable
  */
-export const responseCompanyNotAcceptable = (validationMessages) => {
+export const responseCompanyNotAcceptable = (fieldValidationMessages, validationMessage) => {
     return {
         type: RESPONSE_COMPANY_NOT_ACCEPTABLE,
-        payload: validationMessages
+        payload: { fieldValidationMessages, validationMessage }
     }
 };
 
