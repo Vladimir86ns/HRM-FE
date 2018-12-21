@@ -39,7 +39,8 @@ class TextFields extends React.Component {
       gender: '',
       user_type: '',
       status: 'active',
-    }
+    },
+    isUpdatedForm: false,
   };
 
   componentWillMount() {
@@ -63,7 +64,7 @@ class TextFields extends React.Component {
 
   /**
    * Update state for given field on text change event.
-   * 
+   *
    * @param {string} key field key name which value need to be updated
    * @param {string} name field name which value need to be updated
    * @param {mix} event value for given field name
@@ -71,7 +72,8 @@ class TextFields extends React.Component {
   handleChangeByKeyAndName = (key, name, event) => {
     var someProperty = {...this.state}
     someProperty[key][name] = event.target.value;
-    this.setState({someProperty})    
+    this.state.isUpdatedForm = true;
+    this.setState({someProperty})
   }
 
   render() {
@@ -81,11 +83,12 @@ class TextFields extends React.Component {
       <div className="textfields-wrapper">
         <div>
           <form noValidate autoComplete="off">
-            <RctCollapsibleCard heading="User Info">
+            <RctCollapsibleCard heading="Profile Info">
                 <div className="row">
                   <div className="col-sm-6 col-md-3 col-xl-4">
                     <div className="form-group">
                     <TextField id="user_type" select label="Select User Type"
+                        disabled={true}
                         value={this.state.user_info.user_type}
                         onChange={(e) => this.handleChangeByKeyAndName('user_info', 'user_type', e)}
                         SelectProps={{
@@ -109,8 +112,8 @@ class TextFields extends React.Component {
                       <TextField
                         id="first_name"
                         error={errorMessage['user_info.first_name'] ? true : false}
-                        fullWidth 
-                        label="First Name" 
+                        fullWidth
+                        label="First Name"
                         value={this.state.user_info.first_name}
                         helperText={formErrorMessage(errorMessage['user_info.first_name'], true)}
                         onChange={(e) => this.handleChangeByKeyAndName('user_info', 'first_name', e)}/>
@@ -121,8 +124,8 @@ class TextFields extends React.Component {
                       <TextField
                         id="middle_name"
                         error={errorMessage['user_info.middle_name'] ? true : false}
-                        fullWidth 
-                        label="Middle Name" 
+                        fullWidth
+                        label="Middle Name"
                         value={this.state.user_info.middle_name}
                         helperText={formErrorMessage(errorMessage['user_info.middle_name'])}
                         onChange={(e) => this.handleChangeByKeyAndName('user_info', 'middle_name', e)} />
@@ -133,8 +136,8 @@ class TextFields extends React.Component {
                       <TextField
                         id="last_name"
                         error={errorMessage['user_info.last_name'] ? true : false}
-                        fullWidth 
-                        label="Last Name" 
+                        fullWidth
+                        label="Last Name"
                         value={this.state.user_info.last_name}
                         helperText={formErrorMessage(errorMessage['user_info.last_name'], true)}
                         onChange={(e) => this.handleChangeByKeyAndName('user_info', 'last_name', e)}/>
@@ -147,8 +150,8 @@ class TextFields extends React.Component {
                       <TextField
                         id="email"
                         error={errorMessage['user_info.email'] ? true : false}
-                        fullWidth 
-                        label="Email" 
+                        fullWidth
+                        label="Email"
                         value={this.state.user_info.email}
                         helperText={formErrorMessage(errorMessage['user_info.email'], true)}
                         onChange={(e) => this.handleChangeByKeyAndName('user_info', 'email', e)}/>
@@ -180,8 +183,8 @@ class TextFields extends React.Component {
                         id="status"
                         disabled
                         error={errorMessage['user_info.status'] ? true : false}
-                        fullWidth 
-                        label="Status" 
+                        fullWidth
+                        label="Status"
                         value={this.state.user_info.status}
                         helperText={formErrorMessage(errorMessage['user_info.status'])}
                         onChange={(e) => this.handleChangeByKeyAndName('user_info', 'status', e)}/>
@@ -195,7 +198,7 @@ class TextFields extends React.Component {
                 style={{marginBottom: 20}}
                 variant="raised"
                 size="medium"
-                onClick={() => this.saveCompanySettings()}>Save User Info
+                onClick={() => this.saveCompanySettings()}>Save Profile Info
               </Button>
             </FormGroup>
           </form>
