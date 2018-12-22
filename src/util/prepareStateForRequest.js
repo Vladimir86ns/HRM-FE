@@ -47,3 +47,14 @@ export const prepareStateForCreateCompanyInfoRequest = (state) => {
     ]
   }
 }
+
+
+ /**
+   * Format state for update user info request. 
+   * 
+   * @param {object} state field key name which value need to be updated
+   */
+  export const prepareStateForUpdateUserInfoRequest = (state) => {
+    state.account_id = localStorage.getItem('account_id');
+    return state;
+  }

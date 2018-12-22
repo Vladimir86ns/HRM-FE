@@ -14,7 +14,8 @@ import APP_MESSAGES from '../../src/constants/AppMessages';
  * Account types
  */
 import {
-  GET_USER
+  GET_USER,
+  UPDATE_USER_PROFILE
 } from '../actions/types';
 
 /**
@@ -35,11 +36,35 @@ function* getUserFromDB({ payload }) {
   try {
     const user = yield call(fetchUserFromDB, userId);
     if (user.status === responseCodes.HTTP_OK) {
-      yield put(responseUserSuccess(user.data));
+      yield put(responseUserSuccess(user.data.data));
     } else if (user.status === responseCodes.HTTP_NOT_FOUND)  {
       yield put(responseUserNotFound(user.data));
     } else if (user.status === responseCodes.HTTP_NOT_ACCEPTABLE) {
       yield put(responseUserNotAcceptable(user.data.message));
+    } else {
+      yield put(responseUserFailure(APP_MESSAGES.requestFailed));
+    }
+  } catch (error) {
+    yield put(responseUserFailure(APP_MESSAGES.requestFailed));
+  }
+}
+
+/**
+ * Update Company info
+ */
+function* updateUserProfileInDB({ payload }) {
+  const { userData, userId } = payload;
+
+  try {
+    const updatedUserProfile = yield call(updateUserProfileDB, userData, userId);
+    if (updatedUserProfile.status === responseCodes.HTTP_OK) {
+      yield put(responseUserSuccess(updatedUserProfile.data.data, APP_MESSAGES.updateSuccess));
+    } else if (updatedUserProfile.status === responseCodes.HTTP_NOT_FOUND)  {
+      yield put(responseUserNotFound(updatedUserProfile.data.message));
+    } else if (updatedUserProfile.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
+      let { message } = updatedUserProfile.data;
+      let validationMessage = message ? message : APP_MESSAGES.validationMessage;
+      yield put(responseUserNotAcceptable(updatedUserProfile.data, validationMessage));
     } else {
       yield put(responseUserFailure(APP_MESSAGES.requestFailed));
     }
@@ -58,6 +83,15 @@ const fetchUserFromDB = async (userId) => {
 }
 
 /**
+ * Update User Profile Info
+ */
+const updateUserProfileDB = async (data, userId) => {
+  return await axios.patch(`/user/${userId}/update`, data)
+    .then(success => success)
+    .catch(error => error.response);
+}
+
+/**
  * Get User
  */
 export function* getUser() {
@@ -65,10 +99,18 @@ export function* getUser() {
 }
 
 /**
+ * Update User
+ */
+export function* updateUser() {
+  yield takeEvery(UPDATE_USER_PROFILE, updateUserProfileInDB);
+}
+
+/**
  * Auth Root Saga
  */
 export default function* rootSaga() {
   yield all([
-    fork(getUser)
+    fork(getUser),
+    fork(updateUser)
   ]);
 }

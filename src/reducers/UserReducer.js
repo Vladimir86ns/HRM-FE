@@ -8,6 +8,7 @@ import { NotificationManager } from 'react-notifications';
  */
 import {
     GET_USER,
+    UPDATE_USER_PROFILE,
     RESPONSE_USER_SUCCESS,
     RESPONSE_USER_NOT_FOUND,
     RESPONSE_USER_NOT_ACCEPTABLE,
@@ -27,6 +28,9 @@ export default (state = INIT_STATE, action) => {
     switch (action.type) {
         case GET_USER:
             return { ...state, loading: true, errorMessage: {} };
+        
+        case UPDATE_USER_PROFILE:
+            return { ...state, loading: true, errorMessage: {} };
 
         case RESPONSE_USER_SUCCESS:
             action.payload.message ? NotificationManager.success(action.payload.message) : false ;
@@ -37,8 +41,8 @@ export default (state = INIT_STATE, action) => {
             return { ...state, loading: false, errorMessage: {} };
 
         case RESPONSE_USER_NOT_ACCEPTABLE:
-            NotificationManager.error('Check Validation Messages!');
-            return { ...state, loading: false, errorMessage: action.payload };
+            NotificationManager.error(action.payload.validationMessage);
+            return { ...state, loading: false, errorMessage: action.payload.fieldValidationMessages };
 
         case RESPONSE_USER_FAILURE:
             NotificationManager.error(action.payload);

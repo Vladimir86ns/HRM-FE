@@ -5,6 +5,7 @@ const APP_MESSAGES = {
     requestFailed: 'Something went wrong!',
     validationMessage: 'Check validation messages!',
     formNotUpdatedMessage: 'Nothing is changed!',
+    updateSuccess: 'Updated successfully!',
     company: {
         createSuccess: 'Company created successfully!',
         checkValidation: 'Check validation messages!',

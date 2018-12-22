@@ -1,5 +1,6 @@
 import {
     GET_USER,
+    UPDATE_USER_PROFILE,
     RESPONSE_USER_SUCCESS,
     RESPONSE_USER_NOT_FOUND,
     RESPONSE_USER_NOT_ACCEPTABLE,
@@ -12,6 +13,14 @@ import {
 export const getUser = (userId) => ({
     type: GET_USER,
     payload: { userId }
+})
+
+/**
+ * Redux Action To Update User profile
+ */
+export const updateUserProfile = (userData, userId) => ({
+    type: UPDATE_USER_PROFILE,
+    payload: { userData, userId }
 })
 
 //  ----------  RESPONSE USER ------------  //
@@ -35,9 +44,9 @@ export const responseUserNotFound = (message) => ({
 /**
  * Redux Action User Not Acceptable
  */
-export const responseUserNotAcceptable = (validationMessages) => ({
+export const responseUserNotAcceptable = (fieldValidationMessages, validationMessage) => ({
     type: RESPONSE_USER_NOT_ACCEPTABLE,
-    payload: validationMessages
+    payload: { fieldValidationMessages, validationMessage }
 });
 
 /**
