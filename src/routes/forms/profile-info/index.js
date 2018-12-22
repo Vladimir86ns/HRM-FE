@@ -86,6 +86,7 @@ class TextFields extends React.Component {
                   <div className="col-sm-6 col-md-3 col-xl-4">
                     <div className="form-group">
                     <TextField id="user_type" select label="Select User Type"
+                        disabled={true}
                         value={this.state.user_info.user_type}
                         onChange={(e) => this.handleChangeByKeyAndName('user_info', 'user_type', e)}
                         SelectProps={{
