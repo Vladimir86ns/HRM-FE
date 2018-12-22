@@ -531,8 +531,8 @@ const AsyncCompanyInfoComponent = Loadable({
 	loading: () => <RctPageLoader />,
 });
 
-const AsyncProfileInfoComponent = Loadable({
-	loader: () => import("Routes/forms/profile-info"),
+const AsyncUserInfoComponent = Loadable({
+	loader: () => import("Routes/forms/user-info"),
 	loading: () => <RctPageLoader />,
 });
 
@@ -623,5 +623,5 @@ export {
 	AsyncDepartmentTableComponent,
 
 	AsyncCompanyInfoComponent,
-	AsyncProfileInfoComponent
+	AsyncUserInfoComponent
 };
