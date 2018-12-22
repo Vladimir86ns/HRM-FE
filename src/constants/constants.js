@@ -34,3 +34,4 @@ export const userStatus = [
 
 export const COMPANY_ID = localStorage.getItem('company_id');
 export const ACCOUNT_ID = localStorage.getItem('account_id');
+export const USER_ID = localStorage.getItem('user_id');
