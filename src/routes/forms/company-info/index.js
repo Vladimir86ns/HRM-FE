@@ -147,9 +147,10 @@ class TextFields extends React.Component {
   }
 
 	/**
-	 * Prepare state for creating company settings, and save company settings.
+   * First check is form updated.
+	 * Prepare state for creating company info, and save in DB.
 	 */
-	saveCompanySettings() {
+	saveCompanyInfo() {
     if (!this.state.isFormUpdated) {
       NotificationManager.error(APP_MESSAGES.formNotUpdatedMessage);
       return;
@@ -409,7 +410,7 @@ class TextFields extends React.Component {
                 style={{marginBottom: 20}}
                 variant="raised"
                 size="medium"
-                onClick={() => this.saveCompanySettings()}>{ hasCompanyId() ? 'Update' : 'Save' } Company Info
+                onClick={() => this.saveCompanyInfo()}>{ hasCompanyId() ? 'Update' : 'Save' } Company Info
               </Button>
             </FormGroup>
           </form>

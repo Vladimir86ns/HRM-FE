@@ -5,7 +5,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
-
+import { NotificationManager } from 'react-notifications';
 import Button from '@material-ui/core/Button';
 import { FormGroup } from 'reactstrap';
 
@@ -22,6 +22,9 @@ import {
   genderType,
   userStatus
 } from '../../../constants/constants';
+import 
+  APP_MESSAGES
+ from '../../../constants/AppMessages';
 
 // redux action
 import {
@@ -39,7 +42,8 @@ class TextFields extends React.Component {
       gender: '',
       user_type: '',
       status: 'active',
-    }
+    },
+    isFormUpdated: false
   };
 
   componentWillMount() {
@@ -71,7 +75,20 @@ class TextFields extends React.Component {
   handleChangeByKeyAndName = (key, name, event) => {
     var someProperty = {...this.state}
     someProperty[key][name] = event.target.value;
+    this.state.isFormUpdated = true;
     this.setState({someProperty})    
+  }
+
+  /**
+   * First check is form updated.
+	 * Prepare state for saving profile info, and save in DB.
+	 */
+	saveProfileInfo() {
+    if (!this.state.isFormUpdated) {
+      NotificationManager.error(APP_MESSAGES.formNotUpdatedMessage);
+      return;
+    }
+    this.state.isFormUpdated = false;
   }
 
   render() {
@@ -196,7 +213,7 @@ class TextFields extends React.Component {
                 style={{marginBottom: 20}}
                 variant="raised"
                 size="medium"
-                onClick={() => this.saveCompanySettings()}>Save User Info
+                onClick={() => this.saveCompanySettings()}>Save Profile Info
               </Button>
             </FormGroup>
           </form>
