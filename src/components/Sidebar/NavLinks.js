@@ -73,8 +73,8 @@ export default {
 					"menu_title": "Company Info"
 				},
 				{
-					"path": "/app/forms/user-info",
-					"menu_title": "User Info"
+					"path": "/app/forms/profile-info",
+					"menu_title": "Profile Info"
 				}
 			]
 		}

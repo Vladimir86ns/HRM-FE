@@ -4,7 +4,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import TextField from '@material-ui/core/TextField';
-
+import { NotificationManager } from 'react-notifications';
 import Button from '@material-ui/core/Button';
 import { FormGroup } from 'reactstrap';
 
@@ -32,6 +32,9 @@ import {
   COMPANY_ID,
   ACCOUNT_ID
 } from '../../../constants/constants';
+import 
+  APP_MESSAGES
+ from '../../../constants/AppMessages';
 
 class TextFields extends React.Component {
 
@@ -60,6 +63,7 @@ class TextFields extends React.Component {
       name: '',
       description: ''
     },
+    isFormUpdated: false,
     form_companies : [1],
     form_departments : [1]
   };
@@ -138,6 +142,7 @@ class TextFields extends React.Component {
   handleChangeByKeyAndName = (key, name, event) => {
     var someProperty = {...this.state}
     someProperty[key][name] = event.target.value;
+    this.state.isFormUpdated = true;
     this.setState({someProperty})
   }
 
@@ -145,6 +150,12 @@ class TextFields extends React.Component {
 	 * Prepare state for creating company settings, and save company settings.
 	 */
 	saveCompanySettings() {
+    if (!this.state.isFormUpdated) {
+      NotificationManager.error(APP_MESSAGES.formNotUpdatedMessage);
+      return;
+    }
+    this.state.isFormUpdated = false;
+
     if (!hasCompanyId()) {
       this.props.createCompanyInfo(
         prepareStateForCreateCompanyInfoRequest(this.state),
