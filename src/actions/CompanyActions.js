@@ -1,8 +1,10 @@
 import {
     GET_COMPANY_INFO,
+    GET_COMPANY_EMPLOYEES,
     CREATE_COMPANY_INFO,
     UPDATE_COMPANY_INFO,
     RESPONSE_COMPANY_SUCCESS,
+    RESPONSE_COMPANY_SUCCESS_ALL_EMPLOYEES,
     RESPONSE_COMPANY_NOT_FOUND,
     RESPONSE_COMPANY_NOT_ACCEPTABLE,
     RESPONSE_COMPANY_FAILURE
@@ -13,6 +15,14 @@ import {
  */
 export const getCompanyInfo = (companyId) => ({
     type: GET_COMPANY_INFO,
+    payload: { companyId }
+});
+
+/**
+ * Redux Action To Get All Company Employees
+ */
+export const getCompanyAllCompanyEmployees = (companyId) => ({
+    type: GET_COMPANY_EMPLOYEES,
     payload: { companyId }
 });
 
@@ -40,6 +50,14 @@ export const updateCompanyInfo = (company, companyId) => ({
 export const responseCompanySuccess = (company, message) => ({
     type: RESPONSE_COMPANY_SUCCESS,
     payload: { company, message }
+});
+
+/**
+ * Redux Action To Company Success
+ */
+export const responseCompanySuccessAllEmployees = (employees) => ({
+    type: RESPONSE_COMPANY_SUCCESS_ALL_EMPLOYEES,
+    payload: { employees }
 });
 
 /**

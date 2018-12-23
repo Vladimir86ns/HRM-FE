@@ -162,6 +162,7 @@ class TextFields extends React.Component {
         prepareStateForCreateCompanyInfoRequest(this.state),
         this.props.history
       );
+      return;
     }
 
     this.props.updateCompanyInfo(
