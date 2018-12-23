@@ -15,7 +15,7 @@ import {
 
 class DataTable extends React.Component {
 
-	componentWillMount() {	
+	componentWillMount() {
     let companyId = localStorage.getItem('company_id');
 
     if (companyId) {
@@ -23,7 +23,7 @@ class DataTable extends React.Component {
     }
 	};
 
-	render() {   		
+	render() {
     let employeesArray = this.props.allEmployees.map(employee => {
 			return [
 				employee.first_name,
@@ -64,7 +64,7 @@ class DataTable extends React.Component {
 			// 	}}
 			//   }
     ];
-    
+
 		const options = {
 			filterType: 'dropdown',
 			responsive: 'scroll',
@@ -78,7 +78,7 @@ class DataTable extends React.Component {
 			print: false,
 			download: false
     };
-    
+
 		return (
 			<div className="data-table-wrapper">
 				<RctCollapsibleCard fullBlock>
