@@ -10,7 +10,7 @@ export default {
 		{
 			"menu_title": "Employees",
 			"menu_icon": "zmdi zmdi-accounts",
-			"path": "/app/users/user-management",
+			"path": "/app/tables/data-table",
 			"child_routes": null
 		},
 		{
