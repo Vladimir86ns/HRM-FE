@@ -2,26 +2,29 @@
  * Data Table
  */
 import React from 'react';
+import { connect } from 'react-redux';
 import MUIDataTable from "mui-datatables";
-import axios from '../../../Axios-laravel';
 
 // rct card box
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
 
+// redux action
+import {
+	getCompanyAllCompanyEmployees
+} from '../../../actions/index';
+
 class DataTable extends React.Component {
 
-	state = {
-		employees: []
-	};
 	componentWillMount() {	
-    axios.get(`/company/1/employees`)
-      .then(success => success)
-      .catch(error => error.response)
-      .then(success => this.setState({employees: success.data.data}));
+    let companyId = localStorage.getItem('company_id');
+
+    if (companyId) {
+      this.props.getCompanyAllCompanyEmployees(companyId);
+    }
 	};
 
-	render() {
-		let employeesArray = this.state.employees.map(employee => {
+	render() {   
+    let employeesArray = this.props.allEmployees.map(employee => {
 			return [
 				employee.first_name,
 				employee.middle_name,
@@ -78,9 +81,9 @@ class DataTable extends React.Component {
     
 		return (
 			<div className="data-table-wrapper">
-				<RctCollapsibleCard heading="All Employees" fullBlock>
+				<RctCollapsibleCard fullBlock>
 					<MUIDataTable
-						title={"Employee list"}
+						title={"Employees List"}
 						data={employeesArray}
 						columns={columns}
 						options={options}
@@ -91,4 +94,13 @@ class DataTable extends React.Component {
 	}
 }
 
-export default DataTable;
+// map state to props
+const mapStateToProps = (state) => {
+  const { allEmployees } = state.companyReducer;
+	return { allEmployees };
+};
+
+export default connect(mapStateToProps, {
+  getCompanyAllCompanyEmployees
+})(DataTable);
+

@@ -15,6 +15,7 @@ import APP_MESSAGES from '../../src/constants/AppMessages';
  */
 import {
   GET_COMPANY_INFO,
+  GET_COMPANY_EMPLOYEES,
   CREATE_COMPANY_INFO,
   UPDATE_COMPANY_INFO
 } from '../actions/types';
@@ -24,6 +25,7 @@ import {
  */
 import {
   responseCompanySuccess,
+  responseCompanySuccessAllEmployees,
   responseCompanyNotFound,
   responseCompanyNotAcceptable,
   responseCompanyFailure,
@@ -35,9 +37,31 @@ import {
 function* getCompanyFromDB({ payload }) {
   const companyId = payload.companyId;
   try {
-    const company = yield call(getCompanyById, companyId);
+    const company = yield call(fetchCompanyById, companyId);
     if (company.status === responseCodes.HTTP_OK) {
       yield put(responseCompanySuccess(company.data.data));
+    } else if (company.status === responseCodes.HTTP_NOT_FOUND)  {
+      yield put(responseCompanyNotFound(company.data.message));
+    } else if (company.status === responseCodes.HTTP_NOT_ACCEPTABLE) {
+      yield put(responseCompanyNotAcceptable(company.data.message));
+    } else {
+      yield put(responseCompanyFailure(APP_MESSAGES.requestFailed));
+    }
+  } catch (error) {
+    yield put(responseCompanyFailure(APP_MESSAGES.requestFailed));
+  }
+}
+
+/**
+ * Get Company
+ */
+function* getCompanyAllEmployees({ payload }) {
+  const companyId = payload.companyId;
+
+  try {
+    const company = yield call(fetchCompanyAllEmployees, companyId);
+    if (company.status === responseCodes.HTTP_OK) {
+      yield put(responseCompanySuccessAllEmployees(company.data.data));
     } else if (company.status === responseCodes.HTTP_NOT_FOUND)  {
       yield put(responseCompanyNotFound(company.data.message));
     } else if (company.status === responseCodes.HTTP_NOT_ACCEPTABLE) {
@@ -98,10 +122,19 @@ function* updateCompanyInfoDB({ payload }) {
 }
 
 /**
- * Get Company
+ * Fetch Company
  */
-const getCompanyById = async (companyId) => {
+const fetchCompanyById = async (companyId) => {
   return await axios.get(`/company/${companyId}`)
+    .then(success => success)
+    .catch(error => error.response);
+}
+
+/**
+ * Fetch Company All Employees
+ */
+const fetchCompanyAllEmployees = async (companyId) => {
+  return await axios.get(`/company/${companyId}/employees`)
     .then(success => success)
     .catch(error => error.response);
 }
@@ -132,6 +165,13 @@ export function* getCompany() {
 }
 
 /**
+ * Get Company
+ */
+export function* getCompanyEmployees() {
+  yield takeEvery(GET_COMPANY_EMPLOYEES, getCompanyAllEmployees);
+}
+
+/**
  * Create Company
  */
 export function* createCompanyInfo() {
@@ -152,6 +192,7 @@ export default function* rootSaga() {
   yield all([
     fork(getCompany),
     fork(createCompanyInfo),
-    fork(updateCompanyInfo)
+    fork(updateCompanyInfo),
+    fork(getCompanyEmployees)
   ]);
 }
