@@ -73,15 +73,6 @@ class UserBlock extends Component {
 							tag="div"
 							className="d-flex align-items-center"
 						>
-							<div className="user-profile">
-								<img
-									src={require('Assets/avatars/user-15.jpg')}
-									alt="user profile"
-									className="img-fluid rounded-circle"
-									width="50"
-									height="100"
-								/>
-							</div>
 							<div className="user-info">
 								<span className="user-name ml-4">Vladimir Grujin</span>
 								<i className="zmdi zmdi-chevron-down dropdown-icon mx-4"></i>
