@@ -24,6 +24,7 @@ class DataTable extends React.Component {
 	};
 
 	render() {   
+		
     let employeesArray = this.props.allEmployees.map(employee => {
 			return [
 				employee.first_name,
