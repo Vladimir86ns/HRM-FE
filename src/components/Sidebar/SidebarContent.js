@@ -27,7 +27,6 @@ class SidebarContent extends Component {
     render() {
         const { sidebarMenus } = this.props.sidebar;
 
-        console.log( sidebarMenus);
         return (
             <div className="rct-sidebar-nav">
                 <nav className="navigation">

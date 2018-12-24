@@ -743,5 +743,20 @@ module.exports = {
 	"button.useDefaultImage": "Use Default Image",
 	"button.cropImage": "Crop Image",
 	"widgets.preview": "Preview",
-	"widgets.croppedImage":"Cropped Image"
+	"widgets.croppedImage":"Cropped Image",
+
+	"sidebar.home": "Home",
+	"sidebar.employees": "Employees",
+	"sidebar.employees.seeAll": "See All",
+	"sidebar.employees.addNew": "Add New",
+	"sidebar.department": "Department",
+	"sidebar.award": "Award",
+	"sidebar.expense": "Expense",
+	"sidebar.holidays": "Holidays",
+	"sidebar.attendance": "Attendance",
+	"sidebar.liveCompany": "Live Company",
+	"sidebar.noticeBoard": "Notice Board",
+	"sidebar.settings": "Settings",
+	"sidebar.companyInfo": "Company Info",
+	"sidebar.profileInfo": "Profile Info"
 }
