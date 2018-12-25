@@ -788,4 +788,10 @@ module.exports = {
 	"form.departmentInfo.heading": "Department Info",
 	"form.departmentInfo.name": "Name",
 	"form.departmentInfo.description": "Description",
+
+	"form.position.addNew.heading": "Position",
+	"form.position.addNew.name": "Name",
+	"form.position.addNew.company": "Company",
+	"form.position.addNew.department": "Department",
+	"form.position.addNew.create": "Create Position",
 }

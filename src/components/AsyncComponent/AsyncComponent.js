@@ -523,7 +523,7 @@ const AsyncAdvanceUIAutoCompleteComponent = Loadable({
 });
 
 
-/*---------------- COMPANY SETTING`S -------------*/
+/*---------------- COMPANY'S -------------*/
 
 // forms TextField
 const AsyncCompanyInfoComponent = Loadable({
@@ -531,8 +531,17 @@ const AsyncCompanyInfoComponent = Loadable({
 	loading: () => <RctPageLoader />,
 });
 
+/*---------------- PROFILE`S -------------*/
+
 const AsyncProfileInfoComponent = Loadable({
 	loader: () => import("Routes/forms/profile-info"),
+	loading: () => <RctPageLoader />,
+});
+
+/*---------------- POSITION`S -------------*/
+
+const AsyncPositionAddNewComponent = Loadable({
+	loader: () => import("Routes/forms/position"),
 	loading: () => <RctPageLoader />,
 });
 
@@ -623,5 +632,6 @@ export {
 	AsyncDepartmentTableComponent,
 
 	AsyncCompanyInfoComponent,
-	AsyncProfileInfoComponent
+	AsyncProfileInfoComponent,
+	AsyncPositionAddNewComponent
 };

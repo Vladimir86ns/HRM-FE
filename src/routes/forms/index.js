@@ -11,7 +11,8 @@ import {
 	AsyncSelectListComponent,
 
 	AsyncCompanyInfoComponent,
-	AsyncProfileInfoComponent
+	AsyncProfileInfoComponent,
+	AsyncPositionAddNewComponent
 } from 'Components/AsyncComponent/AsyncComponent';
 
 const Forms = ({ match }) => (
@@ -28,6 +29,7 @@ const Forms = ({ match }) => (
 
 			<Route path={`${match.url}/company-info`} component={AsyncCompanyInfoComponent} />
 			<Route path={`${match.url}/profile-info`} component={AsyncProfileInfoComponent} />
+			<Route path={`${match.url}/position`} component={AsyncPositionAddNewComponent} />
 		</Switch>
 	</div>
 );

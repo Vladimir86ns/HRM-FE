@@ -795,4 +795,10 @@ module.exports = {
 	"form.departmentInfo.heading": "Departman",
 	"form.departmentInfo.name": "Ime",
 	"form.departmentInfo.description": "Opis",
+	
+	"form.position.addNew.heading": "Pozicija",
+	"form.position.addNew.name": "Ime",
+	"form.position.addNew.company": "Kompanija",
+	"form.position.addNew.department": "Departman",
+	"form.position.addNew.create": "Kreiraj Poziciju",
 }
