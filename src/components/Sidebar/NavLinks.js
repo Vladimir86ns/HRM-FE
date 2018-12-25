@@ -2,43 +2,67 @@
 export default {
 	category1: [
 		{
-			"menu_title": "Home",
-			"menu_icon": "zmdi zmdi-home",
+			"menu_title": "sidebar.dashboard",
+			"menu_icon": "zmdi ti-desktop",
 			"path": "/app/calendar/basic",
 			"child_routes": null
 		},
 		{
-			"menu_title": "Employees",
+			"menu_title": "sidebar.noticeBoard",
+			"menu_icon": "zmdi zmdi-collection-text",
+			"path": "/horizontal/mail",
+			"child_routes": null
+		},
+		{
+			"menu_title": "sidebar.employees",
 			"menu_icon": "zmdi zmdi-accounts",
-			"path": "/app/tables/data-table",
-			"child_routes": null
+			"child_routes": [
+				{
+					"path": "/app/tables/data-table",
+					"menu_title": "sidebar.employees.seeAll"
+				},
+				{
+					"path": "/app/tables/data-table",
+					"menu_title": "sidebar.employees.addNew"
+				}
+			]
 		},
 		{
-			"menu_title": "Department",
+			"menu_title": "sidebar.department",
 			"menu_icon": "zmdi zmdi-card-travel",
-			"path": "/app/tables/department",
-			"child_routes": null
+			"child_routes": [
+				{
+					"path": "/app/tables/department",
+					"menu_title": "sidebar.department.seeAll"
+				},
+				{
+					"path": "/app/tables/department",
+					"menu_title": "sidebar.department.addNew"
+				}
+			]
 		},
 		{
-			"menu_title": "Award",
-			"menu_icon": "zmdi zmdi-card-giftcard",
-			"path": "/horizontal/mail",
-			"child_routes": null
+			"menu_title": "sidebar.position",
+			"menu_icon": "zmdi icon-graduation",
+			"child_routes": [
+				{
+					"path": "/app/tables/department",
+					"menu_title": "sidebar.position.seeAll"
+				},
+				{
+					"path": "/app/tables/department",
+					"menu_title": "sidebar.position.addNew"
+				}
+			]
 		},
 		{
-			"menu_title": "Expense",
-			"menu_icon": "zmdi zmdi-money-box",
-			"path": "/horizontal/mail",
-			"child_routes": null
-		},
-		{
-			"menu_title": "Holidays",
+			"menu_title": "sidebar.holidays",
 			"menu_icon": "zmdi zmdi-flight-takeoff",
 			"path": "/horizontal/mail",
 			"child_routes": null
 		},
 		{
-			"menu_title": "Attendance",
+			"menu_title": "sidebar.attendance",
 			"menu_icon": "zmdi zmdi-account",
 			"child_routes": [
 				{
@@ -53,28 +77,22 @@ export default {
 			]
 		},
 		{
-			"menu_title": "Leave Company",
+			"menu_title": "sidebar.liveCompany",
 			"menu_icon": "zmdi zmdi-walk",
 			"path": "/horizontal/mail",
 			"child_routes": null
 		},
 		{
-			"menu_title": "Notice Board",
-			"menu_icon": "zmdi zmdi-collection-text",
-			"path": "/horizontal/mail",
-			"child_routes": null
-		},
-		{
-			"menu_title": "Settings",
+			"menu_title": "sidebar.settings",
 			"menu_icon": "zmdi zmdi-settings",
 			"child_routes": [
 				{
 					"path": "/app/forms/company-info",
-					"menu_title": "Company Info"
+					"menu_title": "sidebar.companyInfo"
 				},
 				{
 					"path": "/app/forms/profile-info",
-					"menu_title": "Profile Info"
+					"menu_title": "sidebar.profileInfo"
 				}
 			]
 		}

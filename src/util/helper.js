@@ -1,4 +1,5 @@
-
+import React from 'react';
+import IntlMessages from './IntlMessages';
  /**
    * Return error message, or required. 
    * 
@@ -12,7 +13,7 @@ export const formErrorMessage = (message, required = false) => {
   }
     
   if (required) {
-    return 'required';
+    return <IntlMessages id="form.formErrorMessage.required"/>;
   }
       
   return '';
@@ -46,7 +47,7 @@ export const formArrayErrorMessage = (message, required= false) => {
   }
 
   if (required) {
-    return 'required';
+    return <IntlMessages id="form.formArrayErrorMessage.required"/>;
   }
   
   return '';

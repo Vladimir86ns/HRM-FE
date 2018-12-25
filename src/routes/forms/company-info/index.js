@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import { NotificationManager } from 'react-notifications';
 import Button from '@material-ui/core/Button';
 import { FormGroup } from 'reactstrap';
+import IntlMessages from '../../../util/IntlMessages';
 
 // utility functions
 import {
@@ -178,7 +179,7 @@ class TextFields extends React.Component {
       <div className="textfields-wrapper">
         <div>
           <form noValidate autoComplete="off">
-          <RctCollapsibleCard heading="Account Info">
+          <RctCollapsibleCard heading={<IntlMessages id='form.accountInfo.heading'/>}>
               <div className="row">
                 <div className="col-sm-6 col-md-3 col-xl-4">
                   <div className="form-group">
@@ -186,7 +187,7 @@ class TextFields extends React.Component {
                       id="name"
                       error={errorMessage['account_info.name'] ? true : false}
                       fullWidth
-                      label="Name of account"
+                      label={<IntlMessages id='form.accountInfo.name'/>}
                       value={this.state.account_info.name}
                       helperText={formErrorMessage(errorMessage['account_info.name'], true)}
                       onChange={(e) => this.handleChangeByKeyAndName('account_info', 'name', e)}/>
@@ -198,7 +199,7 @@ class TextFields extends React.Component {
                       id="email"
                       error={errorMessage['account_info.email'] ? true : false}
                       fullWidth
-                      label="Email"
+                      label={<IntlMessages id='form.accountInfo.email'/>}
                       value={this.state.account_info.email}
                       helperText={formErrorMessage(errorMessage['account_info.email'], true)}
                       onChange={(e) => this.handleChangeByKeyAndName('account_info', 'email', e)} />
@@ -210,7 +211,7 @@ class TextFields extends React.Component {
             this.state.form_companies.map((value, key) => {
               return (
                 <div key={key}>
-                  <RctCollapsibleCard heading="Company Info">
+                  <RctCollapsibleCard heading={<IntlMessages id='form.companyInfo.heading'/>}>
               <div className="row">
                 <div className="col-sm-6 col-md-3 col-xl-4">
                   <div className="form-group">
@@ -218,7 +219,7 @@ class TextFields extends React.Component {
                       id="name"
                       error={errorMessage['company_info.' + key + '.company.name'] ? true : false}
                       fullWidth
-                      label="Name"
+                      label={<IntlMessages id='form.companyInfo.name'/>}
                       value={this.state.company_info.name}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.company.name'], true)}
                       onChange={(e) => this.handleChangeByKeyAndName('company_info', 'name', e)} />
@@ -230,7 +231,7 @@ class TextFields extends React.Component {
                       id="email"
                       error={errorMessage['company_info.' + key + '.company.email'] ? true : false}
                       fullWidth
-                      label="Email"
+                      label={<IntlMessages id='form.companyInfo.email'/>}
                       value={this.state.company_info.email}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.company.email'], true)}
                       onChange={(e) => this.handleChangeByKeyAndName('company_info', 'email', e)} />
@@ -243,7 +244,7 @@ class TextFields extends React.Component {
                       id="website"
                       error={errorMessage['company_info.' + key + '.company.website'] ? true : false}
                       fullWidth
-                      label="Website"
+                      label={<IntlMessages id='form.companyInfo.website'/>}
                       value={this.state.company_info.website}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.company.website'])}
                       onChange={(e) => this.handleChangeByKeyAndName('company_info', 'website', e)} />
@@ -257,7 +258,7 @@ class TextFields extends React.Component {
                       id="mobile_phone"
                       error={errorMessage['company_info.' + key + '.company.mobile_phone'] ? true : false}
                       fullWidth
-                      label="Mobile Phone"
+                      label={<IntlMessages id='form.companyInfo.mobilePhone'/>}
                       value={this.state.company_info.mobile_phone}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.company.mobile_phone'])}
                       onChange={(e) => this.handleChangeByKeyAndName('company_info', 'mobile_phone', e)} />
@@ -269,7 +270,7 @@ class TextFields extends React.Component {
                       id="telephone_number"
                       error={errorMessage['company_info.' + key + '.company.telephone_number'] ? true : false}
                       fullWidth
-                      label="Telephone Number"
+                      label={<IntlMessages id='form.companyInfo.telephoneNumber'/>}
                       value={this.state.company_info.telephone_number}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.company.telephone_number'])}
                       onChange={(e) => this.handleChangeByKeyAndName('company_info', 'telephone_number', e)} />
@@ -281,14 +282,14 @@ class TextFields extends React.Component {
                       id="fax_number"
                       error={errorMessage['company_info.' + key + '.company.fax_number'] ? true : false}
                       fullWidth
-                      label="Fax Number"
+                      label={<IntlMessages id='form.companyInfo.faxNumber'/>}
                       value={this.state.company_info.fax_number}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.company.fax_number'])}
                       onChange={(e) => this.handleChangeByKeyAndName('company_info', 'fax_number', e)} />
                   </div>
                 </div>
               </div>
-              <h4 style={{marginBottom: 40, marginTop: 15}}>Location</h4>
+              <h4 style={{marginBottom: 40, marginTop: 15}}>{<IntlMessages id='form.companyInfo.location.heading'/>}</h4>
               <div className="row">
                 <div className="col-sm-6 col-md-3 col-xl-4">
                   <div className="form-group">
@@ -297,7 +298,7 @@ class TextFields extends React.Component {
                       id="country"
                       error={false}
                       fullWidth
-                      label="Country"
+                      label={<IntlMessages id='form.companyInfo.location.country'/>}
                       value={this.state.location_info.country}
                       helperText=""/>
                   </div>
@@ -308,7 +309,7 @@ class TextFields extends React.Component {
                       id="region"
                       error={errorMessage['company_info.' + key + '.location.region'] ? true : false}
                       fullWidth
-                      label="Region"
+                      label={<IntlMessages id='form.companyInfo.location.region'/>}
                       value={this.state.location_info.region}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.location.region'])}
                       onChange={(e) => this.handleChangeByKeyAndName('location_info', 'region', e)} />
@@ -320,7 +321,7 @@ class TextFields extends React.Component {
                       id="city"
                       error={errorMessage['company_info.' + key + '.location.city'] ? true : false}
                       fullWidth
-                      label="City"
+                      label={<IntlMessages id='form.companyInfo.location.city'/>}
                       value={this.state.location_info.city}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.location.city'], true)}
                       onChange={(e) => this.handleChangeByKeyAndName('location_info', 'city', e)} />
@@ -332,7 +333,7 @@ class TextFields extends React.Component {
                       id="zip_code"
                       error={errorMessage['company_info.' + key + '.location.zip_code'] ? true : false}
                       fullWidth
-                      label="Zip Code"
+                      label={<IntlMessages id='form.companyInfo.location.zipCode'/>}
                       value={this.state.location_info.zip_code}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.location.zip_code'], true)}
                       onChange={(e) => this.handleChangeByKeyAndName('location_info', 'zip_code', e)} />
@@ -344,7 +345,7 @@ class TextFields extends React.Component {
                       id="first_address_line"
                       error={errorMessage['company_info.' + key + '.location.first_address_line'] ? true : false}
                       fullWidth
-                      label="First Address Line"
+                      label={<IntlMessages id='form.companyInfo.location.firstAddressLine'/>}
                       value={this.state.location_info.first_address_line}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.location.first_address_line'], true)}
                       onChange={(e) => this.handleChangeByKeyAndName('location_info', 'first_address_line', e)} />
@@ -356,7 +357,7 @@ class TextFields extends React.Component {
                       id="second_address_line"
                       error={errorMessage['company_info.' + key + '.location.second_address_line'] ? true : false}
                       fullWidth
-                      label="Second Address Line"
+                      label={<IntlMessages id='form.companyInfo.location.secondAddressLine'/>}
                       value={this.state.location_info.second_address_line}
                       helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.location.second_address_line'])}
                       onChange={(e) => this.handleChangeByKeyAndName('location_info', 'second_address_line', e)} />
@@ -372,7 +373,7 @@ class TextFields extends React.Component {
             this.state.form_departments.map((value, key) => {
               return (
                 <div key={key}>
-                  <RctCollapsibleCard heading="Department Info">
+                  <RctCollapsibleCard heading={<IntlMessages id='form.departmentInfo.heading'/>}>
                     <div className="row">
                       <div className="col-sm-6 col-md-3 col-xl-4">
                         <div className="form-group">
@@ -380,7 +381,7 @@ class TextFields extends React.Component {
                             id="department_name"
                             error={errorMessage['company_info.' + key + '.department_info.' + key + '.name'] ? true : false}
                             fullWidth
-                            label="Name"
+                            label={<IntlMessages id='form.departmentInfo.name'/>}
                             value={this.state.department_info.name}
                             helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.department_info.' + key + '.name'], true)}
                             onChange={(e) => this.handleChangeByKeyAndName('department_info', 'name', e)} />
@@ -393,7 +394,7 @@ class TextFields extends React.Component {
                             error={errorMessage['company_info' + key + 'department_info.' + key + '.description'] ? true : false}
                             fullWidth
                             multiline
-                            label="Description"
+                            label={<IntlMessages id='form.departmentInfo.description'/>}
                             value={this.state.department_info.description}
                             helperText={formArrayErrorMessage(errorMessage['company_info.' + key + '.department_info. ' + key + '.description'])}
                             onChange={(e) => this.handleChangeByKeyAndName('department_info', 'description', e)} />
