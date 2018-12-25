@@ -2,9 +2,15 @@
 export default {
 	category1: [
 		{
-			"menu_title": "sidebar.home",
-			"menu_icon": "zmdi zmdi-home",
+			"menu_title": "sidebar.dashboard",
+			"menu_icon": "zmdi ti-desktop",
 			"path": "/app/calendar/basic",
+			"child_routes": null
+		},
+		{
+			"menu_title": "sidebar.noticeBoard",
+			"menu_icon": "zmdi zmdi-collection-text",
+			"path": "/horizontal/mail",
 			"child_routes": null
 		},
 		{
@@ -24,20 +30,30 @@ export default {
 		{
 			"menu_title": "sidebar.department",
 			"menu_icon": "zmdi zmdi-card-travel",
-			"path": "/app/tables/department",
-			"child_routes": null
+			"child_routes": [
+				{
+					"path": "/app/tables/department",
+					"menu_title": "sidebar.department.seeAll"
+				},
+				{
+					"path": "/app/tables/department",
+					"menu_title": "sidebar.department.addNew"
+				}
+			]
 		},
 		{
-			"menu_title": "sidebar.award",
-			"menu_icon": "zmdi zmdi-card-giftcard",
-			"path": "/horizontal/mail",
-			"child_routes": null
-		},
-		{
-			"menu_title": "sidebar.expense",
-			"menu_icon": "zmdi zmdi-money-box",
-			"path": "/horizontal/mail",
-			"child_routes": null
+			"menu_title": "sidebar.position",
+			"menu_icon": "zmdi icon-graduation",
+			"child_routes": [
+				{
+					"path": "/app/tables/department",
+					"menu_title": "sidebar.position.seeAll"
+				},
+				{
+					"path": "/app/tables/department",
+					"menu_title": "sidebar.position.addNew"
+				}
+			]
 		},
 		{
 			"menu_title": "sidebar.holidays",
@@ -63,12 +79,6 @@ export default {
 		{
 			"menu_title": "sidebar.liveCompany",
 			"menu_icon": "zmdi zmdi-walk",
-			"path": "/horizontal/mail",
-			"child_routes": null
-		},
-		{
-			"menu_title": "sidebar.noticeBoard",
-			"menu_icon": "zmdi zmdi-collection-text",
 			"path": "/horizontal/mail",
 			"child_routes": null
 		},
