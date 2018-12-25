@@ -5,7 +5,6 @@ module.exports = {
 	"sidebar.general": "General",
 	"sidebar.component": "Componente",
 	"sidebar.features": "Caracteristicas",
-	"sidebar.applications": "Aplicaciones",
 	"sidebar.dashboard": "Tablero",
 	"sidebar.dashboard1": "Tablero de instrumentos 1",
 	"sidebar.dashboard2": "Tablero 2",
@@ -751,5 +750,21 @@ module.exports = {
 	"button.useDefaultImage": "Usar imagen predeterminada",
 	"button.cropImage": "Delimitar imagen",
 	"widgets.preview": "Avance",
-	"widgets.croppedImage": "Imagen recortada"
+	"widgets.croppedImage": "Imagen recortada",
+
+	"sidebar.applications": "Aplikacija",
+	"sidebar.home": "Home",
+	"sidebar.employees": "Zaposleni",
+	"sidebar.employees.seeAll": "Svi",
+	"sidebar.employees.addNew": "Dodaj Novog",
+	"sidebar.department": "Departmani",
+	"sidebar.award": "Nagrade",
+	"sidebar.expense": "Troskovi",
+	"sidebar.holidays": "Godisnji",
+	"sidebar.attendance": "Prisustvo",
+	"sidebar.liveCompany": "Napustilo Kompaniju",
+	"sidebar.noticeBoard": "Notice Board",
+	"sidebar.settings": "Podesavanja",
+	"sidebar.companyInfo": "Podaci O Kompaniji",
+	"sidebar.profileInfo": "Profile Podaci"
 }
