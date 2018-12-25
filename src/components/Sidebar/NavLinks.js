@@ -46,11 +46,11 @@ export default {
 			"menu_icon": "zmdi icon-graduation",
 			"child_routes": [
 				{
-					"path": "/app/tables/department",
+					"path": "/app/forms/company-info",
 					"menu_title": "sidebar.position.seeAll"
 				},
 				{
-					"path": "/app/tables/department",
+					"path": "/app/forms/position",
 					"menu_title": "sidebar.position.addNew"
 				}
 			]
