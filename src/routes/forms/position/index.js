@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import { FormGroup } from 'reactstrap';
 import IntlMessages from '../../../util/IntlMessages';
 
+import OneRowInputs from './components/one-row-inputs';
+
 // utility functions
 import {
   formErrorMessage
@@ -28,6 +30,7 @@ import {
   getAccountCompanies
 } from '../../../actions/index';
 
+
 class TextFields extends React.Component {
 
   state = {
@@ -35,36 +38,14 @@ class TextFields extends React.Component {
     department_name: '',
     company_name: '',
     companies: [],
-    isFormUpdated: false
+    isFormUpdated: false,
+    rows: 1
   };
 
-  componentWillMount() {
-    let accountId = localStorage.getItem('account_id');
-    if (accountId) {
-      this.props.getAccountCompanies(accountId);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.companies !== nextProps.companies) {
-      var newState = {...this.state};
-      newState.company_name = nextProps.companies[0].name;
-      newState.companies = nextProps.companies;
-      this.setState(newState);
-    }
-  }
-
-  /**
-   * Update state for given field on text change event.
-   * 
-   * @param {string} fieldName field name which value need to be updated
-   * @param {mix} event value for given field name
-   */
-  handleChangeByKeyAndName = (fieldName, event) => {
-    var newState = {...this.state}
-    newState[fieldName] = event.target.value;
-    newState.isFormUpdated = true;
-    this.setState(newState)    
+  addOneMoreDepartmentRow = () => {
+    let rows = this.state.rows;
+    rows++;
+    this.setState({rows: rows});
   }
 
   /**
@@ -76,68 +57,25 @@ class TextFields extends React.Component {
   }
 
   render() {
-    const errorMessage = {};
+    let departmentRows = [];
+    for (let i = 0; i < this.state.rows; i++) {
+      departmentRows.push(<OneRowInputs key={i} />);
+    }
 
     return (
       <div className="textfields-wrapper">
         <div>
+            <div className="alert alert-info">
+              <p><IntlMessages id='form.position.addNew.description'/> </p>
+            </div>
           <form noValidate autoComplete="off">
             <RctCollapsibleCard heading={<IntlMessages id='form.position.addNew.heading'/>}>
-              <div className="row">
-                <div className="col-sm-6 col-md-3 col-xl-4">
-                  <div className="form-group">
-                    <TextField
-                      id="name"
-                      error={errorMessage['name'] ? true : false}
-                      fullWidth 
-                      label={<IntlMessages id='form.position.addNew.name'/>} 
-                      value={this.state.name}
-                      helperText={formErrorMessage(errorMessage['name'], true)}
-                      onChange={(e) => this.handleChangeByKeyAndName('name', e)}/>
-                  </div>
-                </div>
-                <div className="col-sm-6 col-md-3 col-xl-4">
-                  <div className="form-group">
-                    <TextField
-                      id="company_name"
-                      disabled={true}
-                      error={errorMessage['company_name'] ? true : false}
-                      fullWidth 
-                      label={<IntlMessages id='form.position.addNew.company'/>} 
-                      value={this.state.company_name}
-                      helperText={formErrorMessage(errorMessage['company_name'], true)}
-                      onChange={(e) => this.handleChangeByKeyAndName('company_name', e)}/>
-                  </div>
-                </div>
-                <div className="col-sm-6 col-md-3 col-xl-4">
-                  <div className="form-group">
-                    <TextField id="department_name" 
-                      select 
-                      label={<IntlMessages id='form.position.addNew.department'/>}
-                      value={this.state.department_name}
-                      onChange={(e) => this.handleChangeByKeyAndName('department_name', e)}
-                      SelectProps={{
-                        MenuProps: {
-                        },
-                      }}
-                      helperText={formErrorMessage(errorMessage['department_name'], true)}
-                      fullWidth>
-                      {this.state.companies.map((company) => (
-                        company.departments.map((department, key) => (
-                          <MenuItem key={key} value={department.name}>
-                            {department.name}
-                          </MenuItem>
-                        ))
-                      ))}
-                    </TextField>
-                  </div>
-                </div>
-              </div>
+              {departmentRows}
               <Button
                 className="btn-info text-white"
                 style={{marginBottom: 20}}
                 size="small"
-                onClick={() => alert('add one more')}>Add one more
+                onClick={() => this.addOneMoreDepartmentRow()}><IntlMessages id='form.position.addNew.addOneMore'/>
               </Button>
             </RctCollapsibleCard>
             <FormGroup className="mb-5">
@@ -159,10 +97,9 @@ class TextFields extends React.Component {
 
 // map state to props
 const mapStateToProps = (state) => {
-  const { companies } = state.companyReducer;
-	return { companies };
+  //
 };
 
-export default connect(mapStateToProps, {
+export default connect(null, {
   getAccountCompanies
 })(TextFields);
