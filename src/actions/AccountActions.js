@@ -1,5 +1,6 @@
 import {
     GET_ACCOUNT,
+    GET_ACCOUNT_COMPANIES,
     CREATE_ACCOUNT,
     RESPONSE_ACCOUNT_SUCCESS,
     RESPONSE_ACCOUNT_NOT_FOUND,
@@ -12,6 +13,14 @@ import {
  */
 export const getAccount = (accountId) => ({
     type: GET_ACCOUNT,
+    payload: { accountId }
+})
+
+/**
+ * Redux Action To Get Account Companies
+ */
+export const getAccountCompanies = (accountId) => ({
+    type: GET_ACCOUNT_COMPANIES,
     payload: { accountId }
 })
 

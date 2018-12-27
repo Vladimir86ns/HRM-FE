@@ -15,7 +15,8 @@ import APP_MESSAGES from '../../src/constants/AppMessages';
  */
 import {
   GET_ACCOUNT,
-  CREATE_ACCOUNT
+  CREATE_ACCOUNT,
+  GET_ACCOUNT_COMPANIES
 } from '../actions/types';
 
 /**
@@ -23,6 +24,7 @@ import {
  */
 import {
   responseAccountSuccess,
+  responseCompaniesSuccess,
   responseAccountNotFound,
   responseAccountNotAcceptable,
   responseAccountFailure
@@ -34,13 +36,34 @@ import {
 function* getUserAccount({ payload }) {
   const accountId = payload.accountId;
   try {
-    const account = yield call(getAccountFromDB, accountId);
+    const account = yield call(fetchAccountFromDB, accountId);
     if (account.status === responseCodes.HTTP_OK) {
       yield put(responseAccountSuccess(account.data));
     } else if (account.status === responseCodes.HTTP_NOT_FOUND)  {
       yield put(responseAccountNotFound(account.data));
     } else if (account.status === responseCodes.HTTP_NOT_ACCEPTABLE) {
       yield put(responseAccountNotAcceptable(account.data.message));
+    } else {
+      yield put(responseAccountFailure(APP_MESSAGES.requestFailed));
+    }
+  } catch (error) {
+    yield put(responseAccountFailure(APP_MESSAGES.requestFailed));
+  }
+}
+
+/**
+ * Get All Account Companies
+ */
+function* getAccountCompaniesFromDB({ payload }) {
+  const accountId = payload.accountId;
+  try {
+    const companies = yield call(fetchAccountCompanies, accountId);
+    if (companies.status === responseCodes.HTTP_OK) {
+      yield put(responseCompaniesSuccess(companies.data.data));
+    } else if (companies.status === responseCodes.HTTP_NOT_FOUND)  {
+      yield put(responseAccountNotFound(companies.data));
+    } else if (companies.status === responseCodes.HTTP_NOT_ACCEPTABLE) {
+      yield put(responseAccountNotAcceptable(companies.data.message));
     } else {
       yield put(responseAccountFailure(APP_MESSAGES.requestFailed));
     }
@@ -73,10 +96,19 @@ function* createAccountWithNameEmailPassword({ payload }) {
 }
 
 /**
- * Get User Account
+ * Fetch User Account
  */
-const getAccountFromDB = async (accountId) => {
+const fetchAccountFromDB = async (accountId) => {
   return await axios.get(`/account/${accountId}`)
+    .then(success => success)
+    .catch(error => error.response);
+}
+
+/**
+ * Fetch Account Companies
+ */
+const fetchAccountCompanies = async (accountId) => {
+  return await axios.get(`/account/${accountId}/companies`)
     .then(success => success)
     .catch(error => error.response);
 }
@@ -102,6 +134,13 @@ export function* getAccount() {
 }
 
 /**
+ * Get Account Companies
+ */
+export function* getAccountCompanies() {
+  yield takeEvery(GET_ACCOUNT_COMPANIES, getAccountCompaniesFromDB);
+}
+
+/**
  * Create Account
  */
 export function* createNewAccount() {
@@ -114,6 +153,7 @@ export function* createNewAccount() {
 export default function* rootSaga() {
   yield all([
     fork(getAccount),
-    fork(createNewAccount)
+    fork(createNewAccount),
+    fork(getAccountCompanies)
   ]);
 }

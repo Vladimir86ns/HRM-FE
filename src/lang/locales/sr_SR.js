@@ -770,7 +770,8 @@ module.exports = {
 	"sidebar.liveCompany": "Napustilo Kompaniju",
 	"sidebar.noticeBoard": "Notice Board",
 	"sidebar.settings": "Podesavanja",
-	"sidebar.profileInfo": "Profile Podaci",
+	"sidebar.profileInfo": "Licni Podaci",
+	"sidebar.companyInfo": "Kompanija",
 
 	"form.formErrorMessage.required": "obavezno",
 	"form.formArrayErrorMessage.required": "obavezno",
