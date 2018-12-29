@@ -797,8 +797,9 @@ module.exports = {
 	"form.departmentInfo.name": "Ime",
 	"form.departmentInfo.description": "Opis",
 	
-	"form.position.addNew.description": "Dodavanje imena za poziciju, moguce je dodati vise odjednom za izabrani department. " + 
-		"Imena se razdvajaju zarezom, u polje ime, kao primer mozete da upisete: jedan, dva, tri, cetiri ...",
+	"form.position.addNew.description": "Dodavanje imena za poziciju, moguce je dodati vise odjednom za izabrani departman. " + 
+																			"Imena se razdvajaju zarezom, u polje ime, mozete da upisete kao primer: " + 
+																			"jedan, dva, tri, cetiri. I bice kreirano cetiri pozicije za dati departman.",
 	"form.position.addNew.heading": "Pozicija",
 	"form.position.addNew.name": "Ime",
 	"form.position.addNew.company": "Kompanija",
