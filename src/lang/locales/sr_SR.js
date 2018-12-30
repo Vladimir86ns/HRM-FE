@@ -770,7 +770,8 @@ module.exports = {
 	"sidebar.liveCompany": "Napustilo Kompaniju",
 	"sidebar.noticeBoard": "Notice Board",
 	"sidebar.settings": "Podesavanja",
-	"sidebar.profileInfo": "Profile Podaci",
+	"sidebar.profileInfo": "Licni Podaci",
+	"sidebar.companyInfo": "Kompanija",
 
 	"form.formErrorMessage.required": "obavezno",
 	"form.formArrayErrorMessage.required": "obavezno",
@@ -796,9 +797,18 @@ module.exports = {
 	"form.departmentInfo.name": "Ime",
 	"form.departmentInfo.description": "Opis",
 	
+	"form.position.addNew.description": "Dodavanje imena za poziciju, moguce je dodati vise odjednom za izabrani departman. " + 
+																			"Imena se razdvajaju zarezom, u polje ime, mozete da upisete kao primer: " + 
+																			"jedan, dva, tri, cetiri. I bice kreirano cetiri pozicije za dati departman.",
 	"form.position.addNew.heading": "Pozicija",
 	"form.position.addNew.name": "Ime",
 	"form.position.addNew.company": "Kompanija",
 	"form.position.addNew.department": "Departman",
 	"form.position.addNew.create": "Kreiraj Poziciju",
+	"form.position.addNew.addOneMore": "Dodaj Novu",
+	"form.position.addNew.duplicatedNames.firstText": "Imena se dupliraju: ",
+	"form.position.addNew.duplicatedNames.for": " za ",
+	"form.position.addNew.duplicatedNames.department": "departman.",
+	"form.position.addNew.duplicatedDepartment.firstText": "Izabrani departman ",
+	"form.position.addNew.duplicatedDepartment.secondText": " se duplira.",
 }

@@ -4,6 +4,7 @@ import {
     CREATE_COMPANY_INFO,
     UPDATE_COMPANY_INFO,
     RESPONSE_COMPANY_SUCCESS,
+    RESPONSE_COMPANIES_SUCCESS,
     RESPONSE_COMPANY_SUCCESS_ALL_EMPLOYEES,
     RESPONSE_COMPANY_NOT_FOUND,
     RESPONSE_COMPANY_NOT_ACCEPTABLE,
@@ -50,6 +51,14 @@ export const updateCompanyInfo = (company, companyId) => ({
 export const responseCompanySuccess = (company, message) => ({
     type: RESPONSE_COMPANY_SUCCESS,
     payload: { company, message }
+});
+
+/**
+ * Redux Action To Get All Account Companies
+ */
+export const responseCompaniesSuccess = (companies) => ({
+    type: RESPONSE_COMPANIES_SUCCESS,
+    payload: companies
 });
 
 /**

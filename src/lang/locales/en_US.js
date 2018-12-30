@@ -789,9 +789,19 @@ module.exports = {
 	"form.departmentInfo.name": "Name",
 	"form.departmentInfo.description": "Description",
 
+	"form.position.addNew.description": "Adding names for the position it is possible to add more than one, " + 
+																			"for given department. Names need to be separated with comma, choose which" + 
+																			" department want. In the name field, writes as this example: one, two, tree, four, five." +
+																			" And it will be created five positions.",
 	"form.position.addNew.heading": "Position",
 	"form.position.addNew.name": "Name",
 	"form.position.addNew.company": "Company",
 	"form.position.addNew.department": "Department",
 	"form.position.addNew.create": "Create Position",
+	"form.position.addNew.addOneMore": "Add One More",
+	"form.position.addNew.duplicatedNames.firstText": "This name(s) are duplicated: ",
+	"form.position.addNew.duplicatedNames.for": " for ",
+	"form.position.addNew.duplicatedNames.department": "department.",
+	"form.position.addNew.duplicatedDepartment.firstText": "This department ",
+	"form.position.addNew.duplicatedDepartment.secondText": " name are duplicated.",
 }

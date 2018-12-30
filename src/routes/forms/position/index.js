@@ -3,59 +3,29 @@
  */
 import React from 'react';
 import { connect } from 'react-redux';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import { NotificationManager } from 'react-notifications';
 import Button from '@material-ui/core/Button';
 import { FormGroup } from 'reactstrap';
 import IntlMessages from '../../../util/IntlMessages';
 
-// utility functions
-import {
-  formErrorMessage
-} from '../../../util/index';
+import OneRowInputs from './components/one-row-inputs';
 
 // rct card box
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
 
-// redux constants
-import {
-  //
-} from '../../../constants/constants';
-
-// redux action
-import {
-  //
-} from '../../../actions/index';
-
 class TextFields extends React.Component {
 
   state = {
-    name: '',
-    department: '',
-    company: '',
-    isFormUpdated: false
+    rows: 1
   };
 
-  componentWillMount() {
-    //
-  }
-
-  componentWillReceiveProps(nextProps) {
-    //
-  }
-
   /**
-   * Update state for given field on text change event.
+   * Add one more row with position form.
    * 
-   * @param {string} fieldName field name which value need to be updated
-   * @param {mix} event value for given field name
    */
-  handleChangeByKeyAndName = (fieldName, event) => {
-    var newState = {...this.state}
-    newState[fieldName] = event.target.value;
-    newState.isFormUpdated = true;
-    this.setState(newState)    
+  addOneMoreDepartmentRow = () => {
+    let rows = this.state.rows;
+    rows++;
+    this.setState({rows: rows});
   }
 
   /**
@@ -67,72 +37,31 @@ class TextFields extends React.Component {
   }
 
   render() {
-    const errorMessage = {};
+    let departmentRows = [];
+    for (let i = 0; i < this.state.rows; i++) {
+      departmentRows.push(<OneRowInputs key={i} rowKey={i}/>);
+    }
 
     return (
       <div className="textfields-wrapper">
         <div>
+          <div className="alert alert-info">
+            <p><IntlMessages id='form.position.addNew.description'/> </p>
+          </div>
           <form noValidate autoComplete="off">
             <RctCollapsibleCard heading={<IntlMessages id='form.position.addNew.heading'/>}>
-              <div className="row">
-                <div className="col-sm-6 col-md-3 col-xl-4">
-                  <div className="form-group">
-                    <TextField
-                      id="name"
-                      error={errorMessage['name'] ? true : false}
-                      fullWidth 
-                      label={<IntlMessages id='form.position.addNew.name'/>} 
-                      value={this.state.name}
-                      helperText={formErrorMessage(errorMessage['name'], true)}
-                      onChange={(e) => this.handleChangeByKeyAndName('name', e)}/>
-                  </div>
-                </div>
-                <div className="col-sm-6 col-md-3 col-xl-4">
-                  <div className="form-group">
-                    <TextField id="company" 
-                      select 
-                      label={<IntlMessages id='form.position.addNew.company'/>}
-                      value={this.state.company}
-                      onChange={(e) => this.handleChangeByKeyAndName('company', e)}
-                      SelectProps={{
-                        MenuProps: {
-                        },
-                      }}
-                      helperText={formErrorMessage(errorMessage['company'])}
-                      fullWidth>
-                      {/* {userStatus.map(option => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))} */}
-                    </TextField>
-                  </div>
-                </div>
-                <div className="col-sm-6 col-md-3 col-xl-4">
-                  <div className="form-group">
-                    <TextField id="department" 
-                      select 
-                      label={<IntlMessages id='form.position.addNew.department'/>}
-                      value={this.state.department}
-                      onChange={(e) => this.handleChangeByKeyAndName('department', e)}
-                      SelectProps={{
-                        MenuProps: {
-                        },
-                      }}
-                      helperText={formErrorMessage(errorMessage['department'])}
-                      fullWidth>
-                      {/* {userStatus.map(option => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))} */}
-                    </TextField>
-                  </div>
-                </div>
-              </div>
+              {departmentRows}
+              <Button
+                disabled={!this.props.showAddButton}
+                className={this.props.showAddButton ? "btn-info text-white" : "btn-secondary text-white"}
+                style={{marginBottom: 20}}
+                size="small"
+                onClick={() => this.addOneMoreDepartmentRow()}><IntlMessages id='form.position.addNew.addOneMore'/>
+              </Button>
             </RctCollapsibleCard>
             <FormGroup className="mb-5">
               <Button
+                mini={true}
                 className="btn-info text-white btn-block w-40"
                 style={{marginBottom: 20}}
                 variant="raised"
@@ -149,7 +78,8 @@ class TextFields extends React.Component {
 
 // map state to props
 const mapStateToProps = (state) => {
-  //
+  const { showAddButton } = state.positionReducer;
+	return { showAddButton };
 };
 
-export default connect(null, null)(TextFields);
+export default connect(mapStateToProps, null)(TextFields);

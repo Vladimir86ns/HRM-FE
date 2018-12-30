@@ -1,4 +1,3 @@
-
  /**
    * Format state for create company info request. 
    * 
@@ -47,7 +46,6 @@ export const prepareStateForCreateCompanyInfoRequest = (state) => {
     ]
   }
 }
-
 
  /**
    * Format state for update user info request. 

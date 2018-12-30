@@ -12,6 +12,7 @@ import {
   CREATE_COMPANY_INFO,
   UPDATE_COMPANY_INFO,
   RESPONSE_COMPANY_SUCCESS,
+  RESPONSE_COMPANIES_SUCCESS,
   RESPONSE_COMPANY_SUCCESS_ALL_EMPLOYEES,
   RESPONSE_COMPANY_NOT_FOUND,
   RESPONSE_COMPANY_NOT_ACCEPTABLE,
@@ -23,6 +24,7 @@ import {
  */
 const INIT_STATE = {
   company: {},
+  companies: [],
   errorMessage: {},
   loading: false,
   allEmployees: []
@@ -45,6 +47,9 @@ export default (state = INIT_STATE, action) => {
     case RESPONSE_COMPANY_SUCCESS:
       action.payload.message ? NotificationManager.success(action.payload.message) : false ;
       return { ...state, loading: false, company: action.payload };
+
+    case RESPONSE_COMPANIES_SUCCESS:
+      return { ...state, loading: false, companies: action.payload };
 
     case RESPONSE_COMPANY_SUCCESS_ALL_EMPLOYEES:
       return { ...state, loading: false, allEmployees: action.payload.employees };
