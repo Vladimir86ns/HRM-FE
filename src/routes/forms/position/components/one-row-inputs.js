@@ -36,6 +36,7 @@ class TextFields extends React.Component {
     department_name: '',
     company_name: '',
     companies: [],
+    isMessageShown: false,
     isFormUpdated: false
   };
 
@@ -66,6 +67,7 @@ class TextFields extends React.Component {
     var newState = {...this.state}
     newState[fieldName] = event.target.value;
     newState.isFormUpdated = true;
+    newState.isMessageShown = false;
     this.setState(newState)    
   };
 
@@ -76,21 +78,27 @@ class TextFields extends React.Component {
   validateAndSaveTemporaryInStore = () => {
     let {name, department_name, company_name} = this.state;
     
-    let duplicatedNames = this.checkSameNames(name);
-    if (duplicatedNames.length > 0) {
-      this.getDuplicatedPositionNamesMessage(duplicatedNames);
+    let duplicatedDepartments = this.checkSameDepartmentNames(department_name);
+    if (duplicatedDepartments && !this.state.isMessageShown) {
+      this.getDuplicatedDepartmentsMessage(duplicatedDepartments);
+      this.setState({isMessageShown: true});
       return;
     }
 
-    let duplicatedDepartments = this.checkSameDepartmentNames(department_name);
-    if (duplicatedDepartments) {
-      this.getDuplicatedDepartmentsMessage(duplicatedDepartments);
+    let duplicatedNames = this.checkSameNames(name);
+    if (duplicatedNames.length > 0 && !this.state.isMessageShown) {
+      this.getDuplicatedPositionNamesMessage(duplicatedNames);
+      this.setState({isMessageShown: true});
+      return;
+    }
+
+    // if message is shown, stop here.
+    if (this.state.isMessageShown) {
       return;
     }
 
     if (name.trim() && department_name && company_name) {
       let createdPosition = this.props.beforeCreatePositions;
-      console.log(createdPosition);
       createdPosition[this.props.rowKey] = {
         name, department_name, company_name
       };
@@ -115,8 +123,8 @@ class TextFields extends React.Component {
    * @param {string} departmentNames selected department name.
    */
   checkSameDepartmentNames = (departmentNames) => {
-    let { beforeCreatePositions } = this.props;
-    return checkInArrayOfObjectsPropertyWithValueExist(beforeCreatePositions, 'department_name', departmentNames);
+    let { beforeCreatePositions, rowKey } = this.props;
+    return checkInArrayOfObjectsPropertyWithValueExist(beforeCreatePositions, 'department_name', departmentNames, rowKey);
   };
 
   /**

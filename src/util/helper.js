@@ -98,12 +98,13 @@ export const modifyEachElementWithQuotationMarks = (array) => {
  * @param {array} array array of objects.
  * @param {string} objectProperty name of object property.
  * @param {string} value value to compare.
+ * @param {integer} rowKey key of the row.
  */
-export const checkInArrayOfObjectsPropertyWithValueExist = (array, objectProperty, value) => {
+export const checkInArrayOfObjectsPropertyWithValueExist = (array, objectProperty, value, rowKey) => {
   let duplicated = '';
 
-  array.filter(el => {
-    if(value === el[objectProperty]) {
+  array.filter((el, index) => {
+    if(index !== rowKey && value === el[objectProperty]) {
         duplicated = value;
     }
   });
