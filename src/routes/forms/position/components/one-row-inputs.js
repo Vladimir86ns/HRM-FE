@@ -9,6 +9,7 @@ import { NotificationManager } from 'react-notifications';
 import IntlMessages from '../../../../util/IntlMessages';
 import filter from 'lodash/filter';
 import includes from 'lodash/includes';
+import uniq from 'lodash/uniq';
 
 // utility functions
 import {
@@ -75,15 +76,34 @@ class TextFields extends React.Component {
     let {name, department_name, company_name} = this.state;
     
     let duplicatedNames = this.checkSameNames(name);
+    
     if (duplicatedNames.length > 0) {
-      NotificationManager.error(`This name(s) are duplicated: 
-        ${duplicatedNames.toString().split(',').join(', ')} for ${department_name} department`);
+      let message = (
+        <div>
+          <p>
+            <IntlMessages id='form.position.addNew.duplicatedNames.firstText'/>
+            {this.putNamesInQuotationMarks(duplicatedNames).toString().split(',').join(', ')}
+            <IntlMessages id='form.position.addNew.duplicatedNames.for'/>
+            <IntlMessages id='form.position.addNew.duplicatedNames.department'/>
+          </p>
+        </div>
+      );
+      NotificationManager.error(message);
       return;
     }
 
     let duplicatedDepartments = this.checkSameDepartmentNames(department_name);
     if (duplicatedDepartments) {
-      NotificationManager.error(`This department  "${duplicatedDepartments}" name are duplicated.`);
+      let message = (
+        <div>
+          <p>
+            <IntlMessages id='form.position.addNew.duplicatedDepartment.firstText'/>
+            {`"${duplicatedDepartments}"`}
+            <IntlMessages id='form.position.addNew.duplicatedDepartment.secondText'/>
+          </p>
+        </div>
+      );
+      NotificationManager.error(message);
       return;
     }
 
@@ -102,7 +122,7 @@ class TextFields extends React.Component {
     let arr = names.split(",");
     let newArr = arr.map(name =>  name.trim());
 
-    return filter(newArr, (val, i, iteratee) => includes(iteratee, val, i + 1));
+    return uniq(filter(newArr, (val, i, iteratee) => includes(iteratee, val, i + 1)));
   }
 
   checkSameDepartmentNames = (departmentNames) => {
@@ -115,6 +135,10 @@ class TextFields extends React.Component {
     });
 
     return duplicated;
+  }
+
+  putNamesInQuotationMarks = (duplicatedNames) => {
+    return duplicatedNames.map(name => `"${name}"`);
   }
 
   render() {

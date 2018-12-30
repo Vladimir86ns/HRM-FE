@@ -799,4 +799,9 @@ module.exports = {
 	"form.position.addNew.department": "Department",
 	"form.position.addNew.create": "Create Position",
 	"form.position.addNew.addOneMore": "Add One More",
+	"form.position.addNew.duplicatedNames.firstText": "This name(s) are duplicated: ",
+	"form.position.addNew.duplicatedNames.for": " for ",
+	"form.position.addNew.duplicatedNames.department": "department.",
+	"form.position.addNew.duplicatedDepartment.firstText": "This department ",
+	"form.position.addNew.duplicatedDepartment.secondText": " name are duplicated.",
 }

@@ -806,5 +806,9 @@ module.exports = {
 	"form.position.addNew.department": "Departman",
 	"form.position.addNew.create": "Kreiraj Poziciju",
 	"form.position.addNew.addOneMore": "Dodaj Novu",
-
+	"form.position.addNew.duplicatedNames.firstText": "Imena se dupliraju: ",
+	"form.position.addNew.duplicatedNames.for": " za ",
+	"form.position.addNew.duplicatedNames.department": "departman.",
+	"form.position.addNew.duplicatedDepartment.firstText": "Izabrani departman ",
+	"form.position.addNew.duplicatedDepartment.secondText": " se duplira.",
 }
