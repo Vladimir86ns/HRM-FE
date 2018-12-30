@@ -59,7 +59,7 @@ class TextFields extends React.Component {
   render() {
     let departmentRows = [];
     for (let i = 0; i < this.state.rows; i++) {
-      departmentRows.push(<OneRowInputs key={i} />);
+      departmentRows.push(<OneRowInputs key={i} rowKey={i}/>);
     }
 
     return (
@@ -72,7 +72,8 @@ class TextFields extends React.Component {
             <RctCollapsibleCard heading={<IntlMessages id='form.position.addNew.heading'/>}>
               {departmentRows}
               <Button
-                className="btn-info text-white"
+                disabled={!this.props.showAddButton}
+                className={this.props.showAddButton ? "btn-info text-white" : "btn-secondary text-white"}
                 style={{marginBottom: 20}}
                 size="small"
                 onClick={() => this.addOneMoreDepartmentRow()}><IntlMessages id='form.position.addNew.addOneMore'/>
@@ -97,9 +98,10 @@ class TextFields extends React.Component {
 
 // map state to props
 const mapStateToProps = (state) => {
-  //
+  const { showAddButton } = state.positionReducer;
+	return { showAddButton };
 };
 
-export default connect(null, {
+export default connect(mapStateToProps, {
   getAccountCompanies
 })(TextFields);

@@ -7,6 +7,8 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { NotificationManager } from 'react-notifications';
 import IntlMessages from '../../../../util/IntlMessages';
+import filter from 'lodash/filter';
+import includes from 'lodash/includes';
 
 // utility functions
 import {
@@ -20,7 +22,9 @@ import {
 
 // redux action
 import {
-  getAccountCompanies
+  getAccountCompanies,
+  resetShowPositionButton,
+  storePositionsBeforeCreating
 } from '../../../../actions/index';
 
 class TextFields extends React.Component {
@@ -34,6 +38,7 @@ class TextFields extends React.Component {
   };
 
   componentWillMount() {
+    this.props.resetShowPositionButton();
     let accountId = localStorage.getItem('account_id');
     if (accountId) {
       this.props.getAccountCompanies(accountId);
@@ -62,6 +67,37 @@ class TextFields extends React.Component {
     this.setState(newState)    
   }
 
+  checkState = () => {
+    this.isValidForm();
+  }
+
+  isValidForm = () => {
+    let {name, department_name, company_name} = this.state;
+    let duplicatedNames = this.checkSameNames(name);
+
+    if (duplicatedNames.length > 0) {
+      NotificationManager.error('This name(s) are duplicated: ' + duplicatedNames.toString().split(',').join(', '));
+      return;
+    }
+
+    if (name && department_name && company_name) {
+      let createdPosition = this.props.beforeCreatePositions;
+      createdPosition[this.props.rowKey] = {
+        name, department_name, company_name
+      };
+      this.props.storePositionsBeforeCreating(createdPosition);
+    } else {
+      NotificationManager.error('Need to add names');
+    }
+  }
+
+  checkSameNames = (names) => {
+    let arr = names.split(",");
+    let newArr = arr.map(name =>  name.trim());
+
+    return filter(newArr, (val, i, iteratee) => includes(iteratee, val, i + 1));
+  }
+
   render() {
     const errorMessage = {};
 
@@ -76,7 +112,8 @@ class TextFields extends React.Component {
               label={<IntlMessages id='form.position.addNew.name'/>} 
               value={this.state.name}
               helperText={formErrorMessage(errorMessage['name'], true)}
-              onChange={(e) => this.handleChangeByKeyAndName('name', e)}/>
+              onChange={(e) => this.handleChangeByKeyAndName('name', e)}
+              onBlur={() => this.checkState()}/>
           </div>
         </div>
         <div className="col-sm-6 col-md-3 col-xl-4">
@@ -122,10 +159,13 @@ class TextFields extends React.Component {
 
 // map state to props
 const mapStateToProps = (state) => {
-  const { companies } = state.companyReducer;
-	return { companies };
+  const { companies, } = state.companyReducer;
+  const { beforeCreatePositions, } = state.positionReducer;
+	return { companies, beforeCreatePositions };
 };
 
 export default connect(mapStateToProps, {
-  getAccountCompanies
+  getAccountCompanies,
+  storePositionsBeforeCreating,
+  resetShowPositionButton
 })(TextFields);

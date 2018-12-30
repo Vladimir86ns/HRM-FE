@@ -12,3 +12,4 @@ export * from './EcommerceActions';
 export * from './AccountActions';
 export * from './CompanyActions';
 export * from './UserActions';
+export * from './PositionActions.js';
