@@ -59,6 +59,7 @@ class TextFields extends React.Component {
 
   /**
    * Update state for given field on text change event.
+   * Update store position before creating with new changes.
    * 
    * @param {string} fieldName field name which value need to be updated
    * @param {mix} event value for given field name
@@ -68,7 +69,13 @@ class TextFields extends React.Component {
     newState[fieldName] = event.target.value;
     newState.isFormUpdated = true;
     newState.isMessageShown = false;
-    this.setState(newState)    
+    this.setState(newState);
+
+    let createdPosition = this.props.beforeCreatePositions;
+    if(createdPosition[this.props.rowKey]) {
+      createdPosition[this.props.rowKey][fieldName] = event.target.value;;
+      this.props.storePositionsBeforeCreating(createdPosition);
+    }
   };
 
   /**

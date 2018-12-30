@@ -64,16 +64,40 @@ class TextFields extends React.Component {
     //
   }
 
+  showCreatePositionsButton = () => {
+    let { beforeCreatePositions } = this.props;
+
+    if (beforeCreatePositions.length > 0 && this.checkValueOfEachObjectPropertiesInArray(beforeCreatePositions)) {
+      return true;
+    } else if (beforeCreatePositions.length > 0) {
+      return false;
+    }
+  }
+
+  checkValueOfEachObjectPropertiesInArray = (array) => {
+    let hasEmpty = true;
+
+    array.forEach(object => {
+      Object.keys(object).forEach((key) => {
+        if (object[key] === '') {
+          hasEmpty = false;
+        }
+      });
+    });
+
+    return hasEmpty;
+  }
+
   render() {
     let departmentRows = [];
-    let button;
+    let buttonToAddRow;
 
     for (let i = 0; i < this.state.rows; i++) {
       departmentRows.push(<OneRowInputs key={i} rowKey={i}/>);
     }
 
     if (this.state.rows > 1 ) {
-      button = (
+      buttonToAddRow = (
         <Button
           className="btn-info text-white"
           style={{marginBottom: 20, marginLeft: 20}}
@@ -82,6 +106,8 @@ class TextFields extends React.Component {
         </Button>
       );
     }
+
+    let showButton = !this.showCreatePositionsButton();
       
     return (
       <div className="textfields-wrapper">
@@ -99,12 +125,13 @@ class TextFields extends React.Component {
                 size="small"
                 onClick={() => this.addOneMorePositionRow()}><IntlMessages id='form.position.addNew.addOneMore'/>
               </Button>
-              { button }
+              { buttonToAddRow }
             </RctCollapsibleCard>
             <FormGroup className="mb-5">
               <Button
+                disabled={showButton}
+                className={showButton ? "btn-secondary text-white btn-block w-40" : "btn-info text-white btn-block w-40"} 
                 mini={true}
-                className="btn-info text-white btn-block w-40"
                 style={{marginBottom: 20}}
                 variant="raised"
                 size="medium"
