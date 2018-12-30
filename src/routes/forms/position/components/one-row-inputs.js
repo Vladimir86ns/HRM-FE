@@ -7,13 +7,14 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { NotificationManager } from 'react-notifications';
 import IntlMessages from '../../../../util/IntlMessages';
-import filter from 'lodash/filter';
-import includes from 'lodash/includes';
-import uniq from 'lodash/uniq';
 
 // utility functions
 import {
-  formErrorMessage
+  formErrorMessage,
+  splitStringWithCommaAndGetArray,
+  getSameValuesFromArray,
+  modifyEachElementWithQuotationMarks,
+  checkInArrayOfObjectsPropertyWithValueExist
 } from '../../../../util/index';
 
 // redux constants
@@ -44,7 +45,7 @@ class TextFields extends React.Component {
     if (accountId) {
       this.props.getAccountCompanies(accountId);
     }
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     if (this.props.companies !== nextProps.companies) {
@@ -53,7 +54,7 @@ class TextFields extends React.Component {
       newState.companies = nextProps.companies;
       this.setState(newState);
     }
-  }
+  };
 
   /**
    * Update state for given field on text change event.
@@ -66,80 +67,94 @@ class TextFields extends React.Component {
     newState[fieldName] = event.target.value;
     newState.isFormUpdated = true;
     this.setState(newState)    
-  }
+  };
 
-  checkState = () => {
-    this.isValidForm();
-  }
-
-  isValidForm = () => {
+  /**
+   * Validate duplication names of position, and duplication departments.
+   * 
+   */
+  validateAndSaveTemporaryInStore = () => {
     let {name, department_name, company_name} = this.state;
     
     let duplicatedNames = this.checkSameNames(name);
-    
     if (duplicatedNames.length > 0) {
-      let message = (
-        <div>
-          <p>
-            <IntlMessages id='form.position.addNew.duplicatedNames.firstText'/>
-            {this.putNamesInQuotationMarks(duplicatedNames).toString().split(',').join(', ')}
-            <IntlMessages id='form.position.addNew.duplicatedNames.for'/>
-            <IntlMessages id='form.position.addNew.duplicatedNames.department'/>
-          </p>
-        </div>
-      );
-      NotificationManager.error(message);
+      this.getDuplicatedPositionNamesMessage(duplicatedNames);
       return;
     }
 
     let duplicatedDepartments = this.checkSameDepartmentNames(department_name);
     if (duplicatedDepartments) {
-      let message = (
-        <div>
-          <p>
-            <IntlMessages id='form.position.addNew.duplicatedDepartment.firstText'/>
-            {`"${duplicatedDepartments}"`}
-            <IntlMessages id='form.position.addNew.duplicatedDepartment.secondText'/>
-          </p>
-        </div>
-      );
-      NotificationManager.error(message);
+      this.getDuplicatedDepartmentsMessage(duplicatedDepartments);
       return;
     }
 
     if (name.trim() && department_name && company_name) {
       let createdPosition = this.props.beforeCreatePositions;
+      console.log(createdPosition);
       createdPosition[this.props.rowKey] = {
         name, department_name, company_name
       };
       this.props.storePositionsBeforeCreating(createdPosition);
-    } else {
-
     }
-  }
+  };
 
+  /**
+   * Return names which are duplicated.
+   * 
+   * @param {string} names string with names, separated with comma.
+   */
   checkSameNames = (names) => {
-    let arr = names.split(",");
-    let newArr = arr.map(name =>  name.trim());
+    let allNames = splitStringWithCommaAndGetArray(names);
+    let sameNames = getSameValuesFromArray(allNames);
+    return modifyEachElementWithQuotationMarks(sameNames);
+  };
 
-    return uniq(filter(newArr, (val, i, iteratee) => includes(iteratee, val, i + 1)));
-  }
-
+  /**
+   * Check duplication department name.
+   * 
+   * @param {string} departmentNames selected department name.
+   */
   checkSameDepartmentNames = (departmentNames) => {
-    let duplicated = '';
+    let { beforeCreatePositions } = this.props;
+    return checkInArrayOfObjectsPropertyWithValueExist(beforeCreatePositions, 'department_name', departmentNames);
+  };
 
-    this.props.beforeCreatePositions.filter(position => {
-      if(departmentNames === position.department_name) {
-          duplicated = departmentNames;
-      }
-    });
+  /**
+   * Return validation message on duplication position names.
+   * 
+   * @param {array} duplicatedNames array with duplicated names.
+   */
+  getDuplicatedPositionNamesMessage = (duplicatedNames) => {
+    let message = (
+      <div>
+        <p>
+          <IntlMessages id='form.position.addNew.duplicatedNames.firstText'/>
+          {duplicatedNames.toString().split(',').join(', ')}
+          <IntlMessages id='form.position.addNew.duplicatedNames.for'/>
+          <IntlMessages id='form.position.addNew.duplicatedNames.department'/>
+        </p>
+      </div>
+    );
+    NotificationManager.error(message);
+  };
 
-    return duplicated;
-  }
-
-  putNamesInQuotationMarks = (duplicatedNames) => {
-    return duplicatedNames.map(name => `"${name}"`);
-  }
+  /**
+   * Return validation message on duplication department name.
+   * 
+   * @param {array} duplicatedDepartments array with duplicated names.
+   */
+  getDuplicatedDepartmentsMessage = (duplicatedDepartments) => {
+    let message = (
+      <div>
+      <p>
+        <IntlMessages id='form.position.addNew.duplicatedDepartment.firstText'/>
+        {`"${duplicatedDepartments}"`}
+        <IntlMessages id='form.position.addNew.duplicatedDepartment.secondText'/>
+      </p>
+    </div>
+    );
+    NotificationManager.error(message);
+  };
 
   render() {
     const errorMessage = {};
@@ -156,7 +171,7 @@ class TextFields extends React.Component {
               value={this.state.name}
               helperText={formErrorMessage(errorMessage['name'], true)}
               onChange={(e) => this.handleChangeByKeyAndName('name', e)}
-              onBlur={() => this.checkState()}/>
+              onBlur={() => this.validateAndSaveTemporaryInStore()}/>
           </div>
         </div>
         <div className="col-sm-6 col-md-3 col-xl-4">
@@ -176,7 +191,7 @@ class TextFields extends React.Component {
           <div className="form-group">
             <TextField id="department_name" 
               select
-              onBlur={() => this.checkState()}
+              onBlur={() => this.validateAndSaveTemporaryInStore()}
               label={<IntlMessages id='form.position.addNew.department'/>}
               value={this.state.department_name}
               onChange={(e) => this.handleChangeByKeyAndName('department_name', e)}

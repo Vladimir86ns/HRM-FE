@@ -3,45 +3,25 @@
  */
 import React from 'react';
 import { connect } from 'react-redux';
-import TextField from '@material-ui/core/TextField';
-import MenuItem from '@material-ui/core/MenuItem';
-import { NotificationManager } from 'react-notifications';
 import Button from '@material-ui/core/Button';
 import { FormGroup } from 'reactstrap';
 import IntlMessages from '../../../util/IntlMessages';
 
 import OneRowInputs from './components/one-row-inputs';
 
-// utility functions
-import {
-  formErrorMessage
-} from '../../../util/index';
-
 // rct card box
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
-
-// redux constants
-import {
-  //
-} from '../../../constants/constants';
-
-// redux action
-import {
-  getAccountCompanies
-} from '../../../actions/index';
-
 
 class TextFields extends React.Component {
 
   state = {
-    name: '',
-    department_name: '',
-    company_name: '',
-    companies: [],
-    isFormUpdated: false,
     rows: 1
   };
 
+  /**
+   * Add one more row with position form.
+   * 
+   */
   addOneMoreDepartmentRow = () => {
     let rows = this.state.rows;
     rows++;
@@ -65,9 +45,9 @@ class TextFields extends React.Component {
     return (
       <div className="textfields-wrapper">
         <div>
-            <div className="alert alert-info">
-              <p><IntlMessages id='form.position.addNew.description'/> </p>
-            </div>
+          <div className="alert alert-info">
+            <p><IntlMessages id='form.position.addNew.description'/> </p>
+          </div>
           <form noValidate autoComplete="off">
             <RctCollapsibleCard heading={<IntlMessages id='form.position.addNew.heading'/>}>
               {departmentRows}
@@ -102,6 +82,4 @@ const mapStateToProps = (state) => {
 	return { showAddButton };
 };
 
-export default connect(mapStateToProps, {
-  getAccountCompanies
-})(TextFields);
+export default connect(mapStateToProps, null)(TextFields);
