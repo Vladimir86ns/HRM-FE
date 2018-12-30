@@ -14,15 +14,19 @@ import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard
 
 // redux action
 import {
-  storePositionsBeforeCreating
+  storePositionsBeforeCreating,
+  resetStorePositionsBeforeCreating
 } from '../../../actions/index';
-
 
 class TextFields extends React.Component {
 
   state = {
     rows: 1
   };
+
+  componentWillUnmount() {
+    this.props.resetStorePositionsBeforeCreating();
+  }
 
   /**
    * Add one more row with position form.
@@ -121,5 +125,6 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {
-  storePositionsBeforeCreating
+  storePositionsBeforeCreating,
+  resetStorePositionsBeforeCreating
 })(TextFields);
