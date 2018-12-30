@@ -2,6 +2,7 @@ import {
   STORE_POSITIONS_BEFORE_CREATING,
   CREATE_POSITIONS,
   RESET_SHOW_ADD_POSITION_BUTTON,
+  RESET_STORE_POSITIONS_BEFORE_CREATING,
   RESPONSE_POSITION_SUCCESS,
   RESPONSE_POSITION_NOT_FOUND,
   RESPONSE_POSITION_NOT_ACCEPTABLE,
@@ -29,6 +30,13 @@ export const createPositions = (positions, history) => ({
 */
 export const resetShowPositionButton = () => ({
   type: RESET_SHOW_ADD_POSITION_BUTTON,
+})
+
+/**
+* Redux Action To Reset Store Positions Before Creating
+*/
+export const resetStorePositionsBeforeCreating = () => ({
+  type: RESET_STORE_POSITIONS_BEFORE_CREATING,
 })
 
 //  ----------  RESPONSE POSITION ------------  //

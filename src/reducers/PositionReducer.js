@@ -10,6 +10,7 @@ import {
   STORE_POSITIONS_BEFORE_CREATING,
   CREATE_POSITIONS,
   RESET_SHOW_ADD_POSITION_BUTTON,
+  RESET_STORE_POSITIONS_BEFORE_CREATING,
   RESPONSE_POSITION_SUCCESS,
   RESPONSE_POSITION_NOT_FOUND,
   RESPONSE_POSITION_NOT_ACCEPTABLE,
@@ -37,6 +38,9 @@ export default (state = INIT_STATE, action) => {
 
     case RESET_SHOW_ADD_POSITION_BUTTON:
       return { ...state, loading: true, showAddButton: false };
+
+    case RESET_STORE_POSITIONS_BEFORE_CREATING:
+      return { ...state, loading: true, showAddButton: false, beforeCreatePositions: [] };
 
     case RESPONSE_POSITION_SUCCESS:
       action.payload.message ? NotificationManager.success(action.payload.message) : false ;

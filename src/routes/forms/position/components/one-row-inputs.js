@@ -57,11 +57,6 @@ class TextFields extends React.Component {
     }
   };
 
-  componentWillUnmount() {
-    // TODO - reset storePositionsBeforeCreating
-    // TODO - implement button for removing storePositionsBeforeCreating one array
-  }
-
   /**
    * Update state for given field on text change event.
    * 

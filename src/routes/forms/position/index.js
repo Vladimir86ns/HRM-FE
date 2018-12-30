@@ -12,19 +12,47 @@ import OneRowInputs from './components/one-row-inputs';
 // rct card box
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
 
+// redux action
+import {
+  storePositionsBeforeCreating,
+  resetStorePositionsBeforeCreating
+} from '../../../actions/index';
+
 class TextFields extends React.Component {
 
   state = {
     rows: 1
   };
 
+  componentWillUnmount() {
+    this.props.resetStorePositionsBeforeCreating();
+  }
+
   /**
    * Add one more row with position form.
    * 
    */
-  addOneMoreDepartmentRow = () => {
+  addOneMorePositionRow = () => {
     let rows = this.state.rows;
     rows++;
+    this.setState({rows: rows});
+  }
+
+  /**
+   * Remove last row, if have more then one, 
+   * and remove data from temporary store for position.
+   * 
+   */
+  removeLastPositionRow = () => {
+    let createdPosition = this.props.beforeCreatePositions;
+
+    if (this.state.rows === createdPosition.length) {
+      let result = createdPosition.slice(0, createdPosition.length - 1);
+      this.props.storePositionsBeforeCreating(result);
+    }
+
+    let rows = this.state.rows--;
+    rows--;
     this.setState({rows: rows});
   }
 
@@ -38,10 +66,23 @@ class TextFields extends React.Component {
 
   render() {
     let departmentRows = [];
+    let button;
+
     for (let i = 0; i < this.state.rows; i++) {
       departmentRows.push(<OneRowInputs key={i} rowKey={i}/>);
     }
 
+    if (this.state.rows > 1 ) {
+      button = (
+        <Button
+          className="btn-info text-white"
+          style={{marginBottom: 20, marginLeft: 20}}
+          size="small"
+          onClick={() => this.removeLastPositionRow()}><IntlMessages id='form.position.addNew.removeLastRow'/>
+        </Button>
+      );
+    }
+      
     return (
       <div className="textfields-wrapper">
         <div>
@@ -56,8 +97,9 @@ class TextFields extends React.Component {
                 className={this.props.showAddButton ? "btn-info text-white" : "btn-secondary text-white"}
                 style={{marginBottom: 20}}
                 size="small"
-                onClick={() => this.addOneMoreDepartmentRow()}><IntlMessages id='form.position.addNew.addOneMore'/>
+                onClick={() => this.addOneMorePositionRow()}><IntlMessages id='form.position.addNew.addOneMore'/>
               </Button>
+              { button }
             </RctCollapsibleCard>
             <FormGroup className="mb-5">
               <Button
@@ -78,8 +120,11 @@ class TextFields extends React.Component {
 
 // map state to props
 const mapStateToProps = (state) => {
-  const { showAddButton } = state.positionReducer;
-	return { showAddButton };
+  const { showAddButton, beforeCreatePositions } = state.positionReducer;
+	return { showAddButton, beforeCreatePositions };
 };
 
-export default connect(mapStateToProps, null)(TextFields);
+export default connect(mapStateToProps, {
+  storePositionsBeforeCreating,
+  resetStorePositionsBeforeCreating
+})(TextFields);
