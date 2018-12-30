@@ -790,8 +790,8 @@ module.exports = {
 	"form.departmentInfo.description": "Description",
 
 	"form.position.addNew.description": "Adding names for the position it is possible to add more than one, " + 
-																			"for given apartment. Names need to be separated with comma, choose which" + 
-																			" department want. In the name, field writes as this example: one, two, tree, four, five." +
+																			"for given department. Names need to be separated with comma, choose which" + 
+																			" department want. In the name field, writes as this example: one, two, tree, four, five." +
 																			" And it will be created five positions.",
 	"form.position.addNew.heading": "Position",
 	"form.position.addNew.name": "Name",

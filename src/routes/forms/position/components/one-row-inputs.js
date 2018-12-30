@@ -76,18 +76,28 @@ class TextFields extends React.Component {
     let duplicatedNames = this.checkSameNames(name);
 
     if (duplicatedNames.length > 0) {
-      NotificationManager.error('This name(s) are duplicated: ' + duplicatedNames.toString().split(',').join(', '));
+      NotificationManager.error(`This name(s) are duplicated: 
+        ${duplicatedNames.toString().split(',').join(', ')} for ${department_name} department`);
       return;
     }
 
-    if (name && department_name && company_name) {
+    let duplicatedDepartments = this.checkSameDepartmentNames(department_name);
+
+    if (duplicatedDepartments.length > 0) {
+      NotificationManager.error(`This department  "${duplicatedDepartments[0].department_name}" name are duplicated.`);
+      return;
+    }
+
+    // TODO add validation if the departments are selected 2 times
+
+    if (name.trim() && department_name && company_name) {
       let createdPosition = this.props.beforeCreatePositions;
       createdPosition[this.props.rowKey] = {
         name, department_name, company_name
       };
       this.props.storePositionsBeforeCreating(createdPosition);
     } else {
-      NotificationManager.error('Need to add names');
+
     }
   }
 
@@ -96,6 +106,12 @@ class TextFields extends React.Component {
     let newArr = arr.map(name =>  name.trim());
 
     return filter(newArr, (val, i, iteratee) => includes(iteratee, val, i + 1));
+  }
+
+  checkSameDepartmentNames = (departmentNames) => {
+   return this.props.beforeCreatePositions.filter(position => {
+      return departmentNames === position.department_name;
+    });
   }
 
   render() {
@@ -132,7 +148,8 @@ class TextFields extends React.Component {
         <div className="col-sm-6 col-md-3 col-xl-4">
           <div className="form-group">
             <TextField id="department_name" 
-              select 
+              select
+              onBlur={() => this.checkState()}
               label={<IntlMessages id='form.position.addNew.department'/>}
               value={this.state.department_name}
               onChange={(e) => this.handleChangeByKeyAndName('department_name', e)}
