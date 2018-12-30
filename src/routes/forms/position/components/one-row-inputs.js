@@ -73,8 +73,8 @@ class TextFields extends React.Component {
 
   isValidForm = () => {
     let {name, department_name, company_name} = this.state;
+    
     let duplicatedNames = this.checkSameNames(name);
-
     if (duplicatedNames.length > 0) {
       NotificationManager.error(`This name(s) are duplicated: 
         ${duplicatedNames.toString().split(',').join(', ')} for ${department_name} department`);
@@ -82,13 +82,10 @@ class TextFields extends React.Component {
     }
 
     let duplicatedDepartments = this.checkSameDepartmentNames(department_name);
-
-    if (duplicatedDepartments.length > 0) {
-      NotificationManager.error(`This department  "${duplicatedDepartments[0].department_name}" name are duplicated.`);
+    if (duplicatedDepartments) {
+      NotificationManager.error(`This department  "${duplicatedDepartments}" name are duplicated.`);
       return;
     }
-
-    // TODO add validation if the departments are selected 2 times
 
     if (name.trim() && department_name && company_name) {
       let createdPosition = this.props.beforeCreatePositions;
@@ -109,9 +106,15 @@ class TextFields extends React.Component {
   }
 
   checkSameDepartmentNames = (departmentNames) => {
-   return this.props.beforeCreatePositions.filter(position => {
-      return departmentNames === position.department_name;
+    let duplicated = '';
+
+    this.props.beforeCreatePositions.filter(position => {
+      if(departmentNames === position.department_name) {
+          duplicated = departmentNames;
+      }
     });
+
+    return duplicated;
   }
 
   render() {
