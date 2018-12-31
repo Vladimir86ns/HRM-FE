@@ -15,7 +15,8 @@ import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard
 // redux action
 import {
   storePositionsBeforeCreating,
-  resetStorePositionsBeforeCreating
+  resetStorePositionsBeforeCreating,
+  createPositions
 } from '../../../actions/index';
 
 class TextFields extends React.Component {
@@ -61,7 +62,7 @@ class TextFields extends React.Component {
 	 * Create position for company.
 	 */
 	createPosition() {
-    //
+    this.props.createPositions(this.props.beforeCreatePositions);
   }
 
   showCreatePositionsButton = () => {
@@ -153,5 +154,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   storePositionsBeforeCreating,
-  resetStorePositionsBeforeCreating
+  resetStorePositionsBeforeCreating,
+  createPositions
 })(TextFields);

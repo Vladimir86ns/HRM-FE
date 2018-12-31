@@ -12,6 +12,7 @@ import feedbacksSagas from './Feedbacks';
 import accountSagas from './AccountSaga';
 import companySettingsSagas from './CompanySaga';
 import userSagas from './UserSaga';
+import positionSagas from './PositionSaga';
 
 export default function* rootSaga(getState) {
     yield all([
@@ -22,6 +23,7 @@ export default function* rootSaga(getState) {
 
         accountSagas(),
         companySettingsSagas(),
-        userSagas()
+        userSagas(),
+        positionSagas()
     ]);
 }

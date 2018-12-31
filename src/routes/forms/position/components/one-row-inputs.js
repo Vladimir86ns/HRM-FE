@@ -87,6 +87,7 @@ class TextFields extends React.Component {
   validateAndSaveTemporaryInStore = () => {
     let {name, department_name, company_name} = this.state;
     
+    // validate department names
     let duplicatedDepartments = this.checkSameDepartmentNames(department_name);
     if (duplicatedDepartments && !this.state.isMessageShown) {
       this.getDuplicatedDepartmentsMessage(duplicatedDepartments);
@@ -94,6 +95,7 @@ class TextFields extends React.Component {
       return;
     }
 
+    // validate position names
     let duplicatedNames = this.checkSameNames(name);
     if (duplicatedNames.length > 0 && !this.state.isMessageShown) {
       this.getDuplicatedPositionNamesMessage(duplicatedNames);
@@ -113,7 +115,7 @@ class TextFields extends React.Component {
       let department = find(this.state.companies[0].departments , department => department.name === department_name);
       let company = this.state.companies[0];
       createdPosition[this.props.rowKey] = {
-        allNames, department_name, company_name, department_id: department.id, company_id: company.id
+        names: allNames, department_name, company_name, department_id: department.id, company_id: company.id
       };
       this.props.storePositionsBeforeCreating(createdPosition);
     }
@@ -176,8 +178,6 @@ class TextFields extends React.Component {
     );
     NotificationManager.error(message);
   };
-
-
 
   render() {
     const errorMessage = {};
