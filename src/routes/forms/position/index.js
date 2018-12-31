@@ -67,20 +67,20 @@ class TextFields extends React.Component {
   showCreatePositionsButton = () => {
     let { beforeCreatePositions } = this.props;
 
-    if (beforeCreatePositions.length > 0 && this.checkValueOfEachObjectPropertiesInArray(beforeCreatePositions)) {
+    if (beforeCreatePositions.length > 0 && !this.checkObjectHasEmptyPropertyInArray(beforeCreatePositions)) {
       return true;
     } else if (beforeCreatePositions.length > 0) {
       return false;
     }
   }
 
-  checkValueOfEachObjectPropertiesInArray = (array) => {
-    let hasEmpty = true;
+  checkObjectHasEmptyPropertyInArray = (array) => {
+    let hasEmpty = false;
 
     array.forEach(object => {
       Object.keys(object).forEach((key) => {
         if (object[key] === '') {
-          hasEmpty = false;
+          hasEmpty = true;
         }
       });
     });

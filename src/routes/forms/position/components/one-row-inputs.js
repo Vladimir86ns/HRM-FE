@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { NotificationManager } from 'react-notifications';
 import IntlMessages from '../../../../util/IntlMessages';
+import find from 'lodash/find';
 
 // utility functions
 import {
@@ -80,6 +81,7 @@ class TextFields extends React.Component {
 
   /**
    * Validate duplication names of position, and duplication departments.
+   * And save positions details in temporary store.
    * 
    */
   validateAndSaveTemporaryInStore = () => {
@@ -104,10 +106,14 @@ class TextFields extends React.Component {
       return;
     }
 
+    // prepare for saving in temporary store.
     if (name.trim() && department_name && company_name) {
       let createdPosition = this.props.beforeCreatePositions;
+      let allNames = splitStringWithCommaAndGetArray(name);
+      let department = find(this.state.companies[0].departments , department => department.name === department_name);
+      let company = this.state.companies[0];
       createdPosition[this.props.rowKey] = {
-        name, department_name, company_name
+        allNames, department_name, company_name, department_id: department.id, company_id: company.id
       };
       this.props.storePositionsBeforeCreating(createdPosition);
     }
