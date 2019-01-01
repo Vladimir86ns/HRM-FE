@@ -83,7 +83,6 @@ function* createAccountWithNameEmailPassword({ payload }) {
     if (newAccount.status === responseCodes.HTTP_OK) {
       localStorage.setItem('account_id', newAccount.data.id);
       localStorage.setItem('user_id', newAccount.data.user_id);
-a
       yield put(responseAccountSuccess(newAccount.data, APP_MESSAGES.account.createSuccess));
     } else if (newAccount.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
       yield put(responseAccountNotAcceptable(newAccount.data));

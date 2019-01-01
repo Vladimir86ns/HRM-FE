@@ -36,7 +36,7 @@ function* createPositionsToServer({ payload }) {
 
     const response = yield call(createPositionsRequest, positions);
     if (response.status === responseCodes.HTTP_OK) {
-      // TODO ADD REDIRECTION
+      // TODO ADD REDIRECTION FOR ALL POSITIONS
       history.push('/app/forms/company-info');
       yield put(responsePositionSuccess(response.data, APP_MESSAGES.positions.createSuccess));
       yield put(resetStorePositionsBeforeCreating());

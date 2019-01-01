@@ -12,6 +12,11 @@ import OneRowInputs from './components/one-row-inputs';
 // rct card box
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
 
+// utility functions
+import {
+  checkObjectInArrayHasEmptyProperty
+} from '../../../util/index';
+
 // redux action
 import {
   storePositionsBeforeCreating,
@@ -31,7 +36,6 @@ class TextFields extends React.Component {
 
   /**
    * Add one more row with position form.
-   * 
    */
   addOneMorePositionRow = () => {
     let rows = this.state.rows;
@@ -42,7 +46,6 @@ class TextFields extends React.Component {
   /**
    * Remove last row, if have more then one, 
    * and remove data from temporary store for position.
-   * 
    */
   removeLastPositionRow = () => {
     let createdPosition = this.props.beforeCreatePositions;
@@ -65,28 +68,17 @@ class TextFields extends React.Component {
     this.props.createPositions(this.props.beforeCreatePositions, this.props.history);
   }
 
-  showCreatePositionsButton = () => {
+  /**
+   * Make button clickable for creating position.
+	 */
+  enableCreatePositionsButton = () => {
     let { beforeCreatePositions } = this.props;
 
-    if (beforeCreatePositions.length > 0 && !this.checkObjectHasEmptyPropertyInArray(beforeCreatePositions)) {
+    if (beforeCreatePositions.length > 0 && !checkObjectInArrayHasEmptyProperty(beforeCreatePositions)) {
       return true;
     } else if (beforeCreatePositions.length > 0) {
       return false;
     }
-  }
-
-  checkObjectHasEmptyPropertyInArray = (array) => {
-    let hasEmpty = false;
-
-    array.forEach(object => {
-      Object.keys(object).forEach((key) => {
-        if (object[key] === '') {
-          hasEmpty = true;
-        }
-      });
-    });
-
-    return hasEmpty;
   }
 
   render() {
@@ -108,7 +100,7 @@ class TextFields extends React.Component {
       );
     }
 
-    let showButton = !this.showCreatePositionsButton();
+    let showButton = !this.enableCreatePositionsButton();
       
     return (
       <div className="textfields-wrapper">

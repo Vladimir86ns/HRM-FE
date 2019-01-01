@@ -111,3 +111,22 @@ export const checkInArrayOfObjectsPropertyWithValueExist = (array, objectPropert
 
   return duplicated;
 }
+
+/**
+ * Check each object in array does has empty property value.
+ * 
+ * @param {array} array array of objects.
+ */
+export const checkObjectInArrayHasEmptyProperty = (array) => {
+  let hasEmpty = false;
+
+  array.forEach(object => {
+    Object.keys(object).forEach((key) => {
+      if (object[key] === '') {
+        hasEmpty = true;
+      }
+    });
+  });
+
+  return hasEmpty;
+}

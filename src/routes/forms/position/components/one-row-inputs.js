@@ -18,11 +18,6 @@ import {
   checkInArrayOfObjectsPropertyWithValueExist
 } from '../../../../util/index';
 
-// redux constants
-import {
-  //
-} from '../../../../constants/constants';
-
 // redux action
 import {
   getAccountCompanies,
@@ -72,6 +67,7 @@ class TextFields extends React.Component {
     newState.isMessageShown = false;
     this.setState(newState);
 
+    // update also store position before creating
     let createdPosition = this.props.beforeCreatePositions;
     if(createdPosition[this.props.rowKey]) {
       createdPosition[this.props.rowKey][fieldName] = event.target.value;;
@@ -82,7 +78,6 @@ class TextFields extends React.Component {
   /**
    * Validate duplication names of position, and duplication departments.
    * And save positions details in temporary store.
-   * 
    */
   validateAndSaveTemporaryInStore = () => {
     let {name, department_name, company_name} = this.state;
