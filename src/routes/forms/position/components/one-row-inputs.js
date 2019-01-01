@@ -7,6 +7,7 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { NotificationManager } from 'react-notifications';
 import IntlMessages from '../../../../util/IntlMessages';
+import find from 'lodash/find';
 
 // utility functions
 import {
@@ -16,11 +17,6 @@ import {
   modifyEachElementWithQuotationMarks,
   checkInArrayOfObjectsPropertyWithValueExist
 } from '../../../../util/index';
-
-// redux constants
-import {
-  //
-} from '../../../../constants/constants';
 
 // redux action
 import {
@@ -59,6 +55,7 @@ class TextFields extends React.Component {
 
   /**
    * Update state for given field on text change event.
+   * Update store position before creating with new changes.
    * 
    * @param {string} fieldName field name which value need to be updated
    * @param {mix} event value for given field name
@@ -68,16 +65,24 @@ class TextFields extends React.Component {
     newState[fieldName] = event.target.value;
     newState.isFormUpdated = true;
     newState.isMessageShown = false;
-    this.setState(newState)    
+    this.setState(newState);
+
+    // update also store position before creating
+    let createdPosition = this.props.beforeCreatePositions;
+    if(createdPosition[this.props.rowKey]) {
+      createdPosition[this.props.rowKey][fieldName] = event.target.value;;
+      this.props.storePositionsBeforeCreating(createdPosition);
+    }
   };
 
   /**
    * Validate duplication names of position, and duplication departments.
-   * 
+   * And save positions details in temporary store.
    */
   validateAndSaveTemporaryInStore = () => {
     let {name, department_name, company_name} = this.state;
     
+    // validate department names
     let duplicatedDepartments = this.checkSameDepartmentNames(department_name);
     if (duplicatedDepartments && !this.state.isMessageShown) {
       this.getDuplicatedDepartmentsMessage(duplicatedDepartments);
@@ -85,6 +90,7 @@ class TextFields extends React.Component {
       return;
     }
 
+    // validate position names
     let duplicatedNames = this.checkSameNames(name);
     if (duplicatedNames.length > 0 && !this.state.isMessageShown) {
       this.getDuplicatedPositionNamesMessage(duplicatedNames);
@@ -97,10 +103,14 @@ class TextFields extends React.Component {
       return;
     }
 
+    // prepare for saving in temporary store.
     if (name.trim() && department_name && company_name) {
       let createdPosition = this.props.beforeCreatePositions;
+      let allNames = splitStringWithCommaAndGetArray(name);
+      let department = find(this.state.companies[0].departments , department => department.name === department_name);
+      let company = this.state.companies[0];
       createdPosition[this.props.rowKey] = {
-        name, department_name, company_name
+        names: allNames, department_name, company_name, department_id: department.id, company_id: company.id
       };
       this.props.storePositionsBeforeCreating(createdPosition);
     }
@@ -163,8 +173,6 @@ class TextFields extends React.Component {
     );
     NotificationManager.error(message);
   };
-
-
 
   render() {
     const errorMessage = {};

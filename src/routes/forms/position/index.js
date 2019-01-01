@@ -12,10 +12,16 @@ import OneRowInputs from './components/one-row-inputs';
 // rct card box
 import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
 
+// utility functions
+import {
+  checkObjectInArrayHasEmptyProperty
+} from '../../../util/index';
+
 // redux action
 import {
   storePositionsBeforeCreating,
-  resetStorePositionsBeforeCreating
+  resetStorePositionsBeforeCreating,
+  createPositions
 } from '../../../actions/index';
 
 class TextFields extends React.Component {
@@ -30,7 +36,6 @@ class TextFields extends React.Component {
 
   /**
    * Add one more row with position form.
-   * 
    */
   addOneMorePositionRow = () => {
     let rows = this.state.rows;
@@ -41,7 +46,6 @@ class TextFields extends React.Component {
   /**
    * Remove last row, if have more then one, 
    * and remove data from temporary store for position.
-   * 
    */
   removeLastPositionRow = () => {
     let createdPosition = this.props.beforeCreatePositions;
@@ -61,19 +65,32 @@ class TextFields extends React.Component {
 	 * Create position for company.
 	 */
 	createPosition() {
-    //
+    this.props.createPositions(this.props.beforeCreatePositions, this.props.history);
+  }
+
+  /**
+   * Make button clickable for creating position.
+	 */
+  enableCreatePositionsButton = () => {
+    let { beforeCreatePositions } = this.props;
+
+    if (beforeCreatePositions.length > 0 && !checkObjectInArrayHasEmptyProperty(beforeCreatePositions)) {
+      return true;
+    } else if (beforeCreatePositions.length > 0) {
+      return false;
+    }
   }
 
   render() {
     let departmentRows = [];
-    let button;
+    let buttonToAddRow;
 
     for (let i = 0; i < this.state.rows; i++) {
       departmentRows.push(<OneRowInputs key={i} rowKey={i}/>);
     }
 
     if (this.state.rows > 1 ) {
-      button = (
+      buttonToAddRow = (
         <Button
           className="btn-info text-white"
           style={{marginBottom: 20, marginLeft: 20}}
@@ -82,6 +99,8 @@ class TextFields extends React.Component {
         </Button>
       );
     }
+
+    let showButton = !this.enableCreatePositionsButton();
       
     return (
       <div className="textfields-wrapper">
@@ -99,12 +118,13 @@ class TextFields extends React.Component {
                 size="small"
                 onClick={() => this.addOneMorePositionRow()}><IntlMessages id='form.position.addNew.addOneMore'/>
               </Button>
-              { button }
+              { buttonToAddRow }
             </RctCollapsibleCard>
             <FormGroup className="mb-5">
               <Button
+                disabled={showButton}
+                className={showButton ? "btn-secondary text-white btn-block w-40" : "btn-info text-white btn-block w-40"} 
                 mini={true}
-                className="btn-info text-white btn-block w-40"
                 style={{marginBottom: 20}}
                 variant="raised"
                 size="medium"
@@ -126,5 +146,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   storePositionsBeforeCreating,
-  resetStorePositionsBeforeCreating
+  resetStorePositionsBeforeCreating,
+  createPositions
 })(TextFields);
