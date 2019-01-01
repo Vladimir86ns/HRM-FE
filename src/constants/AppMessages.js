@@ -13,6 +13,9 @@ const APP_MESSAGES = {
     },
     account: {
         createSuccess: 'Account created successfully!',
+    },
+    positions: {
+        createSuccess: 'Positions created successfully!',
     }
 }
 export default APP_MESSAGES;

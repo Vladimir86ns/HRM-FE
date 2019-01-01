@@ -62,7 +62,7 @@ class TextFields extends React.Component {
 	 * Create position for company.
 	 */
 	createPosition() {
-    this.props.createPositions(this.props.beforeCreatePositions);
+    this.props.createPositions(this.props.beforeCreatePositions, this.props.history);
   }
 
   showCreatePositionsButton = () => {

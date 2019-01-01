@@ -1,5 +1,5 @@
 /**
- * Account Sagas
+ * Positions Sagas
  */
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 
@@ -11,54 +11,59 @@ import { responseCodes } from '../constants/ResponseCode';
 import APP_MESSAGES from '../../src/constants/AppMessages';
 
 /**
- * Account types
+ * Positions types
  */
 import {
   CREATE_POSITIONS
 } from '../actions/types';
 
 /**
- * Account actions
+ * Positions actions
  */
 import {
-  //
+  resetStorePositionsBeforeCreating,
+  responsePositionSuccess,
+  responsePositionNotAcceptable,
+  responsePositionFailure
 } from '../actions/index';
 
 /**
- * Create Account
+ * Create Positions
  */
-function* createPositionsBeforeSavingInDB({ payload }) {
+function* createPositionsToServer({ payload }) {
   try {
-    const newAccount = yield call(createPositionsInDB,  payload.positions);
-    // if (newAccount.status === responseCodes.HTTP_OK) {
-    //   localStorage.setItem('account_id', newAccount.data.id);
-    //   localStorage.setItem('user_id', newAccount.data.user_id);
-    //   history.push('/')
-    //   yield put(responseAccountSuccess(newAccount.data, APP_MESSAGES.account.createSuccess));
-    // } else if (newAccount.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
-    //   yield put(responseAccountNotAcceptable(newAccount.data));
-    // } else {
-    //   yield put(responseAccountFailure(APP_MESSAGES.requestFailed));
-    // }
+    let { positions, history} = payload;
+
+    const response = yield call(createPositionsRequest, positions);
+    if (response.status === responseCodes.HTTP_OK) {
+      // TODO ADD REDIRECTION
+      history.push('/app/forms/company-info');
+      yield put(responsePositionSuccess(response.data, APP_MESSAGES.positions.createSuccess));
+      yield put(resetStorePositionsBeforeCreating());
+    } else if (response.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
+      yield put(responsePositionNotAcceptable(response.data));
+    } else {
+      yield put(responsePositionFailure(APP_MESSAGES.requestFailed));
+    }
   } catch (error) {
-    // yield put(responseAccountFailure(APP_MESSAGES.requestFailed));
+    yield put(responsePositionFailure(APP_MESSAGES.requestFailed));
   }
 }
 
 /**
- * Create User
+ * Create Positions
  */
-const createPositionsInDB = async (positions) => {
-  return await axios.post('/company/positions/save', positions)
-    .then(success => console.log(success))
+const createPositionsRequest = async (positions) => {
+  return await axios.post('/company/positions/save', {positions})
+    .then(success => success)
     .catch(error => error.response);
 }
 
 /**
- * Create Account
+ * Create Positions
  */
 export function* createPositions() {
-  yield takeEvery(CREATE_POSITIONS, createPositionsBeforeSavingInDB);
+  yield takeEvery(CREATE_POSITIONS, createPositionsToServer);
 }
 
 /**
