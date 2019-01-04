@@ -51,7 +51,11 @@ export default (state = INIT_STATE, action) => {
       return { ...state, loading: false, errorMessage: {} };
 
     case RESPONSE_POSITION_NOT_ACCEPTABLE:
-      NotificationManager.error('Check Validation Messages!');
+      if (action.payload.message) {
+        NotificationManager.error(action.payload.message);
+      } else {
+        NotificationManager.error('Check Validation Messages!');
+      }
       return { ...state, loading: false, errorMessage: action.payload };
 
     case RESPONSE_POSITION_FAILURE:
