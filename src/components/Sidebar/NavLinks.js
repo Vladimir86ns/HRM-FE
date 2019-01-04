@@ -46,7 +46,7 @@ export default {
 			"menu_icon": "zmdi icon-graduation",
 			"child_routes": [
 				{
-					"path": "/app/forms/company-info",
+					"path": "/app/tables/position-table",
 					"menu_title": "sidebar.position.seeAll"
 				},
 				{

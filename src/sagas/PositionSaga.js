@@ -37,7 +37,7 @@ function* createPositionsToServer({ payload }) {
     const response = yield call(createPositionsRequest, positions, companyId, accountId);
     if (response.status === responseCodes.HTTP_OK) {
       // TODO ADD REDIRECTION FOR ALL POSITIONS
-      history.push('/app/forms/company-info');
+      history.push('/app/tables/position-table');
       yield put(responsePositionSuccess(response.data, APP_MESSAGES.positions.createSuccess));
       yield put(resetStorePositionsBeforeCreating());
     } else if (response.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
