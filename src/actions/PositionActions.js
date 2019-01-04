@@ -20,9 +20,9 @@ export const storePositionsBeforeCreating = (positions) => ({
 /**
 * Redux Action To Create Position
 */
-export const createPositions = (positions, history) => ({
+export const createPositions = (positions, history, companyId, accountId) => ({
   type: CREATE_POSITIONS,
-  payload: { positions, history }
+  payload: { positions, history, companyId, accountId }
 })
 
 /**

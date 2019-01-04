@@ -65,7 +65,10 @@ class TextFields extends React.Component {
 	 * Create position for company.
 	 */
 	createPosition() {
-    this.props.createPositions(this.props.beforeCreatePositions, this.props.history);
+    // TODO add first validation on this page does company_id and account_id exist.
+    let companyId = localStorage.getItem('company_id');
+    let accountId = localStorage.getItem('account_id');
+    this.props.createPositions(this.props.beforeCreatePositions, this.props.history, companyId, accountId);
   }
 
   /**

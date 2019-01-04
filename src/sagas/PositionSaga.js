@@ -32,9 +32,9 @@ import {
  */
 function* createPositionsToServer({ payload }) {
   try {
-    let { positions, history} = payload;
+    let { history, positions, companyId, accountId} = payload;
 
-    const response = yield call(createPositionsRequest, positions);
+    const response = yield call(createPositionsRequest, positions, companyId, accountId);
     if (response.status === responseCodes.HTTP_OK) {
       // TODO ADD REDIRECTION FOR ALL POSITIONS
       history.push('/app/forms/company-info');
@@ -53,8 +53,12 @@ function* createPositionsToServer({ payload }) {
 /**
  * Create Positions
  */
-const createPositionsRequest = async (positions) => {
-  return await axios.post('/company/positions/save', {positions})
+const createPositionsRequest = async (positions, companyId, accountId) => {
+  return await axios.post('/company/positions/save', {
+    positions,
+    company_id: companyId,
+    account_id: accountId
+  })
     .then(success => success)
     .catch(error => error.response);
 }
