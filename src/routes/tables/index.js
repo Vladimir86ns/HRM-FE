@@ -9,7 +9,8 @@ import {
     AsyncBasicTableComponent,
     AsyncDataTableComponent,
     AsyncResponsiveTableComponent,
-    AsyncDepartmentTableComponent
+    AsyncDepartmentTableComponent,
+    AsyncPositionGetAllComponent
 } from 'Components/AsyncComponent/AsyncComponent';
 
 const Pages = ({ match }) => (
@@ -24,6 +25,7 @@ const Pages = ({ match }) => (
             <Route path={`${match.url}/data-table`} component={AsyncDataTableComponent} />
             <Route path={`${match.url}/responsive`} component={AsyncResponsiveTableComponent} />
             <Route path={`${match.url}/department`} component={AsyncDepartmentTableComponent} />
+            <Route path={`${match.url}/position-table`} component={AsyncPositionGetAllComponent} />
         </Switch>
     </div>
 );

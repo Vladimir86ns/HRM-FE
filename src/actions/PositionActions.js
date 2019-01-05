@@ -1,20 +1,31 @@
 import {
-  STORE_POSITIONS_BEFORE_CREATING,
+  GET_COMPANY_POSITIONS,
+  GET_COMPANY_POSITIONS_BY_PAGE,
   CREATE_POSITIONS,
+  STORE_POSITIONS_BEFORE_CREATING,
   RESET_SHOW_ADD_POSITION_BUTTON,
   RESET_STORE_POSITIONS_BEFORE_CREATING,
   RESPONSE_POSITION_SUCCESS,
+  RESPONSE_POSITION_GET_SUCCESS,
   RESPONSE_POSITION_NOT_FOUND,
   RESPONSE_POSITION_NOT_ACCEPTABLE,
   RESPONSE_POSITION_FAILURE,
 } from './types';
 
 /**
-* Redux Action To Store Positions Before Creating
+* Redux Action To Get Company Positions
 */
-export const storePositionsBeforeCreating = (positions) => ({
-  type: STORE_POSITIONS_BEFORE_CREATING,
-  payload: positions
+export const getCompanyPositions = (companyId) => ({
+  type: GET_COMPANY_POSITIONS,
+  payload: { companyId }
+})
+
+/**
+* Redux Action To Get Company Positions By Page
+*/
+export const getCompanyPositionsByPage = (companyId, pageNumber) => ({
+  type: GET_COMPANY_POSITIONS_BY_PAGE,
+  payload: { companyId, pageNumber }
 })
 
 /**
@@ -23,6 +34,14 @@ export const storePositionsBeforeCreating = (positions) => ({
 export const createPositions = (positions, history, companyId, accountId) => ({
   type: CREATE_POSITIONS,
   payload: { positions, history, companyId, accountId }
+})
+
+/**
+* Redux Action To Store Positions Before Creating
+*/
+export const storePositionsBeforeCreating = (positions) => ({
+  type: STORE_POSITIONS_BEFORE_CREATING,
+  payload: positions
 })
 
 /**
@@ -47,6 +66,14 @@ export const resetStorePositionsBeforeCreating = () => ({
 export const responsePositionSuccess = (positions, message) => ({
   type: RESPONSE_POSITION_SUCCESS,
   payload: { positions, message } 
+});
+
+/**
+* Redux Action Positions Get Success
+*/
+export const responsePositionGetSuccess = (positions, paginationMeta) => ({
+  type: RESPONSE_POSITION_GET_SUCCESS,
+  payload: { positions, paginationMeta } 
 });
 
 /**

@@ -545,6 +545,11 @@ const AsyncPositionAddNewComponent = Loadable({
 	loading: () => <RctPageLoader />,
 });
 
+const AsyncPositionGetAllComponent = Loadable({
+	loader: () => import("Routes/tables/position-table"),
+	loading: () => <RctPageLoader />,
+});
+
 export {
 	AsyncUserWidgetComponent,
 	AsyncUserChartsComponent,
@@ -633,5 +638,6 @@ export {
 
 	AsyncCompanyInfoComponent,
 	AsyncProfileInfoComponent,
-	AsyncPositionAddNewComponent
+	AsyncPositionAddNewComponent,
+	AsyncPositionGetAllComponent
 };
