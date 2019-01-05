@@ -1,12 +1,13 @@
-/**
- * User Management Page
- */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
+import DeleteConfirmationDialog from 'Components/DeleteConfirmationDialog/DeleteConfirmationDialog';
+import UpdatePositionForm from '../../../../src/routes/forms/position/components/updatePositionForm';
+import IntlMessages from 'Util/IntlMessages';
+import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
+import RctSectionLoader from 'Components/RctSectionLoader/RctSectionLoader';
+import AppConfig from 'Constants/AppConfig';
 
 import {
 	Pagination,
@@ -16,12 +17,7 @@ import {
 	ModalHeader,
 	ModalBody,
 	ModalFooter,
-	Badge
 } from 'reactstrap';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import { NotificationManager } from 'react-notifications';
-import Avatar from '@material-ui/core/Avatar';
 
 // redux action
 import {
@@ -29,62 +25,23 @@ import {
 	getCompanyPositionsByPage
 } from '../../../actions/index';
 
-// api
-import api from 'Api';
-import apiLaravel from '../../../Axios-laravel';
-
-// delete confirmation dialog
-import DeleteConfirmationDialog from 'Components/DeleteConfirmationDialog/DeleteConfirmationDialog';
-
-// add new user form
-import AddNewUserForm from '../../../../src/routes/users/user-management/AddNewUserForm'; 
-
-// update user form
-import UpdateUserForm from '../../../../src/routes/users/user-management/UpdateUserForm';
-
-// page title bar
-import PageTitleBar from 'Components/PageTitleBar/PageTitleBar';
-
-// intl messages
-import IntlMessages from 'Util/IntlMessages';
-
-// rct card box
-import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
-
-// rct section loader
-import RctSectionLoader from 'Components/RctSectionLoader/RctSectionLoader';
+// helper function
+import {
+	isObjectEmpty
+} from '../../../util/index';
 
 class TextFields extends Component {
 
 	state = {
 		positions: null,
 		meta: null,
+		formaChanged: false,
+		editPositionOpen: false,
+		updatePositionName: '',
+		updatePositionId: false,
+		selectedPosition: {},
 		previousPage: 0,
-		nextPage: 0,
-
-		
-		all: false,
-		users: null, // initial user data
-		selectedUser: null, // selected user to perform operations
-		loading: false, // loading activity
-		addNewUserModal: false, // add new user form modal
-		addNewUserDetail: {
-			id: '',
-			name: '',
-			avatar: '',
-			type: '',
-			emailAddress: '',
-			status: 'Active',
-			lastSeen: '',
-			accountType: '',
-			badgeClass: 'badge-success',
-			dateCreated: 'Just Now',
-			checked: false
-		},
-		openViewUserDialog: false, // view user dialog box
-		editUser: null,
-		allSelected: false,
-		selectedUsers: 0
+		nextPage: 0
 	}
 
 	componentDidMount() {
@@ -93,182 +50,138 @@ class TextFields extends Component {
 	}
 
 	/**
-	 * On Delete
+	 * On edit position.
+	 *
+	 * @param {object} position selected position.
+   */
+	onEditPosition(position) {
+		this.setState({ editPositionOpen: true, selectedPosition: position, updatePositionName: position.name, updatePositionId: position.id });
+	};
+
+	/**
+	 * Update position name and id in store.
+	 *
+	 * @param {string} value position name.
+	 * @param {int} positionId position Id.
+   */
+	updatePositionName(value) {
+		this.setState({ updatePositionName: value, formaChanged: true });
+	};
+
+	/**
+	 * Delete position.
+	 * 
+	 * @param {object} position selected position.
 	 */
-	onDelete() {
+	onDelete(position) {
 		this.refs.deleteConfirmationDialog.open();
-		this.setState({ selectedUser: data });
-	}
+		this.setState({ selectedPosition: position });
+	};
 
 	/**
-	 * Delete User Permanently
+	 * Delete position from server.
 	 */
-	deleteUserPermanently() {
-		const { selectedUser } = this.state;
-		let users = this.state.users;
-		let indexOfDeleteUser = users.indexOf(selectedUser);
-		users.splice(indexOfDeleteUser, 1);
+	deletePosition() {
+		// TODO delete position from company.
+		console.log('update user from name ' , this.state.selectedPosition.name, 'ID ', this.state.selectedPosition.id);
 		this.refs.deleteConfirmationDialog.close();
-		this.setState({ loading: true });
-		let self = this;
-		setTimeout(() => {
-			self.setState({ loading: false, users, selectedUser: null });
-			NotificationManager.success('User Deleted!');
-		}, 2000);
-	}
+	};
 
 	/**
-	 * On Change Add New User Details
+	 * Update position.
 	 */
-	onChangeAddNewUserDetails(key, value) {
-		this.setState({
-			addNewUserDetail: {
-				...this.state.addNewUserDetail,
-				[key]: value
-			}
-		});
-	}
+	updatePosition() {
+		// TODO update position from company.
+		console.log('update user from name ' , this.state.updatePositionName, 'ID ', this.state.updatePositionId);
+		this.setState({ formaChanged: false });
+	};
 
 	/**
-	 * Add New User
+	 * Close update form position.
 	 */
-	addNewUser() {
-		const { name, emailAddress } = this.state.addNewUserDetail;
-		if (name !== '' && emailAddress !== '') {
-			let users = this.state.users;
-			let newUser = {
-				...this.state.addNewUserDetail,
-				id: new Date().getTime()
-			}
-			users.push(newUser);
-			this.setState({ addNewUserModal: false, loading: true });
-			let self = this;
-			setTimeout(() => {
-				self.setState({ loading: false, users });
-				NotificationManager.success('User Created!');
-			}, 2000);
-		}
-	}
+	onUpdatePositionModalClose() {
+		this.setState({ addNewUserModal: false, editUser: null, editPositionOpen: false, formaChanged: false })
+	};
 
 	/**
-	 * View User Detail Hanlder
+	 * Get new position for page.
+	 * 
+	 * @param {int} pageNumber number of page which to get from server.
 	 */
-	viewUserDetail(data) {
-		this.setState({ openViewUserDialog: true, selectedUser: data });
-	}
-
-	/**
-	 * On Edit User
-	 */
-	onEditUser(user) {
-		this.setState({ addNewUserModal: true, editUser: user });
-	}
-
-	/**
-	 * On Add & Update User Modal Close
-	 */
-	onAddUpdateUserModalClose() {
-		this.setState({ addNewUserModal: false, editUser: null })
-	}
-
-	/**
-	 * On Update User Details
-	 */
-	onUpdateUserDetails(key, value) {
-		this.setState({
-			editUser: {
-				...this.state.editUser,
-				[key]: value
-			}
-		});
-	}
-
-	/**
-	 * Update User
-	 */
-	updateUser() {
-		const { editUser } = this.state;
-		let indexOfUpdateUser = '';
-		let users = this.state.users;
-		for (let i = 0; i < users.length; i++) {
-			const user = users[i];
-			if (user.id === editUser.id) {
-				indexOfUpdateUser = i
-			}
-		}
-		users[indexOfUpdateUser] = editUser;
-		this.setState({ loading: true, editUser: null, addNewUserModal: false });
-		let self = this;
-		setTimeout(() => {
-			self.setState({ users, loading: false });
-			NotificationManager.success('User Updated!');
-		}, 2000);
-	}
-
-	//Select All user
-	onSelectAllUser(e) {
-		const { selectedUsers, users } = this.state;
-		let selectAll = selectedUsers < users.length;
-		if (selectAll) {
-			let selectAllUsers = users.map(user => {
-				user.checked = true
-				return user
-			});
-			this.setState({ users: selectAllUsers, selectedUsers: selectAllUsers.length })
-		} else {
-			let unselectedUsers = users.map(user => {
-				user.checked = false
-				return user;
-			});
-			this.setState({ selectedUsers: 0, users: unselectedUsers });
-		}
-	}
-
 	onSelectPage = (pageNumber) => {
-			let companyId = localStorage.getItem('company_id');
-			this.props.getCompanyPositionsByPage(companyId, pageNumber);
+		let companyId = localStorage.getItem('company_id');
+		this.props.getCompanyPositionsByPage(companyId, pageNumber);
+	};
+
+	/**
+	 * Get total pages pagination.
+	 *
+	 * @param {int} totalPages how many pages are
+	 * @param {int} currentPage on which is page.
+   */
+	getPagination = (totalPages, currentPage) => {
+		let pagination = [];
+		for (let i = 1; i <= totalPages; i++) { 
+			pagination.push(
+				<PaginationItem key={i} active={i === currentPage}>
+					<PaginationLink onClick={() => this.onSelectPage(i)} >{i}</PaginationLink>
+				</PaginationItem>
+			);
+		}
+
+		return pagination;
 	}
+
+	/**
+	 * Get previous pagination.
+	 *
+	 * @param {object} links to check does has previous link.
+   */
+	getPreviousPagination = (links) => {
+		if (links.previous) {
+			return (
+				<PaginationItem>
+					<PaginationLink previous onClick={() => this.onSelectPage(this.state.previousPage)} />
+				</PaginationItem>
+			);
+		}
+	};
+
+	/**
+	 * Get next pagination.
+	 *
+	 * @param {object} links to check does has next link.
+   */
+	getNextPagination = (links) => {
+		if (links.next) {
+			return (
+				<PaginationItem>
+					<PaginationLink next onClick={() => this.onSelectPage(this.state.nextPage)}/>
+				</PaginationItem>
+			);
+		}
+	};
 
 	render() {
-		const { users, positions, loading, selectedUser, editUser, allSelected, selectedUsers } = this.state;
-		let paginationPrevious;
+		const { loading, updatePositionName, selectedPosition, editPositionOpen, formaChanged } = this.state;
 		let rowNumber = 1;
+		let paginationPrevious;
 		let paginationNext;
 		let pagination = [];
 
-		// TODO make global function to check is object empty with lodash empty
-		if (Object.keys(this.props.paginationMeta).length > 0) {
+		if (!isObjectEmpty(this.props.paginationMeta)) {
 			let { total_pages, current_page, links, count} = this.props.paginationMeta;
 			rowNumber = current_page * count - count + 1;
-			for (let i = 1; i <= total_pages; i++) { 
-				pagination.push(
-					<PaginationItem key={i} active={i === current_page}>
-						<PaginationLink onClick={() => this.onSelectPage(i)} >{i}</PaginationLink>
-					</PaginationItem>
-				);
-			}
 
-			if (links.previous) {
-				paginationPrevious = (
-					<PaginationItem>
-						<PaginationLink previous onClick={() => this.onSelectPage(this.state.previousPage)} />
-					</PaginationItem>
-				);
-			}
-
-			if (links.next) {
-				paginationNext = (
-					<PaginationItem>
-						<PaginationLink next onClick={() => this.onSelectPage(this.state.nextPage)}/>
-					</PaginationItem>
-				);
-			}
+			pagination = this.getPagination(total_pages, current_page);
+			paginationPrevious = this.getPreviousPagination(links);
+			paginationPrevious = this.getNextPagination(links);
 		}
 
 		return (
 			<div className="user-management">
 				<Helmet>
-					<title>Reactify | Users Management</title>
+					<title>{AppConfig.brandName}</title>
 					<meta name="description" content="Reactify Widgets" />
 				</Helmet>
 				<RctCollapsibleCard fullBlock>
@@ -279,7 +192,7 @@ class TextFields extends Component {
 									href="javascript:void(0)" 
 									onClick={() => this.props.history.push('/app/forms/position')} 
 									color="primary" 
-									className="caret btn-sm mr-10"><IntlMessages id='table.position.row.addNewPosition'/>
+									className="caret btn-sm mr-10"><IntlMessages id='table.position.addNewPosition'/>
 									<i className="zmdi zmdi-plus"></i>
 								</a>
 							</div>
@@ -300,7 +213,7 @@ class TextFields extends Component {
 										<td>{position.name}</td>
 										<td>{position.department_name}</td>
 										<td className="list-action">
-											<a href="javascript:void(0)" onClick={() => this.onEditUser(position)}><i className="ti-pencil"></i></a>
+											<a href="javascript:void(0)" onClick={() => this.onEditPosition(position)}><i className="ti-pencil"></i></a>
 											<a href="javascript:void(0)" onClick={() => this.onDelete(position)}><i className="ti-close"></i></a>
 										</td>
 									</tr>
@@ -326,31 +239,36 @@ class TextFields extends Component {
 				<DeleteConfirmationDialog
 					ref="deleteConfirmationDialog"
 					title="Are You Sure Want To Delete?"
-					message="This will delete user permanently."
-					onConfirm={() => this.deleteUserPermanently()}
+					message="This will delete position from company."
+					onConfirm={() => this.deletePosition()}
 				/>
-				<Modal isOpen={this.state.addNewUserModal} toggle={() => this.onAddUpdateUserModalClose()}>
-					<ModalHeader toggle={() => this.onAddUpdateUserModalClose()}>
-						{editUser === null ?
-							'Add New User' : 'Update User'
-						}
+				<Modal isOpen={this.state.editPositionOpen} toggle={() => this.onUpdatePositionModalClose()}>
+					<ModalHeader 
+						toggle={() => this.onUpdatePositionModalClose()}><IntlMessages id='table.position.form.updatePosition'/>
 					</ModalHeader>
 					<ModalBody>
-						{editUser === null ?
-							<AddNewUserForm
-								addNewUserDetails={this.state.addNewUserDetail}
-								onChangeAddNewUserDetails={this.onChangeAddNewUserDetails.bind(this)}
-							/>
-							: <UpdateUserForm user={editUser} onUpdateUserDetail={this.onUpdateUserDetails.bind(this)} />
-						}
+						<UpdatePositionForm 
+							position={selectedPosition} 
+							updatedName={updatePositionName} 
+							updatePositionName={(value) => this.updatePositionName(value)} 
+						/> 
 					</ModalBody>
 					<ModalFooter>
-						{editUser === null ?
-							<Button variant="raised" className="text-white btn-success" onClick={() => this.addNewUser()}>Add</Button>
-							: <Button variant="raised" color="primary" className="text-white" onClick={() => this.updateUser()}>Update</Button>
-						}
-						{' '}
-						<Button variant="raised" className="text-white btn-danger" onClick={() => this.onAddUpdateUserModalClose()}>Cancel</Button>
+						<Button 
+							disabled={!formaChanged} 
+							variant="raised" 
+							color="primary" 
+							className="text-white" 
+							onClick={() => this.updatePosition()}>
+							<IntlMessages id='button.update'/>
+						</Button>
+						<Button
+							style={{marginLeft: 20}}
+							variant="raised" 
+							className="text-white btn-danger" 
+							onClick={() => this.onUpdatePositionModalClose()}>
+							<IntlMessages id='button.cancel'/>
+						</Button>
 					</ModalFooter>
 				</Modal>
 			</div>
@@ -358,7 +276,6 @@ class TextFields extends Component {
 	}
 }
 
-// map state to props
 const mapStateToProps = (state) => {
 	const { positions, paginationMeta } = state.positionReducer
 

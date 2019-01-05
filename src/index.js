@@ -1,9 +1,3 @@
-/**
- * Reactify - A Material Design Admin Template
- * Copyright 2018 All Rights Reserved
- * Made Wih Love
- * Created By The Iron Network, LLC
- */
 import React from 'react';
 import ReactDOM from 'react-dom';
 
