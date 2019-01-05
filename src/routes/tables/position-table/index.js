@@ -1,12 +1,13 @@
-/**
- * User Management Page
- */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
-import Checkbox from '@material-ui/core/Checkbox';
+import DeleteConfirmationDialog from 'Components/DeleteConfirmationDialog/DeleteConfirmationDialog';
+import UpdatePositionForm from '../../../../src/routes/forms/position/components/updatePositionForm';
+import IntlMessages from 'Util/IntlMessages';
+import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
+import RctSectionLoader from 'Components/RctSectionLoader/RctSectionLoader';
+import AppConfig from 'Constants/AppConfig';
 
 import {
 	Pagination,
@@ -16,44 +17,13 @@ import {
 	ModalHeader,
 	ModalBody,
 	ModalFooter,
-	Badge
 } from 'reactstrap';
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import { NotificationManager } from 'react-notifications';
-import Avatar from '@material-ui/core/Avatar';
 
 // redux action
 import {
 	getCompanyPositions,
 	getCompanyPositionsByPage
 } from '../../../actions/index';
-
-// api
-import api from 'Api';
-import apiLaravel from '../../../Axios-laravel';
-
-// delete confirmation dialog
-import DeleteConfirmationDialog from 'Components/DeleteConfirmationDialog/DeleteConfirmationDialog';
-
-// add new user form
-import AddNewUserForm from '../../../../src/routes/users/user-management/AddNewUserForm'; 
-
-// update user form
-import UpdateUserForm from '../../../../src/routes/users/user-management/UpdateUserForm';
-import UpdatePositionForm from '../../../../src/routes/forms/position/components/updatePositionForm';
-
-// page title bar
-import PageTitleBar from 'Components/PageTitleBar/PageTitleBar';
-
-// intl messages
-import IntlMessages from 'Util/IntlMessages';
-
-// rct card box
-import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard';
-
-// rct section loader
-import RctSectionLoader from 'Components/RctSectionLoader/RctSectionLoader';
 
 class TextFields extends Component {
 
@@ -66,31 +36,7 @@ class TextFields extends Component {
 		updatePositionId: false,
 		selectedPosition: {},
 		previousPage: 0,
-		nextPage: 0,
-
-		
-		all: false,
-		users: null, // initial user data
-		selectedUser: null, // selected user to perform operations
-		loading: false, // loading activity
-		addNewUserModal: false, // add new user form modal
-		addNewUserDetail: {
-			id: '',
-			name: '',
-			avatar: '',
-			type: '',
-			emailAddress: '',
-			status: 'Active',
-			lastSeen: '',
-			accountType: '',
-			badgeClass: 'badge-success',
-			dateCreated: 'Just Now',
-			checked: false
-		},
-		openViewUserDialog: false, // view user dialog box
-		editUser: null,
-		allSelected: false,
-		selectedUsers: 0
+		nextPage: 0
 	}
 
 	componentDidMount() {
@@ -99,7 +45,7 @@ class TextFields extends Component {
 	}
 
 	/**
-	 * On Edit Position Name.
+	 * On edit position.
 	 *
 	 * @param {object} position selected position.
    */
@@ -118,7 +64,7 @@ class TextFields extends Component {
 	};
 
 	/**
-	 * On Delete
+	 * Delete Position.
 	 * 
 	 * @param {object} position selected position.
 	 */
@@ -128,138 +74,37 @@ class TextFields extends Component {
 	};
 
 	/**
-	 * Delete User Permanently
+	 * Delete Position From Server.
 	 */
 	deletePosition() {
-		this.refs.deleteConfirmationDialog.close();
+		// TODO delete position from company.
 		console.log('update user from name ' , this.state.selectedPosition.name, 'ID ', this.state.selectedPosition.id);
-	}
+		this.refs.deleteConfirmationDialog.close();
+	};
 
 	/**
-	 * Update Position
+	 * Update Position.
 	 */
 	updatePosition() {
+		// TODO update position from company.
 		console.log('update user from name ' , this.state.updatePositionName, 'ID ', this.state.updatePositionId);
 		this.setState({ formaChanged: false });
-	}
-
-
-
-
-
-
+	};
 
 	/**
-	 * On Change Add New User Details
+	 * Close update form position.
 	 */
-	onChangeAddNewUserDetails(key, value) {
-		this.setState({
-			addNewUserDetail: {
-				...this.state.addNewUserDetail,
-				[key]: value
-			}
-		});
-	}
-
-	/**
-	 * Add New User
-	 */
-	addNewUser() {
-		const { name, emailAddress } = this.state.addNewUserDetail;
-		if (name !== '' && emailAddress !== '') {
-			let users = this.state.users;
-			let newUser = {
-				...this.state.addNewUserDetail,
-				id: new Date().getTime()
-			}
-			users.push(newUser);
-			this.setState({ addNewUserModal: false, loading: true });
-			let self = this;
-			setTimeout(() => {
-				self.setState({ loading: false, users });
-				NotificationManager.success('User Created!');
-			}, 2000);
-		}
-	}
-
-	/**
-	 * View User Detail Hanlder
-	 */
-	viewUserDetail(data) {
-		this.setState({ openViewUserDialog: true, selectedUser: data });
-	}
-
-	/**
-	 * On Edit User
-	 */
-	onEditUser(user) {
-		this.setState({ addNewUserModal: true, editUser: user });
-	}
-
-	/**
-	 * On Add & Update User Modal Close
-	 */
-	onAddUpdateUserModalClose() {
+	onUpdatePositionModalClose() {
 		this.setState({ addNewUserModal: false, editUser: null, editPositionOpen: false })
-	}
+	};
 
 	/**
-	 * On Update User Details
+	 * Get new position for page.
 	 */
-	onUpdateUserDetails(key, value) {
-		this.setState({
-			editUser: {
-				...this.state.editUser,
-				[key]: value
-			}
-		});
-	}
-
-	/**
-	 * Update User
-	 */
-	updateUser() {
-		const { editUser } = this.state;
-		let indexOfUpdateUser = '';
-		let users = this.state.users;
-		for (let i = 0; i < users.length; i++) {
-			const user = users[i];
-			if (user.id === editUser.id) {
-				indexOfUpdateUser = i
-			}
-		}
-		users[indexOfUpdateUser] = editUser;
-		this.setState({ loading: true, editUser: null, addNewUserModal: false });
-		let self = this;
-		setTimeout(() => {
-			self.setState({ users, loading: false });
-			NotificationManager.success('User Updated!');
-		}, 2000);
-	}
-
-	//Select All user
-	onSelectAllUser(e) {
-		const { selectedUsers, users } = this.state;
-		let selectAll = selectedUsers < users.length;
-		if (selectAll) {
-			let selectAllUsers = users.map(user => {
-				user.checked = true
-				return user
-			});
-			this.setState({ users: selectAllUsers, selectedUsers: selectAllUsers.length })
-		} else {
-			let unselectedUsers = users.map(user => {
-				user.checked = false
-				return user;
-			});
-			this.setState({ selectedUsers: 0, users: unselectedUsers });
-		}
-	}
-
 	onSelectPage = (pageNumber) => {
-			let companyId = localStorage.getItem('company_id');
-			this.props.getCompanyPositionsByPage(companyId, pageNumber);
-	}
+		let companyId = localStorage.getItem('company_id');
+		this.props.getCompanyPositionsByPage(companyId, pageNumber);
+	};
 
 	render() {
 		const { loading, updatePositionName, selectedPosition, editPositionOpen, formaChanged } = this.state;
@@ -300,7 +145,7 @@ class TextFields extends Component {
 		return (
 			<div className="user-management">
 				<Helmet>
-					<title>Reactify | Users Management</title>
+					<title>{AppConfig.brandName} | Positions List</title>
 					<meta name="description" content="Reactify Widgets" />
 				</Helmet>
 				<RctCollapsibleCard fullBlock>
@@ -361,8 +206,8 @@ class TextFields extends Component {
 					message="This will delete position from company."
 					onConfirm={() => this.deletePosition()}
 				/>
-				<Modal isOpen={this.state.editPositionOpen} toggle={() => this.onAddUpdateUserModalClose()}>
-					<ModalHeader toggle={() => this.onAddUpdateUserModalClose()}>
+				<Modal isOpen={this.state.editPositionOpen} toggle={() => this.onUpdatePositionModalClose()}>
+					<ModalHeader toggle={() => this.onUpdatePositionModalClose()}>
 						Update User
 					</ModalHeader>
 					<ModalBody>
@@ -378,7 +223,7 @@ class TextFields extends Component {
 					</ModalBody>
 					<ModalFooter>
 						<Button disabled={!formaChanged} variant="raised" color="primary" className="text-white" onClick={() => this.updatePosition()}>Update</Button>
-						<Button style={{marginLeft: 20}} variant="raised" className="text-white btn-danger" onClick={() => this.onAddUpdateUserModalClose()}>Cancel</Button>
+						<Button style={{marginLeft: 20}} variant="raised" className="text-white btn-danger" onClick={() => this.onUpdatePositionModalClose()}>Cancel</Button>
 					</ModalFooter>
 				</Modal>
 			</div>
