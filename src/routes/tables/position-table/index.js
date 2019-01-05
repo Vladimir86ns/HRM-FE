@@ -2,6 +2,7 @@
  * User Management Page
  */
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Button from '@material-ui/core/Button';
@@ -21,6 +22,12 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import { NotificationManager } from 'react-notifications';
 import Avatar from '@material-ui/core/Avatar';
+
+// redux action
+import {
+	getCompanyPositions,
+	getCompanyPositionsByPage
+} from '../../../actions/index';
 
 // api
 import api from 'Api';
@@ -47,9 +54,15 @@ import RctCollapsibleCard from 'Components/RctCollapsibleCard/RctCollapsibleCard
 // rct section loader
 import RctSectionLoader from 'Components/RctSectionLoader/RctSectionLoader';
 
-export default class UserProfile extends Component {
+class TextFields extends Component {
 
 	state = {
+		positions: null,
+		meta: null,
+		previousPage: 0,
+		nextPage: 0,
+
+		
 		all: false,
 		users: null, // initial user data
 		selectedUser: null, // selected user to perform operations
@@ -71,28 +84,18 @@ export default class UserProfile extends Component {
 		openViewUserDialog: false, // view user dialog box
 		editUser: null,
 		allSelected: false,
-		selectedUsers: 0,
-
-		positions: null,
-		meta: null,
-		previousPage: 0,
-		nextPage: 0,
+		selectedUsers: 0
 	}
 
 	componentDidMount() {
-		apiLaravel.get('company/1/positions/get')
-			.then((response) => {
-				this.setState({ positions: response.data.data, meta: response.data.meta });
-			})
-			.catch(error => {
-				// error hanlding
-			})
+		let companyId = localStorage.getItem('company_id');
+		this.props.getCompanyPositions(companyId);
 	}
 
 	/**
 	 * On Delete
 	 */
-	onDelete(data) {
+	onDelete() {
 		this.refs.deleteConfirmationDialog.open();
 		this.setState({ selectedUser: data });
 	}
@@ -112,46 +115,6 @@ export default class UserProfile extends Component {
 			self.setState({ loading: false, users, selectedUser: null });
 			NotificationManager.success('User Deleted!');
 		}, 2000);
-	}
-
-	/**
-	 * Open Add New User Modal
-	 */
-	opnAddNewUserModal() {
-		this.setState({ addNewUserModal: true });
-	}
-
-	/**
-	 * On Reload
-	 */
-	onReload() {
-		this.setState({ loading: true });
-		let self = this;
-		setTimeout(() => {
-			self.setState({ loading: false });
-		}, 2000);
-	}
-
-	/**
-	 * On Select User
-	 */
-	onSelectUser(user) {
-		user.checked = !user.checked;
-		let selectedUsers = 0;
-		let users = this.state.users.map(userData => {
-			if (userData.checked) {
-				selectedUsers++;
-			}
-			if (userData.id === user.id) {
-				if (userData.checked) {
-					selectedUsers++;
-				}
-				return user;
-			} else {
-				return userData;
-			}
-		});
-		this.setState({ users, selectedUsers });
 	}
 
 	/**
@@ -261,19 +224,9 @@ export default class UserProfile extends Component {
 		}
 	}
 
-	onSelectPage = (number) => {
-			apiLaravel.get(`company/1/positions/get?page=${number}`)
-				.then((response) => {
-					this.setState({ positions: response.data.data, meta: response.data.meta });
-				})
-				.catch(error => {
-					// error hanlding
-				});
-			
-			this.setState({ 
-				previousPage: number - 1,
-				nextPage: number + 1 
-			});
+	onSelectPage = (pageNumber) => {
+			let companyId = localStorage.getItem('company_id');
+			this.props.getCompanyPositionsByPage(companyId, pageNumber);
 	}
 
 	render() {
@@ -283,8 +236,9 @@ export default class UserProfile extends Component {
 		let paginationNext;
 		let pagination = [];
 
-		if (this.state.meta) {
-			let { total_pages, current_page, links, count} = this.state.meta.pagination;
+		// TODO make global function to check is object empty with lodash empty
+		if (Object.keys(this.props.paginationMeta).length > 0) {
+			let { total_pages, current_page, links, count} = this.props.paginationMeta;
 			rowNumber = current_page * count - count + 1;
 			for (let i = 1; i <= total_pages; i++) { 
 				pagination.push(
@@ -340,7 +294,7 @@ export default class UserProfile extends Component {
 								</tr>
 							</thead>
 							<tbody>
-								{positions && positions.map((position, key) => (
+								{this.props.positions && this.props.positions.map((position, key) => (
 									<tr key={key}>
 										<td>{rowNumber++}</td>
 										<td>{position.name}</td>
@@ -403,3 +357,15 @@ export default class UserProfile extends Component {
 		);
 	}
 }
+
+// map state to props
+const mapStateToProps = (state) => {
+	const { positions, paginationMeta } = state.positionReducer
+
+	return { positions, paginationMeta };
+};
+
+export default connect(mapStateToProps, {
+	getCompanyPositions,
+	getCompanyPositionsByPage
+})(TextFields);
