@@ -59,7 +59,7 @@ class TextFields extends Component {
 	};
 
 	/**
-	 * Update Position Name And Id In Store.
+	 * Update position name and id in store.
 	 *
 	 * @param {string} value position name.
 	 * @param {int} positionId position Id.
@@ -69,7 +69,7 @@ class TextFields extends Component {
 	};
 
 	/**
-	 * Delete Position.
+	 * Delete position.
 	 * 
 	 * @param {object} position selected position.
 	 */
@@ -79,7 +79,7 @@ class TextFields extends Component {
 	};
 
 	/**
-	 * Delete Position From Server.
+	 * Delete position from server.
 	 */
 	deletePosition() {
 		// TODO delete position from company.
@@ -88,7 +88,7 @@ class TextFields extends Component {
 	};
 
 	/**
-	 * Update Position.
+	 * Update position.
 	 */
 	updatePosition() {
 		// TODO update position from company.
@@ -105,45 +105,77 @@ class TextFields extends Component {
 
 	/**
 	 * Get new position for page.
+	 * 
+	 * @param {int} pageNumber number of page which to get from server.
 	 */
 	onSelectPage = (pageNumber) => {
 		let companyId = localStorage.getItem('company_id');
 		this.props.getCompanyPositionsByPage(companyId, pageNumber);
 	};
 
+	/**
+	 * Get total pages pagination.
+	 *
+	 * @param {int} totalPages how many pages are
+	 * @param {int} currentPage on which is page.
+   */
+	getPagination = (totalPages, currentPage) => {
+		let pagination = [];
+		for (let i = 1; i <= totalPages; i++) { 
+			pagination.push(
+				<PaginationItem key={i} active={i === currentPage}>
+					<PaginationLink onClick={() => this.onSelectPage(i)} >{i}</PaginationLink>
+				</PaginationItem>
+			);
+		}
+
+		return pagination;
+	}
+
+	/**
+	 * Get previous pagination.
+	 *
+	 * @param {object} links to check does has previous link.
+   */
+	getPreviousPagination = (links) => {
+		if (links.previous) {
+			return (
+				<PaginationItem>
+					<PaginationLink previous onClick={() => this.onSelectPage(this.state.previousPage)} />
+				</PaginationItem>
+			);
+		}
+	};
+
+	/**
+	 * Get next pagination.
+	 *
+	 * @param {object} links to check does has next link.
+   */
+	getNextPagination = (links) => {
+		if (links.next) {
+			return (
+				<PaginationItem>
+					<PaginationLink next onClick={() => this.onSelectPage(this.state.nextPage)}/>
+				</PaginationItem>
+			);
+		}
+	};
+
 	render() {
 		const { loading, updatePositionName, selectedPosition, editPositionOpen, formaChanged } = this.state;
-		let paginationPrevious;
 		let rowNumber = 1;
+		let paginationPrevious;
 		let paginationNext;
 		let pagination = [];
 
 		if (!isObjectEmpty(this.props.paginationMeta)) {
 			let { total_pages, current_page, links, count} = this.props.paginationMeta;
 			rowNumber = current_page * count - count + 1;
-			for (let i = 1; i <= total_pages; i++) { 
-				pagination.push(
-					<PaginationItem key={i} active={i === current_page}>
-						<PaginationLink onClick={() => this.onSelectPage(i)} >{i}</PaginationLink>
-					</PaginationItem>
-				);
-			}
 
-			if (links.previous) {
-				paginationPrevious = (
-					<PaginationItem>
-						<PaginationLink previous onClick={() => this.onSelectPage(this.state.previousPage)} />
-					</PaginationItem>
-				);
-			}
-
-			if (links.next) {
-				paginationNext = (
-					<PaginationItem>
-						<PaginationLink next onClick={() => this.onSelectPage(this.state.nextPage)}/>
-					</PaginationItem>
-				);
-			}
+			pagination = this.getPagination(total_pages, current_page);
+			paginationPrevious = this.getPreviousPagination(links);
+			paginationPrevious = this.getNextPagination(links);
 		}
 
 		return (
@@ -211,19 +243,15 @@ class TextFields extends Component {
 					onConfirm={() => this.deletePosition()}
 				/>
 				<Modal isOpen={this.state.editPositionOpen} toggle={() => this.onUpdatePositionModalClose()}>
-					<ModalHeader toggle={() => this.onUpdatePositionModalClose()}>
-						Update User
+					<ModalHeader 
+						toggle={() => this.onUpdatePositionModalClose()}>Update User
 					</ModalHeader>
 					<ModalBody>
-						{
-							editPositionOpen ? 
-								<UpdatePositionForm 
-									position={selectedPosition} 
-									updatedName={updatePositionName} 
-									updatePositionName={(value) => this.updatePositionName(value)} 
-								/> 
-							: null
-						}
+						<UpdatePositionForm 
+							position={selectedPosition} 
+							updatedName={updatePositionName} 
+							updatePositionName={(value) => this.updatePositionName(value)} 
+						/> 
 					</ModalBody>
 					<ModalFooter>
 						<Button disabled={!formaChanged} variant="raised" color="primary" className="text-white" onClick={() => this.updatePosition()}>Update</Button>
