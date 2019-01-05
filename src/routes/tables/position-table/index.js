@@ -25,6 +25,11 @@ import {
 	getCompanyPositionsByPage
 } from '../../../actions/index';
 
+// helper function
+import {
+	isObjectEmpty
+} from '../../../util/index';
+
 class TextFields extends Component {
 
 	state = {
@@ -113,8 +118,7 @@ class TextFields extends Component {
 		let paginationNext;
 		let pagination = [];
 
-		// TODO make global function to check is object empty with lodash empty
-		if (Object.keys(this.props.paginationMeta).length > 0) {
+		if (!isObjectEmpty(this.props.paginationMeta)) {
 			let { total_pages, current_page, links, count} = this.props.paginationMeta;
 			rowNumber = current_page * count - count + 1;
 			for (let i = 1; i <= total_pages; i++) { 

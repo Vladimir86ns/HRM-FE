@@ -3,6 +3,7 @@ import IntlMessages from './IntlMessages';
 import filter from 'lodash/filter';
 import includes from 'lodash/includes';
 import uniq from 'lodash/uniq';
+import isEmpty from 'lodash/isEmpty';
 
  /**
    * Return error message, or required. 
@@ -129,4 +130,8 @@ export const checkObjectInArrayHasEmptyProperty = (array) => {
   });
 
   return hasEmpty;
+}
+
+export const isObjectEmpty = (object) => {
+  return isEmpty(object);
 }
