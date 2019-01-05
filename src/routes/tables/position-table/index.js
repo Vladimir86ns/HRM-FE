@@ -100,7 +100,7 @@ class TextFields extends Component {
 	 * Close update form position.
 	 */
 	onUpdatePositionModalClose() {
-		this.setState({ addNewUserModal: false, editUser: null, editPositionOpen: false })
+		this.setState({ addNewUserModal: false, editUser: null, editPositionOpen: false, formaChanged: false })
 	};
 
 	/**
@@ -181,7 +181,7 @@ class TextFields extends Component {
 		return (
 			<div className="user-management">
 				<Helmet>
-					<title>{AppConfig.brandName} | Positions List</title>
+					<title>{AppConfig.brandName}</title>
 					<meta name="description" content="Reactify Widgets" />
 				</Helmet>
 				<RctCollapsibleCard fullBlock>
@@ -192,7 +192,7 @@ class TextFields extends Component {
 									href="javascript:void(0)" 
 									onClick={() => this.props.history.push('/app/forms/position')} 
 									color="primary" 
-									className="caret btn-sm mr-10"><IntlMessages id='table.position.row.addNewPosition'/>
+									className="caret btn-sm mr-10"><IntlMessages id='table.position.addNewPosition'/>
 									<i className="zmdi zmdi-plus"></i>
 								</a>
 							</div>
@@ -244,7 +244,7 @@ class TextFields extends Component {
 				/>
 				<Modal isOpen={this.state.editPositionOpen} toggle={() => this.onUpdatePositionModalClose()}>
 					<ModalHeader 
-						toggle={() => this.onUpdatePositionModalClose()}>Update User
+						toggle={() => this.onUpdatePositionModalClose()}><IntlMessages id='table.position.form.updatePosition'/>
 					</ModalHeader>
 					<ModalBody>
 						<UpdatePositionForm 
@@ -254,8 +254,21 @@ class TextFields extends Component {
 						/> 
 					</ModalBody>
 					<ModalFooter>
-						<Button disabled={!formaChanged} variant="raised" color="primary" className="text-white" onClick={() => this.updatePosition()}>Update</Button>
-						<Button style={{marginLeft: 20}} variant="raised" className="text-white btn-danger" onClick={() => this.onUpdatePositionModalClose()}>Cancel</Button>
+						<Button 
+							disabled={!formaChanged} 
+							variant="raised" 
+							color="primary" 
+							className="text-white" 
+							onClick={() => this.updatePosition()}>
+							<IntlMessages id='button.update'/>
+						</Button>
+						<Button
+							style={{marginLeft: 20}}
+							variant="raised" 
+							className="text-white btn-danger" 
+							onClick={() => this.onUpdatePositionModalClose()}>
+							<IntlMessages id='button.cancel'/>
+						</Button>
 					</ModalFooter>
 				</Modal>
 			</div>
@@ -263,7 +276,6 @@ class TextFields extends Component {
 	}
 }
 
-// map state to props
 const mapStateToProps = (state) => {
 	const { positions, paginationMeta } = state.positionReducer
 

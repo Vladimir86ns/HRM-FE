@@ -809,5 +809,9 @@ module.exports = {
 	"table.position.row.name": "Position Name",
 	"table.position.row.departmentName": "Department Name",
 	"table.position.row.action": "Action",
-	"table.position.row.addNewPosition": "Add New Position ",
+	"table.position.addNewPosition": "Add New Position ",
+	"table.position.form.updatePosition": "Update Position",
+
+	"button.update": "Update",
+	"button.cancel": "Cancel",
 }
