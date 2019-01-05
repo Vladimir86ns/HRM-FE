@@ -41,6 +41,7 @@ import AddNewUserForm from '../../../../src/routes/users/user-management/AddNewU
 
 // update user form
 import UpdateUserForm from '../../../../src/routes/users/user-management/UpdateUserForm';
+import UpdatePositionForm from '../../../../src/routes/forms/position/components/updatePositionForm';
 
 // page title bar
 import PageTitleBar from 'Components/PageTitleBar/PageTitleBar';
@@ -59,6 +60,11 @@ class TextFields extends Component {
 	state = {
 		positions: null,
 		meta: null,
+		formaChanged: false,
+		editPositionOpen: false,
+		updatePositionName: '',
+		updatePositionId: false,
+		selectedPosition: {},
 		previousPage: 0,
 		nextPage: 0,
 
@@ -93,29 +99,55 @@ class TextFields extends Component {
 	}
 
 	/**
+	 * On Edit Position Name.
+	 *
+	 * @param {object} position selected position.
+   */
+	onEditPosition(position) {
+		this.setState({ editPositionOpen: true, selectedPosition: position, updatePositionName: position.name, updatePositionId: position.id });
+	};
+
+	/**
+	 * Update Position Name And Id In Store.
+	 *
+	 * @param {string} value position name.
+	 * @param {int} positionId position Id.
+   */
+	updatePositionName(value) {
+		this.setState({ updatePositionName: value, formaChanged: true });
+	};
+
+	/**
 	 * On Delete
+	 * 
+	 * @param {object} position selected position.
 	 */
-	onDelete() {
+	onDelete(position) {
 		this.refs.deleteConfirmationDialog.open();
-		this.setState({ selectedUser: data });
-	}
+		this.setState({ selectedPosition: position });
+	};
 
 	/**
 	 * Delete User Permanently
 	 */
-	deleteUserPermanently() {
-		const { selectedUser } = this.state;
-		let users = this.state.users;
-		let indexOfDeleteUser = users.indexOf(selectedUser);
-		users.splice(indexOfDeleteUser, 1);
+	deletePosition() {
 		this.refs.deleteConfirmationDialog.close();
-		this.setState({ loading: true });
-		let self = this;
-		setTimeout(() => {
-			self.setState({ loading: false, users, selectedUser: null });
-			NotificationManager.success('User Deleted!');
-		}, 2000);
+		console.log('update user from name ' , this.state.selectedPosition.name, 'ID ', this.state.selectedPosition.id);
 	}
+
+	/**
+	 * Update Position
+	 */
+	updatePosition() {
+		console.log('update user from name ' , this.state.updatePositionName, 'ID ', this.state.updatePositionId);
+		this.setState({ formaChanged: false });
+	}
+
+
+
+
+
+
 
 	/**
 	 * On Change Add New User Details
@@ -168,7 +200,7 @@ class TextFields extends Component {
 	 * On Add & Update User Modal Close
 	 */
 	onAddUpdateUserModalClose() {
-		this.setState({ addNewUserModal: false, editUser: null })
+		this.setState({ addNewUserModal: false, editUser: null, editPositionOpen: false })
 	}
 
 	/**
@@ -230,7 +262,7 @@ class TextFields extends Component {
 	}
 
 	render() {
-		const { users, positions, loading, selectedUser, editUser, allSelected, selectedUsers } = this.state;
+		const { loading, updatePositionName, selectedPosition, editPositionOpen, formaChanged } = this.state;
 		let paginationPrevious;
 		let rowNumber = 1;
 		let paginationNext;
@@ -300,7 +332,7 @@ class TextFields extends Component {
 										<td>{position.name}</td>
 										<td>{position.department_name}</td>
 										<td className="list-action">
-											<a href="javascript:void(0)" onClick={() => this.onEditUser(position)}><i className="ti-pencil"></i></a>
+											<a href="javascript:void(0)" onClick={() => this.onEditPosition(position)}><i className="ti-pencil"></i></a>
 											<a href="javascript:void(0)" onClick={() => this.onDelete(position)}><i className="ti-close"></i></a>
 										</td>
 									</tr>
@@ -326,31 +358,27 @@ class TextFields extends Component {
 				<DeleteConfirmationDialog
 					ref="deleteConfirmationDialog"
 					title="Are You Sure Want To Delete?"
-					message="This will delete user permanently."
-					onConfirm={() => this.deleteUserPermanently()}
+					message="This will delete position from company."
+					onConfirm={() => this.deletePosition()}
 				/>
-				<Modal isOpen={this.state.addNewUserModal} toggle={() => this.onAddUpdateUserModalClose()}>
+				<Modal isOpen={this.state.editPositionOpen} toggle={() => this.onAddUpdateUserModalClose()}>
 					<ModalHeader toggle={() => this.onAddUpdateUserModalClose()}>
-						{editUser === null ?
-							'Add New User' : 'Update User'
-						}
+						Update User
 					</ModalHeader>
 					<ModalBody>
-						{editUser === null ?
-							<AddNewUserForm
-								addNewUserDetails={this.state.addNewUserDetail}
-								onChangeAddNewUserDetails={this.onChangeAddNewUserDetails.bind(this)}
-							/>
-							: <UpdateUserForm user={editUser} onUpdateUserDetail={this.onUpdateUserDetails.bind(this)} />
+						{
+							editPositionOpen ? 
+								<UpdatePositionForm 
+									position={selectedPosition} 
+									updatedName={updatePositionName} 
+									updatePositionName={(value) => this.updatePositionName(value)} 
+								/> 
+							: null
 						}
 					</ModalBody>
 					<ModalFooter>
-						{editUser === null ?
-							<Button variant="raised" className="text-white btn-success" onClick={() => this.addNewUser()}>Add</Button>
-							: <Button variant="raised" color="primary" className="text-white" onClick={() => this.updateUser()}>Update</Button>
-						}
-						{' '}
-						<Button variant="raised" className="text-white btn-danger" onClick={() => this.onAddUpdateUserModalClose()}>Cancel</Button>
+						<Button disabled={!formaChanged} variant="raised" color="primary" className="text-white" onClick={() => this.updatePosition()}>Update</Button>
+						<Button style={{marginLeft: 20}} variant="raised" className="text-white btn-danger" onClick={() => this.onAddUpdateUserModalClose()}>Cancel</Button>
 					</ModalFooter>
 				</Modal>
 			</div>
