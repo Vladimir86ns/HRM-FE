@@ -3,6 +3,7 @@ import {
   GET_COMPANY_POSITIONS_BY_PAGE,
   CREATE_POSITIONS,
   STORE_POSITIONS_BEFORE_CREATING,
+  DELETE_POSITION,
   RESET_SHOW_ADD_POSITION_BUTTON,
   RESET_STORE_POSITIONS_BEFORE_CREATING,
   RESPONSE_POSITION_SUCCESS,
@@ -13,55 +14,63 @@ import {
 } from './types';
 
 /**
-* Redux Action To Get Company Positions
+* Redux action to get company positions.
 */
 export const getCompanyPositions = (companyId) => ({
   type: GET_COMPANY_POSITIONS,
   payload: { companyId }
-})
+});
 
 /**
-* Redux Action To Get Company Positions By Page
+* Redux action to get company positions by page.
 */
 export const getCompanyPositionsByPage = (companyId, pageNumber) => ({
   type: GET_COMPANY_POSITIONS_BY_PAGE,
   payload: { companyId, pageNumber }
-})
+});
 
 /**
-* Redux Action To Create Position
+* Redux action to create position.
 */
 export const createPositions = (positions, history, companyId, accountId) => ({
   type: CREATE_POSITIONS,
   payload: { positions, history, companyId, accountId }
-})
+});
 
 /**
-* Redux Action To Store Positions Before Creating
+* Redux action to store positions before creating.
 */
 export const storePositionsBeforeCreating = (positions) => ({
   type: STORE_POSITIONS_BEFORE_CREATING,
   payload: positions
-})
+});
 
 /**
-* Redux Action To Reset Show Position Button
+* Redux action to delete position.
+*/
+export const deletePosition = (companyId, positionId, positionName) => ({
+  type: DELETE_POSITION,
+  payload: { companyId, positionId, positionName }
+});
+
+/**
+* Redux action to reset show position button.
 */
 export const resetShowPositionButton = () => ({
   type: RESET_SHOW_ADD_POSITION_BUTTON,
-})
+});
 
 /**
-* Redux Action To Reset Store Positions Before Creating
+* Redux action to reset store positions before creating.
 */
 export const resetStorePositionsBeforeCreating = () => ({
   type: RESET_STORE_POSITIONS_BEFORE_CREATING,
-})
+});
 
 //  ----------  RESPONSE POSITION ------------  //
 
 /**
-* Redux Action position Success
+* Redux action position success.
 */
 export const responsePositionSuccess = (positions, message) => ({
   type: RESPONSE_POSITION_SUCCESS,
@@ -69,7 +78,7 @@ export const responsePositionSuccess = (positions, message) => ({
 });
 
 /**
-* Redux Action Positions Get Success
+* Redux action positions get success.
 */
 export const responsePositionGetSuccess = (positions, paginationMeta) => ({
   type: RESPONSE_POSITION_GET_SUCCESS,
@@ -77,25 +86,25 @@ export const responsePositionGetSuccess = (positions, paginationMeta) => ({
 });
 
 /**
-* Redux Action To Position Not Found
+* Redux action to position not found.
 */
 export const responsePositionNotFound = (message) => ({
   type: RESPONSE_POSITION_NOT_FOUND,
   payload: message
-})
+});
 
 /**
-* Redux Action Position Not Acceptable
+* Redux action position not acceptable.
 */
 export const responsePositionNotAcceptable = (validationMessages) => ({
   type: RESPONSE_POSITION_NOT_ACCEPTABLE,
   payload: validationMessages
-})
+});
 
 /**
-* Redux Action To Get Position Not Acceptable
+* Redux action to get position not acceptable.
 */
 export const responsePositionFailure = (validationMessages) => ({
   type: RESPONSE_POSITION_FAILURE,
   payload: validationMessages
-})
+});
