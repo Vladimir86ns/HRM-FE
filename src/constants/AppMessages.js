@@ -16,6 +16,7 @@ const APP_MESSAGES = {
     },
     positions: {
         createSuccess: 'Positions created successfully!',
+        delete: 'Delete position successfully'
     }
 }
 export default APP_MESSAGES;

@@ -1,26 +1,29 @@
 /**
- * Positions Sagas
+ * Positions Sagas.
  */
 import { all, call, fork, put, takeEvery } from 'redux-saga/effects';
 
 /**
- * Imports
+ * Imports.
 */
 import axios from '../Axios-laravel';
 import { responseCodes } from '../constants/ResponseCode';
 import APP_MESSAGES from '../../src/constants/AppMessages';
 
+import { NotificationManager } from 'react-notifications';
+
 /**
- * Positions types
+ * Positions types.
  */
 import {
   GET_COMPANY_POSITIONS,
   GET_COMPANY_POSITIONS_BY_PAGE,
-  CREATE_POSITIONS
+  CREATE_POSITIONS,
+  DELETE_POSITION
 } from '../actions/types';
 
 /**
- * Positions actions
+ * Positions actions.
  */
 import {
   resetStorePositionsBeforeCreating,
@@ -32,7 +35,7 @@ import {
 } from '../actions/index';
 
 /**
- * Get Company Positions.
+ * Get company positions.
  */
 function* getCompanyPositionsFromServer({ payload }) {
   const companyId = payload.companyId;
@@ -54,7 +57,7 @@ function* getCompanyPositionsFromServer({ payload }) {
 }
 
 /**
- * Get Company Positions By Page.
+ * Get company positions by page.
  */
 function* getCompanyPositionsByPageFromServer({ payload }) {
   const { companyId, pageNumber } = payload;
@@ -76,7 +79,7 @@ function* getCompanyPositionsByPageFromServer({ payload }) {
 }
 
 /**
- * Create Positions
+ * Create positions.
  */
 function* createPositionsToServer({ payload }) {
   try {
@@ -86,7 +89,7 @@ function* createPositionsToServer({ payload }) {
     if (response.status === responseCodes.HTTP_OK) {
       // TODO ADD REDIRECTION FOR ALL POSITIONS
       history.push('/app/tables/position-table');
-      yield put(responsePositionSuccess(response.data, APP_MESSAGES.positions.createSuccess));
+      yield put(responsePositionSuccess(response.data.data, APP_MESSAGES.positions.createSuccess));
       yield put(resetStorePositionsBeforeCreating());
     } else if (response.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
       yield put(responsePositionNotAcceptable(response.data));
@@ -99,7 +102,28 @@ function* createPositionsToServer({ payload }) {
 }
 
 /**
- * Get Positions Request
+ * Delete positions.
+ */
+function* deletePositionsFromServer({ payload }) {
+  const { companyId, positionId, positionName } = payload;
+  try {
+    const response = yield call(deletePositionsRequest, companyId, positionId);
+
+    if (response.status === responseCodes.HTTP_OK) {
+      NotificationManager.success(APP_MESSAGES.positions.delete + ` : "${positionName}"!` );
+      yield put(responsePositionGetSuccess(response.data.data, response.data.meta.pagination));
+    } else if (response.status === responseCodes.HTTP_NOT_FOUND)  {
+      yield put(responsePositionNotFound(response.data.message));
+    } else {
+      yield put(responsePositionFailure(APP_MESSAGES.requestFailed));
+    }
+  } catch (error) {
+    yield put(responsePositionFailure(APP_MESSAGES.requestFailed));
+  }
+}
+
+/**
+ * Get positions request.
  */
 const getPositionsRequest = async (companyId) => {
   return await axios.get(`/company/${companyId}/positions/get`)
@@ -108,7 +132,7 @@ const getPositionsRequest = async (companyId) => {
 }
 
 /**
- * Get Positions By page Request
+ * Get positions by page request.
  */
 const getPositionsByPageRequest = async (companyId, pageNumber) => {
   return await axios.get(`/company/${companyId}/positions/get?page=${pageNumber}`)
@@ -117,10 +141,10 @@ const getPositionsByPageRequest = async (companyId, pageNumber) => {
 }
 
 /**
- * Create Positions
+ * Create positions.
  */
 const createPositionsRequest = async (positions, companyId, accountId) => {
-  return await axios.post('/company/positions/save', {
+  return await axios.post(`/company/${companyId}/positions/save`, {
     positions,
     company_id: companyId,
     account_id: accountId
@@ -130,33 +154,50 @@ const createPositionsRequest = async (positions, companyId, accountId) => {
 }
 
 /**
- * Get Company Positions
+ * Delete positions.
+ */
+const deletePositionsRequest = async (companyId, positionId) => {
+  return await axios.get(`/company/${companyId}/position/${positionId}/delete`)
+    .then(success => success)
+    .catch(error => error.response);
+}
+
+/**
+ * Get company positions.
  */
 export function* getCompanyPositions() {
   yield takeEvery(GET_COMPANY_POSITIONS, getCompanyPositionsFromServer);
 }
 
 /**
- * Get Company Positions By Page
+ * Get company positions by page.
  */
 export function* getCompanyPositionsByPage() {
   yield takeEvery(GET_COMPANY_POSITIONS_BY_PAGE, getCompanyPositionsByPageFromServer);
 }
 
 /**
- * Create Positions
+ * Create positions.
  */
 export function* createPositions() {
   yield takeEvery(CREATE_POSITIONS, createPositionsToServer);
 }
 
 /**
- * Auth Root Saga
+ * Delete positions.
+ */
+export function* deletePosition() {
+  yield takeEvery(DELETE_POSITION, deletePositionsFromServer);
+}
+
+/**
+ * Auth root saga.
  */
 export default function* rootSaga() {
   yield all([
     fork(getCompanyPositions),
     fork(getCompanyPositionsByPage),
-    fork(createPositions)
+    fork(createPositions),
+    fork(deletePosition)
   ]);
 }

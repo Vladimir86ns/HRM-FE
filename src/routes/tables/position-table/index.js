@@ -22,7 +22,8 @@ import {
 // redux action
 import {
 	getCompanyPositions,
-	getCompanyPositionsByPage
+	getCompanyPositionsByPage,
+	deletePosition
 } from '../../../actions/index';
 
 // helper function
@@ -69,7 +70,7 @@ class TextFields extends Component {
 	};
 
 	/**
-	 * Delete position.
+	 * On delete position.
 	 * 
 	 * @param {object} position selected position.
 	 */
@@ -82,9 +83,10 @@ class TextFields extends Component {
 	 * Delete position from server.
 	 */
 	deletePosition() {
-		// TODO delete position from company.
-		console.log('update user from name ' , this.state.selectedPosition.name, 'ID ', this.state.selectedPosition.id);
 		this.refs.deleteConfirmationDialog.close();
+		let companyId = localStorage.getItem('company_id');
+		let { id, name } = this.state.selectedPosition;
+		this.props.deletePosition(companyId, id, name);
 	};
 
 	/**
@@ -239,7 +241,7 @@ class TextFields extends Component {
 				<DeleteConfirmationDialog
 					ref="deleteConfirmationDialog"
 					title="Are You Sure Want To Delete?"
-					message="This will delete position from company."
+					message={`This will delete "${selectedPosition.name}" position from company.`}
 					onConfirm={() => this.deletePosition()}
 				/>
 				<Modal isOpen={this.state.editPositionOpen} toggle={() => this.onUpdatePositionModalClose()}>
@@ -284,5 +286,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
 	getCompanyPositions,
-	getCompanyPositionsByPage
+	getCompanyPositionsByPage,
+	deletePosition
 })(TextFields);
