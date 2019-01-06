@@ -3,11 +3,12 @@
  */
 import React from 'react';
 import { Form, FormGroup, Label, Input } from 'reactstrap';
+import IntlMessages from '../../../../util/IntlMessages';
 
 const UpdatePositionForm = ({ position, updatedName, updatePositionName }) => (
     <Form>
         <FormGroup>
-            <Label for="positionName">Name</Label>
+            <Label for="positionName"><IntlMessages id='table.position.form.update.name'/></Label>
             <Input
                 type="text"
                 name="positionName"
@@ -18,7 +19,7 @@ const UpdatePositionForm = ({ position, updatedName, updatePositionName }) => (
             />
         </FormGroup>
         <FormGroup>
-            <Label for="userEmail">Department Name</Label>
+            <Label for="userEmail"><IntlMessages id='table.position.form.update.departmentName'/></Label>
             <Input
                 disabled={true}
                 type="text"

@@ -819,6 +819,8 @@ module.exports = {
 	"table.position.addNewPosition": "Dodati Novu Poziciju ",
 	"table.position.helmet": "Lista Pozicija",
 	"table.position.form.updatePosition": "Izmeni Poziciju",
+	"table.position.form.update.name": "Ime",
+	"table.position.form.update.departmentName": "Ime Departmana",
 
 	"button.update": "Izmeni",
 	"button.cancel": "Otkazi",

@@ -811,6 +811,8 @@ module.exports = {
 	"table.position.row.action": "Action",
 	"table.position.addNewPosition": "Add New Position ",
 	"table.position.form.updatePosition": "Update Position",
+	"table.position.form.update.name": "Name",
+	"table.position.form.update.departmentName": "Department Name",
 
 	"button.update": "Update",
 	"button.cancel": "Cancel",
