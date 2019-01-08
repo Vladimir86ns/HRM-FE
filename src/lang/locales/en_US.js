@@ -813,6 +813,8 @@ module.exports = {
 	"table.position.form.updatePosition": "Update Position",
 	"table.position.form.update.name": "Name",
 	"table.position.form.update.departmentName": "Department Name",
+	"table.position.form.delete.message.title": "Are You Sure Want To Delete?",
+	"table.position.form.delete.message.message": "This will delete position ",
 
 	"button.update": "Update",
 	"button.cancel": "Cancel",

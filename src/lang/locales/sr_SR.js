@@ -821,6 +821,8 @@ module.exports = {
 	"table.position.form.updatePosition": "Izmeni Poziciju",
 	"table.position.form.update.name": "Ime",
 	"table.position.form.update.departmentName": "Ime Departmana",
+	"table.position.form.delete.message.title": "Da li ste sigurni da zelite da obrisete?",
+	"table.position.form.delete.message.message": "Obrisace te poziciju sa imenom ",
 
 	"button.update": "Izmeni",
 	"button.cancel": "Otkazi",

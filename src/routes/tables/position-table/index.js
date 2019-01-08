@@ -240,8 +240,9 @@ class TextFields extends Component {
 				</RctCollapsibleCard>
 				<DeleteConfirmationDialog
 					ref="deleteConfirmationDialog"
-					title="Are You Sure Want To Delete?"
-					message={`This will delete "${selectedPosition.name}" position from company.`}
+					title={<IntlMessages id='table.position.form.delete.message.title'/>}
+					message={<IntlMessages id='table.position.form.delete.message.message'/>}
+					messageTwo={`"${selectedPosition.name}"!`}
 					onConfirm={() => this.deletePosition()}
 				/>
 				<Modal isOpen={this.state.editPositionOpen} toggle={() => this.onUpdatePositionModalClose()}>
