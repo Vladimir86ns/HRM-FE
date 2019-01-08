@@ -173,7 +173,10 @@ class TextFields extends Component {
 
 		if (!isObjectEmpty(this.props.paginationMeta)) {
 			let { total_pages, current_page, links, count} = this.props.paginationMeta;
-			rowNumber = current_page * count - count + 1;
+
+			if (current_page > 1) {
+				rowNumber = current_page * 10 - 10 + 1;
+			}
 
 			pagination = this.getPagination(total_pages, current_page);
 			paginationPrevious = this.getPreviousPagination(links);
