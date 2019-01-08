@@ -189,7 +189,7 @@ class TextFields extends React.Component {
               fullWidth 
               label={<IntlMessages id='form.position.addNew.name'/>} 
               value={this.state.name}
-              helperText={formArrayErrorMessage(errorMessage['positions.' + this.props.rowKey + '.names.1'], true)}
+              helperText={formArrayErrorMessage(errorMessage['positions.' + this.props.rowKey + '.names.0'], true)}
               onChange={(e) => this.handleChangeByKeyAndName('name', e)}
               onBlur={() => this.validateAndSaveTemporaryInStore()}/>
           </div>
