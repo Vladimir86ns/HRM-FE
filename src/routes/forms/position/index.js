@@ -23,6 +23,7 @@ import {
   resetStorePositionsBeforeCreating,
   createPositions
 } from '../../../actions/index';
+import { all } from 'redux-saga/effects';
 
 class TextFields extends React.Component {
 
@@ -68,7 +69,25 @@ class TextFields extends React.Component {
     // TODO add first validation on this page does company_id and account_id exist.
     let companyId = localStorage.getItem('company_id');
     let accountId = localStorage.getItem('account_id');
-    this.props.createPositions(this.props.beforeCreatePositions, this.props.history, companyId, accountId);
+    let allPositionsWithFilteredNames = this.removeEmptyNamesFromArray(this.props.beforeCreatePositions);
+    this.props.createPositions(allPositionsWithFilteredNames, this.props.history, companyId, accountId);
+  }
+
+  /**
+   * Check is name empty, and remove it. This will happen if user 
+   * write more names, and last character will be comma.
+   * 
+   * @param {array} allPositions all positions.
+   */
+  removeEmptyNamesFromArray = (allPositions) => {
+    return allPositions.filter( position => {
+      position.names = position.names.filter( name => {
+        if (name) {
+          return name;
+        }
+      });
+      return position;
+    })
   }
 
   /**

@@ -12,6 +12,7 @@ import find from 'lodash/find';
 // utility functions
 import {
   formErrorMessage,
+  formArrayErrorMessage,
   splitStringWithCommaAndGetArray,
   getSameValuesFromArray,
   modifyEachElementWithQuotationMarks,
@@ -175,19 +176,20 @@ class TextFields extends React.Component {
   };
 
   render() {
-    const errorMessage = {};
-
+    const { errorMessage } = this.props;
+    
     return (
       <div className="row">
         <div className="col-sm-6 col-md-3 col-xl-4">
           <div className="form-group">
             <TextField
               id="name"
-              error={errorMessage['name'] ? true : false}
+              // TODO here for name is 0, because only for now validate if name field is empty.
+              error={errorMessage['positions.' + this.props.rowKey + '.names.0'] ? true : false}
               fullWidth 
               label={<IntlMessages id='form.position.addNew.name'/>} 
               value={this.state.name}
-              helperText={formErrorMessage(errorMessage['name'], true)}
+              helperText={formArrayErrorMessage(errorMessage['positions.' + this.props.rowKey + '.names.1'], true)}
               onChange={(e) => this.handleChangeByKeyAndName('name', e)}
               onBlur={() => this.validateAndSaveTemporaryInStore()}/>
           </div>
@@ -197,11 +199,11 @@ class TextFields extends React.Component {
             <TextField
               id="company_name"
               disabled={true}
-              error={errorMessage['company_name'] ? true : false}
+              error={errorMessage['positions.' + this.props.rowKey + '.company_name'] ? true : false}
               fullWidth 
               label={<IntlMessages id='form.position.addNew.company'/>} 
               value={this.state.company_name}
-              helperText={formErrorMessage(errorMessage['company_name'], true)}
+              helperText={formErrorMessage(errorMessage['positions.' + this.props.rowKey + '.company_name'], true)}
               onChange={(e) => this.handleChangeByKeyAndName('company_name', e)}/>
           </div>
         </div>
@@ -217,7 +219,7 @@ class TextFields extends React.Component {
                 MenuProps: {
                 },
               }}
-              helperText={formErrorMessage(errorMessage['department_name'], true)}
+              helperText={errorMessage['positions.' + this.props.rowKey + '.department_name']}
               fullWidth>
               {this.state.companies.map((company) => (
                 company.departments.map((department, key) => (
@@ -237,8 +239,8 @@ class TextFields extends React.Component {
 // map state to props
 const mapStateToProps = (state) => {
   const { companies, } = state.companyReducer;
-  const { beforeCreatePositions, } = state.positionReducer;
-	return { companies, beforeCreatePositions };
+  const { beforeCreatePositions, errorMessage } = state.positionReducer;
+	return { companies, beforeCreatePositions, errorMessage };
 };
 
 export default connect(mapStateToProps, {
