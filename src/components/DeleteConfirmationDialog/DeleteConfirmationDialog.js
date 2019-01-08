@@ -26,7 +26,7 @@ class DeleteConfirmationDialog extends Component {
    }
 
    render() {
-      const { title, message, onConfirm } = this.props;
+      const { title, message, messageTwo, onConfirm } = this.props;
       return (
          <Dialog
             open={this.state.open}
@@ -37,7 +37,7 @@ class DeleteConfirmationDialog extends Component {
             <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
             <DialogContent>
                <DialogContentText id="alert-dialog-description">
-                  {message}
+                  {message} { messageTwo ? messageTwo : '' }
                </DialogContentText>
             </DialogContent>
             <DialogActions>
