@@ -3,6 +3,7 @@ import {
   GET_COMPANY_POSITIONS_BY_PAGE,
   CREATE_POSITIONS,
   STORE_POSITIONS_BEFORE_CREATING,
+  UPDATE_POSITION,
   DELETE_POSITION,
   RESET_SHOW_ADD_POSITION_BUTTON,
   RESET_STORE_POSITIONS_BEFORE_CREATING,
@@ -43,6 +44,14 @@ export const createPositions = (positions, history, companyId, accountId) => ({
 export const storePositionsBeforeCreating = (positions) => ({
   type: STORE_POSITIONS_BEFORE_CREATING,
   payload: positions
+});
+
+/**
+* Redux action to update position.
+*/
+export const updatePosition = (companyId, positionId, newPositionName, currentPage) => ({
+  type: UPDATE_POSITION,
+  payload: { companyId, positionId, newPositionName, currentPage }
 });
 
 /**
@@ -96,9 +105,9 @@ export const responsePositionNotFound = (message) => ({
 /**
 * Redux action position not acceptable.
 */
-export const responsePositionNotAcceptable = (validationMessages) => ({
+export const responsePositionNotAcceptable = (validationMessages, message = null) => ({
   type: RESPONSE_POSITION_NOT_ACCEPTABLE,
-  payload: validationMessages
+  payload: { validationMessages, message }
 });
 
 /**
