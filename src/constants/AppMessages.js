@@ -16,6 +16,7 @@ const APP_MESSAGES = {
     },
     positions: {
         createSuccess: 'Positions created successfully!',
+        updated: 'Position successfully updated in new ',
         delete: 'Delete position successfully'
     }
 }

@@ -23,6 +23,7 @@ import {
 import {
 	getCompanyPositions,
 	getCompanyPositionsByPage,
+	updatePosition,
 	deletePosition
 } from '../../../actions/index';
 
@@ -94,8 +95,12 @@ class TextFields extends Component {
 	 */
 	updatePosition() {
 		// TODO update position from company.
-		console.log('update user from name ' , this.state.updatePositionName, 'ID ', this.state.updatePositionId);
-		this.setState({ formaChanged: false });
+		// TODO see how to improve companyId.
+		let companyId = localStorage.getItem('company_id');
+		let { current_page } = this.props.paginationMeta;
+		const { updatePositionId, updatePositionName } = this.state;
+		this.props.updatePosition(companyId, updatePositionId, updatePositionName, current_page);
+		this.setState({ formaChanged: false, editPositionOpen: false });
 	};
 
 	/**
@@ -291,5 +296,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, {
 	getCompanyPositions,
 	getCompanyPositionsByPage,
+	updatePosition,
 	deletePosition
 })(TextFields);

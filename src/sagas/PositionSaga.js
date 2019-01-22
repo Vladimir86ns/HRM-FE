@@ -19,6 +19,7 @@ import {
   GET_COMPANY_POSITIONS,
   GET_COMPANY_POSITIONS_BY_PAGE,
   CREATE_POSITIONS,
+  UPDATE_POSITION,
   DELETE_POSITION
 } from '../actions/types';
 
@@ -102,6 +103,29 @@ function* createPositionsToServer({ payload }) {
 }
 
 /**
+ * Update position.
+ */
+function* updatePositionsFromServer({ payload }) {
+  const { companyId, positionId, newPositionName, currentPage } = payload;
+  try {
+    const response = yield call(updatePositionRequest, companyId, positionId, newPositionName, currentPage);
+
+    if (response.status === responseCodes.HTTP_OK) {
+      NotificationManager.success(APP_MESSAGES.positions.updated + ` : "${newPositionName}"!` );
+      yield put(responsePositionGetSuccess(response.data.data, response.data.meta.pagination));
+    } else if (response.status === responseCodes.HTTP_NOT_ACCEPTABLE)  {
+      yield put(responsePositionNotAcceptable(response.data, response.data.message));
+    } else if (response.status === responseCodes.HTTP_NOT_FOUND)  {
+      yield put(responsePositionNotFound(response.data.message));
+    } else {
+      yield put(responsePositionFailure(APP_MESSAGES.requestFailed));
+    }
+  } catch (error) {
+    yield put(responsePositionFailure(APP_MESSAGES.requestFailed));
+  }
+}
+
+/**
  * Delete positions.
  */
 function* deletePositionsFromServer({ payload }) {
@@ -154,6 +178,17 @@ const createPositionsRequest = async (positions, companyId, accountId) => {
 }
 
 /**
+ * Update position.
+ */
+const updatePositionRequest = async (companyId, positionId, newPositionName, currentPage) => {
+  return await axios.patch(`/company/${companyId}/position/${positionId}/update?page=${currentPage}`, {
+    name: newPositionName
+  })
+    .then(success => success)
+    .catch(error => error.response);
+}
+
+/**
  * Delete positions.
  */
 const deletePositionsRequest = async (companyId, positionId) => {
@@ -186,6 +221,13 @@ export function* createPositions() {
 /**
  * Delete positions.
  */
+export function* updatePosition() {
+  yield takeEvery(UPDATE_POSITION, updatePositionsFromServer);
+}
+
+/**
+ * Delete positions.
+ */
 export function* deletePosition() {
   yield takeEvery(DELETE_POSITION, deletePositionsFromServer);
 }
@@ -198,6 +240,7 @@ export default function* rootSaga() {
     fork(getCompanyPositions),
     fork(getCompanyPositionsByPage),
     fork(createPositions),
+    fork(updatePosition),
     fork(deletePosition)
   ]);
 }
